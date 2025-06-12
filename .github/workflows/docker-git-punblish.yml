@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: opustix/event-api
+  IMAGE_NAME: leandrodalbo/opustix-api 
   VERSION: latest
 
 jobs:
