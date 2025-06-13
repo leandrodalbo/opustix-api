@@ -19,6 +19,6 @@ spec:
       containers:
         - name: event-api
           image: ghcr.io/leandrodalbo/event-api:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
