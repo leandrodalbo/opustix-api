@@ -1,1 +1,1 @@
-kubectl delete all --all -n eventsapi
+kubectl delete all --all -n event-api

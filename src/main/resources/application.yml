@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: ticketera
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ticketera
+    username: ticketera
+    password: dGVzdGRi
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+
+  flyway:
+    url: jdbc:postgresql://localhost:5432/ticketera
+    user: ticketera
+    password: dGVzdGRi
