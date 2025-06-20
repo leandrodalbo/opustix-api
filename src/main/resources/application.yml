@@ -1,11 +1,21 @@
 spring:
   application:
     name: ticketera
+
   datasource:
-    url: jdbc:postgresql://localhost:5432/ticketera
     username: ticketera
     password: dGVzdGRi
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/ticketera
+    driverClassName: org.postgresql.Driver
+    hikari:
+      connection-timeout: 2000
+      maximum-pool-size: 5
+  flyway:
+
+    user: ticketera
+    password: dGVzdGRi
+    url: jdbc:postgresql://localhost:5432/ticketera
+
 
   jpa:
     hibernate:
@@ -15,7 +25,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
 
-  flyway:
-    url: jdbc:postgresql://localhost:5432/ticketera
-    user: ticketera
-    password: dGVzdGRi
+#
+#logging:
+#  level:
+#    org.springframework.jdbc.datasource.init.ScriptUtils: DEBUG

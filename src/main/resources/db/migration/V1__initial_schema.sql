@@ -13,7 +13,7 @@ CREATE TABLE event (
     end_time BIGINT NOT NULL,
     capacity INT NOT NULL,
     venue_id UUID NOT NULL,
-    created_at BIGINT NOT NULL
+    created_at BIGINT NOT NULL,
     CONSTRAINT fk_event_venue
     FOREIGN KEY (venue_id)
     REFERENCES venue(id) ON DELETE CASCADE
@@ -25,7 +25,7 @@ CREATE TABLE ticket_type (
     event_id UUID NOT NULL,
     name VARCHAR(100) NOT NULL,
     price NUMERIC(10, 2) NOT NULL,
-    currency VARCHAR(3) DEFAULT 'USD',
+    currency VARCHAR(3),
 
     sale_start BIGINT,
     sale_end BIGINT,
@@ -45,7 +45,7 @@ CREATE TABLE event_sector (
 
     name VARCHAR(100) NOT NULL,
     description TEXT,
-    price_addition NUMERIC(10, 2) DEFAULT 0.0,
+    price_addition NUMERIC(10, 2),
 
     created_at BIGINT NOT NULL,
 
@@ -64,9 +64,9 @@ CREATE TABLE event_seat (
     seat_row_info VARCHAR(20),
     seat_number VARCHAR(20),
 
-    price_addition NUMERIC(10, 2) DEFAULT 0.0,
+    price_addition NUMERIC(10, 2),
 
-    created_at BIGINT NOT NULL DEFAULT (extract(epoch from now())),
+    created_at BIGINT NOT NULL,
 
     CONSTRAINT fk_event_seat_event FOREIGN KEY (event_id) REFERENCES event(id) ON DELETE CASCADE,
     CONSTRAINT fk_event_seat_sector FOREIGN KEY (sector_id) REFERENCES event_sector(id) ON DELETE SET NULL
@@ -79,7 +79,7 @@ CREATE TABLE purchase (
     total_price NUMERIC(10, 2) NOT NULL,
     payment_status VARCHAR(20) NOT NULL,
 
-    created_at BIGINT NOT NULL DEFAULT (extract(epoch from now()))
+    created_at BIGINT NOT NULL
 );
 
 CREATE TABLE reservation (
@@ -106,7 +106,7 @@ CREATE TABLE reservation (
 );
 
 CREATE TABLE ticket (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id UUID PRIMARY KEY,
     reservation_id UUID NOT NULL REFERENCES reservation(id) ON DELETE CASCADE,
     event_id UUID NOT NULL REFERENCES event(id) ON DELETE CASCADE,
     ticket_type_id UUID NOT NULL REFERENCES ticket_type(id),
