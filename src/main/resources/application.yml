@@ -10,8 +10,8 @@ spring:
     hikari:
       connection-timeout: 2000
       maximum-pool-size: 5
-  flyway:
 
+  flyway:
     user: ticketera
     password: dGVzdGRi
     url: jdbc:postgresql://localhost:5432/ticketera

@@ -1,5 +1,7 @@
 package com.ticketera.ticketera.dto
 
+import com.ticketera.ticketera.model.Event
+import com.ticketera.ticketera.model.Venue
 import java.util.UUID
 
 data class UpdateEventDto(
@@ -10,4 +12,31 @@ data class UpdateEventDto(
     val endTime: Long?,
     val capacity: Int?,
     val venueId: UUID?
-)
+) {
+    companion object {
+        fun fromEntity(event: Event): UpdateEventDto {
+            return UpdateEventDto(
+                id = event.id,
+                title = event.title,
+                description = event.description,
+                startTime = event.startTime,
+                endTime = event.endTime,
+                capacity = event.capacity,
+                venueId = event.venue.id
+            )
+        }
+
+        fun updatedEvent(updateEventDto: UpdateEventDto, venue: Venue, event: Event): Event {
+            return Event(
+                id = updateEventDto.id,
+                title = updateEventDto.title ?: event.title,
+                description = updateEventDto.description ?: event.description,
+                startTime = updateEventDto.startTime ?: event.startTime,
+                endTime = updateEventDto.endTime ?: event.endTime,
+                capacity = updateEventDto.capacity ?: event.capacity,
+                venue = venue,
+                createdAt = event.createdAt
+            )
+        }
+    }
+}

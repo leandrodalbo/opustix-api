@@ -10,5 +10,4 @@ enum class ErrorMessage(val message: String) {
     SEAT_ALREADY_RESERVED("Seat is already reserved."),
     PURCHASE_FAILED("Purchase failed."),
     RESERVATION_EXPIRED("Reservation has expired.");
-
 }

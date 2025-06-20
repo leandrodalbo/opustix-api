@@ -7,7 +7,6 @@ import com.ticketera.ticketera.exceptions.TicketeraException
 import com.ticketera.ticketera.model.Event
 import com.ticketera.ticketera.repositories.EventRepository
 import com.ticketera.ticketera.repositories.VenueRepository
-import java.time.Instant
 import java.util.UUID
 
 class EventService(
@@ -15,29 +14,17 @@ class EventService(
     private val venueRepository: VenueRepository
 ) {
 
-    fun addEvent(newEventDto: NewEventDto) {
+    fun addEvent(newEventDto: NewEventDto): Event {
         val venue = venueRepository.findById(newEventDto.venueId).orElseThrow {
             TicketeraException(ErrorMessage.VENUE_NOT_FOUND)
         }
 
-        eventRepository.save(
-            Event(
-                id = UUID.randomUUID(),
-                title = newEventDto.title,
-                description = newEventDto.description,
-                startTime = newEventDto.startTime,
-                endTime = newEventDto.endTime,
-                capacity = newEventDto.capacity,
-                venue = venue,
-                createdAt = Instant.now().toEpochMilli()
-
-            )
+        return eventRepository.save(
+            NewEventDto.newEvent(newEventDto, venue)
         )
-
     }
 
-    fun updateEvent(updateEventDto: UpdateEventDto) {
-
+    fun updateEvent(updateEventDto: UpdateEventDto): Event {
         val event = eventRepository.findById(updateEventDto.id)
             .orElseThrow {
                 TicketeraException(ErrorMessage.EVENT_NOT_FOUND)
@@ -49,19 +36,12 @@ class EventService(
             }
         } ?: event.venue
 
-        eventRepository.save(
-            Event(
-                id = updateEventDto.id,
-                title = updateEventDto.title ?: event.title,
-                description = updateEventDto.description ?: event.description,
-                startTime = updateEventDto.startTime ?: event.startTime,
-                endTime = updateEventDto.endTime ?: event.endTime,
-                capacity = updateEventDto.capacity ?: event.capacity,
-                venue = venue,
-                createdAt = event.createdAt
+        return eventRepository.save(
+            UpdateEventDto.updatedEvent(
+                updateEventDto,
+                venue, event
             )
         )
-
     }
 
     fun deleteEvent(uuid: UUID) = eventRepository.deleteById(uuid)
