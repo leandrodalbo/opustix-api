@@ -1,4 +1,4 @@
-package com.ticketera.ticketera
+package com.ticketera
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
