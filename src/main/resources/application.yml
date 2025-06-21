@@ -3,18 +3,18 @@ spring:
     name: ticketera
 
   datasource:
-    username: ticketera
-    password: dGVzdGRi
-    url: jdbc:postgresql://localhost:5432/ticketera
+    username:
+    password:
+    url:
     driverClassName: org.postgresql.Driver
     hikari:
       connection-timeout: 2000
       maximum-pool-size: 5
 
   flyway:
-    user: ticketera
-    password: dGVzdGRi
-    url: jdbc:postgresql://localhost:5432/ticketera
+    user:
+    password:
+    url:
 
 
   jpa:
