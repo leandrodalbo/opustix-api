@@ -1,20 +1,22 @@
+server:
+  port: 8082
 spring:
   application:
     name: ticketera
 
   datasource:
-    username:
-    password:
-    url:
+    username: ticketera
+    password: dGVzdGRi
+    url: jdbc:postgresql://localhost:5432/ticketera
     driverClassName: org.postgresql.Driver
     hikari:
       connection-timeout: 2000
       maximum-pool-size: 5
 
   flyway:
-    user:
-    password:
-    url:
+    user: ticketera
+    password: dGVzdGRi
+    url: jdbc:postgresql://localhost:5432/ticketera
 
 
   jpa:
