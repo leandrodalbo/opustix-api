@@ -1,6 +1,5 @@
 package com.ticketera.ticketera.dto
 
-import com.ticketera.ticketera.model.Event
 import com.ticketera.ticketera.model.Venue
 import java.util.UUID
 

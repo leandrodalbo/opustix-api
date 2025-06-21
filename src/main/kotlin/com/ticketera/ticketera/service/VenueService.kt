@@ -1,5 +1,6 @@
 package com.ticketera.ticketera.service
 
+import com.ticketera.ticketera.dto.NewEventDto
 import com.ticketera.ticketera.dto.NewVenueDto
 import com.ticketera.ticketera.dto.UpdateVenueDto
 import com.ticketera.ticketera.exceptions.ErrorMessage
