@@ -1,5 +1,6 @@
 package com.ticketera.repositories
 
+import com.ticketera.TestData
 import com.ticketera.model.TicketType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -18,7 +19,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-final class TicketTypeRepositoryTest : RepositoryTestData() {
+final class TicketTypeRepositoryTest : TestData() {
     @Autowired
     private lateinit var ticketTypeRepository: TicketTypeRepository
 

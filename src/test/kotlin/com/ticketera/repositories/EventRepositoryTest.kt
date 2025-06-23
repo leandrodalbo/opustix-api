@@ -1,5 +1,6 @@
 package com.ticketera.repositories
 
+import com.ticketera.TestData
 import com.ticketera.model.Event
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -17,7 +18,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-final class EventRepositoryTest : RepositoryTestData() {
+final class EventRepositoryTest : TestData() {
     @Autowired
     private lateinit var eventRepository: EventRepository
 

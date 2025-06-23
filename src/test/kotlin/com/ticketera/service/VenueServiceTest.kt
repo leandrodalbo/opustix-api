@@ -1,9 +1,9 @@
 package com.ticketera.service
 
-import com.ticketera.dto.NewVenueDto
-import com.ticketera.dto.UpdateVenueDto
+import com.ticketera.TestData
+import com.ticketera.dto.venues.NewVenueDto
+import com.ticketera.dto.venues.UpdateVenueDto
 import com.ticketera.exceptions.TicketeraException
-import com.ticketera.model.Venue
 import com.ticketera.repositories.VenueRepository
 import io.mockk.every
 import io.mockk.mockk
@@ -13,23 +13,14 @@ import io.mockk.just
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
-import java.time.Instant
 import java.util.Optional
-import java.util.UUID
 
-class VenueServiceTest {
+class VenueServiceTest : TestData(){
 
     private val venueRepository: VenueRepository = mockk()
 
     private val venueService = VenueService(
         venueRepository
-    )
-
-    private val venue = Venue(
-        UUID.randomUUID(),
-        "venue-0",
-        address = "Road x at 1324",
-        Instant.now().toEpochMilli()
     )
 
 

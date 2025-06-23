@@ -2,9 +2,9 @@ package com.ticketera.controller
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.ticketera.dto.NewVenueDto
-import com.ticketera.dto.UpdateVenueDto
-import com.ticketera.model.Venue
+import com.ticketera.TestData
+import com.ticketera.dto.venues.NewVenueDto
+import com.ticketera.dto.venues.UpdateVenueDto
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.VenueService
 import io.mockk.every
@@ -23,14 +23,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
-import java.time.Instant
-import java.util.UUID
 
 import org.junit.jupiter.api.Test
-import org.springframework.http.HttpHeaders
 
 @WebMvcTest(VenuesController::class)
-class VenuesControllerTest {
+class VenuesControllerTest : TestData() {
 
     @Autowired
     private lateinit var mvc: MockMvc
@@ -41,19 +38,6 @@ class VenuesControllerTest {
     @MockkBean
     private lateinit var userAuthHeadersService: AuthHeadersService
 
-    private val venue =
-        Venue(
-            UUID.randomUUID(),
-            "venue-0",
-            address = "Road x at 1324",
-            Instant.now().toEpochMilli()
-        )
-
-
-    val headers = HttpHeaders().apply {
-        add("X-Roles", "ADMIN,USER")
-        add("Authorization", "Bearer token")
-    }
 
     val objectMapper = jacksonObjectMapper()
 
@@ -78,7 +62,7 @@ class VenuesControllerTest {
 
         val response = mvc.perform(
             put("/ticketera/private/venues/update")
-                .headers(headers)
+                .headers(httpHeaders)
                 .content(objectMapper.writeValueAsString(UpdateVenueDto.fromEntity(venue)))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
@@ -96,7 +80,7 @@ class VenuesControllerTest {
 
         val response = mvc.perform(
             post("/ticketera/private/venues/new")
-                .headers(headers)
+                .headers(httpHeaders)
                 .content(objectMapper.writeValueAsString(NewVenueDto.fromEntity(venue)))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
@@ -113,7 +97,7 @@ class VenuesControllerTest {
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
         val response = mvc.perform(
             delete("/ticketera/private/venues/delete/${venue.id}")
-                .headers(headers)
+                .headers(httpHeaders)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 

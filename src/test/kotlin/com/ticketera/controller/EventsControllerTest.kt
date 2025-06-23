@@ -2,10 +2,9 @@ package com.ticketera.controller
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.ticketera.dto.NewEventDto
-import com.ticketera.dto.UpdateEventDto
-import com.ticketera.model.Event
-import com.ticketera.model.Venue
+import com.ticketera.TestData
+import com.ticketera.dto.events.NewEventDto
+import com.ticketera.dto.events.UpdateEventDto
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.EventService
 import io.mockk.every
@@ -24,14 +23,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
-import java.time.Instant
-import java.util.UUID
 
 import org.junit.jupiter.api.Test
-import org.springframework.http.HttpHeaders
 
 @WebMvcTest(EventsController::class)
-class EventsControllerTest {
+class EventsControllerTest: TestData() {
 
     @Autowired
     private lateinit var mvc: MockMvc
@@ -41,32 +37,6 @@ class EventsControllerTest {
 
     @MockkBean
     private lateinit var userAuthHeadersService: AuthHeadersService
-
-    private val venue =
-        Venue(
-            UUID.randomUUID(),
-            "venue-0",
-            address = "Road x at 1324",
-            Instant.now().toEpochMilli()
-        )
-
-
-    private val event = Event(
-        UUID.randomUUID(),
-        "event-x",
-        "event-x",
-        Instant.now().toEpochMilli(),
-        Instant.now().toEpochMilli(),
-        1000,
-        venue,
-        Instant.now().toEpochMilli()
-    )
-
-
-    val headers = HttpHeaders().apply {
-        add("X-Roles", "ADMIN,USER")
-        add("Authorization", "Bearer token")
-    }
 
     val objectMapper = jacksonObjectMapper()
 
@@ -91,7 +61,7 @@ class EventsControllerTest {
 
         val response = mvc.perform(
             put("/ticketera/private/events/update")
-                .headers(headers)
+                .headers(httpHeaders)
                 .content(objectMapper.writeValueAsString(UpdateEventDto.fromEntity(event)))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
@@ -109,7 +79,7 @@ class EventsControllerTest {
 
         val response = mvc.perform(
             post("/ticketera/private/events/new")
-                .headers(headers)
+                .headers(httpHeaders)
                 .content(objectMapper.writeValueAsString(NewEventDto.fromEntity(event)))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
@@ -126,7 +96,7 @@ class EventsControllerTest {
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
         val response = mvc.perform(
             delete("/ticketera/private/events/delete/${event.id}")
-                .headers(headers)
+                .headers(httpHeaders)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 

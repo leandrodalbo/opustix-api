@@ -1,7 +1,7 @@
 package com.ticketera.controller
 
-import com.ticketera.dto.NewEventDto
-import com.ticketera.dto.UpdateEventDto
+import com.ticketera.dto.events.NewEventDto
+import com.ticketera.dto.events.UpdateEventDto
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.Event

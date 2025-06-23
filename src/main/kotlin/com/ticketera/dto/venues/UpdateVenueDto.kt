@@ -1,4 +1,4 @@
-package com.ticketera.dto
+package com.ticketera.dto.venues
 
 import com.ticketera.model.Venue
 import java.util.UUID

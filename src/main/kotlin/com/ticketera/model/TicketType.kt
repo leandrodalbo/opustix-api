@@ -32,7 +32,7 @@ data class TicketType(
     @Column(name = "created_at", nullable = false)
     val createdAt: Long,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id", nullable = false)
     val event: Event
 )

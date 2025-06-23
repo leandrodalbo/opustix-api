@@ -1,33 +1,18 @@
 package com.ticketera.dto
 
+import com.ticketera.TestData
+import com.ticketera.dto.events.NewEventDto
 import com.ticketera.model.Event
-import com.ticketera.model.Venue
 import org.assertj.core.api.Assertions.assertThat
-import java.time.Instant
-import java.util.UUID
+
 import kotlin.test.Test
 
-class NewEventDtoTest {
-    val venue = Venue(
-        UUID.randomUUID(),
-        "venue-0",
-        address = "Road x at 1324",
-        Instant.now().toEpochMilli()
-    )
-
-    val dto = NewEventDto(
-        "event-x",
-        "event-x",
-        Instant.now().toEpochMilli(),
-        Instant.now().toEpochMilli(),
-        1000,
-        venue.id
-    )
+class NewEventDtoTest : TestData() {
 
     @Test
     fun shouldCreateAnEventFromDto() {
         val event = NewEventDto.newEvent(
-            dto, venue
+            newEventDto, venue
         )
 
         assertThat(event).isInstanceOf(Event::class.java)
@@ -38,9 +23,9 @@ class NewEventDtoTest {
     @Test
     fun shouldGetDtoFromTheEntity() {
         val event = NewEventDto.newEvent(
-            dto, venue
+            newEventDto, venue
         )
 
-        assertThat(NewEventDto.fromEntity(event)).isEqualTo(dto)
+        assertThat(NewEventDto.fromEntity(event)).isEqualTo(newEventDto)
     }
 }
