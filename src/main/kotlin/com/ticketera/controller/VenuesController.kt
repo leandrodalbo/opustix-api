@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController
-@RequestMapping("/ticketera/private/venues")
+@RequestMapping("/ticketera/venues")
 class VenuesController(private val headersService: AuthHeadersService, private val venueService: VenueService) {
 
     @GetMapping("/all")

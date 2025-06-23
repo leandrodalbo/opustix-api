@@ -55,5 +55,5 @@ class TicketTypeService(
 
     fun deleteByEventId(uuid: UUID) = ticketTypeRepository.deleteByEventId(uuid)
 
-    fun findByEventId(uuid: UUID) = ticketTypeRepository.findByEventId(uuid)
+    fun findByEventId(uuid: UUID) = ticketTypeRepository.findAllByEventId(uuid)
 }

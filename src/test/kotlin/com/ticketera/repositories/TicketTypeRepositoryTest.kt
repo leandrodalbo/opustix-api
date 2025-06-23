@@ -15,7 +15,6 @@ import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 
-
 @Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -56,8 +55,8 @@ final class TicketTypeRepositoryTest : TestData() {
 
     @Test
     fun shouldFindByEventId() {
-        assertThat(ticketTypeRepository.findByEventId(eventId))
-            .isInstanceOfAny(TicketType::class.java)
+        assertThat(ticketTypeRepository.findAllByEventId(eventId))
+            .isEqualTo(listOf(ticketType))
     }
 
     companion object {

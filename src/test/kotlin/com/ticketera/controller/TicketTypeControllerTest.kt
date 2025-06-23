@@ -3,10 +3,8 @@ package com.ticketera.controller
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.ticketera.TestData
-import com.ticketera.dto.venues.NewVenueDto
-import com.ticketera.dto.venues.UpdateVenueDto
 import com.ticketera.service.AuthHeadersService
-import com.ticketera.service.VenueService
+import com.ticketera.service.TicketTypeService
 import io.mockk.every
 import io.mockk.verify
 import io.mockk.just
@@ -26,84 +24,86 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delet
 
 import org.junit.jupiter.api.Test
 
-@WebMvcTest(VenuesController::class)
-class VenuesControllerTest : TestData() {
+@WebMvcTest(TicketTypeController::class)
+class TicketTypeControllerTest : TestData() {
 
     @Autowired
     private lateinit var mvc: MockMvc
 
     @MockkBean
-    private lateinit var venueService: VenueService
+    private lateinit var ticketTypeService: TicketTypeService
 
     @MockkBean
     private lateinit var userAuthHeadersService: AuthHeadersService
 
-
     val objectMapper = jacksonObjectMapper()
 
     @Test
-    fun shouldAllVenues() {
-        every { venueService.allVenues() } returns listOf(venue)
+    fun shouldFetchEventTicketTypes() {
+        every { ticketTypeService.findByEventId(any()) } returns listOf(ticketType)
+        every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
-            get("/ticketera/venues/all")
+            get("/ticketera/tickets/types/${eventId}/all")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
         assertThat(response.status).isEqualTo(HttpStatus.OK.value())
 
-        verify { venueService.allVenues() }
+        verify { userAuthHeadersService.isAdminOrOrganizer(any()) }
+        verify { ticketTypeService.findByEventId(any()) }
     }
 
     @Test
-    fun shouldUpdateVenues() {
-        every { venueService.updateVenue(any()) } returns venue
+    fun shouldUpdateATicketType() {
+        every { ticketTypeService.updateTicketType(any()) } returns ticketType
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
-            put("/ticketera/venues/update")
+            put("/ticketera/tickets/types/update")
                 .headers(httpHeaders)
-                .content(objectMapper.writeValueAsString(UpdateVenueDto.fromEntity(venue)))
+                .content(objectMapper.writeValueAsString(updateTicketTypeDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
         assertThat(response.status).isEqualTo(HttpStatus.CREATED.value())
 
-        verify { venueService.updateVenue(any()) }
+        verify { ticketTypeService.updateTicketType(any()) }
         verify { userAuthHeadersService.isAdminOrOrganizer(any()) }
     }
 
     @Test
-    fun shouldCreateVenues() {
-        every { venueService.addVenue(any()) } returns venue
+    fun shouldCreateATicketType() {
+        every { ticketTypeService.addTicketType(any()) } returns ticketType
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
-            post("/ticketera/venues/new")
+            post("/ticketera/tickets/types/new")
                 .headers(httpHeaders)
-                .content(objectMapper.writeValueAsString(NewVenueDto.fromEntity(venue)))
+                .content(objectMapper.writeValueAsString(newTicketTypeDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
         assertThat(response.status).isEqualTo(HttpStatus.CREATED.value())
 
-        verify { venueService.addVenue(any()) }
+        verify { ticketTypeService.addTicketType(any()) }
         verify { userAuthHeadersService.isAdminOrOrganizer(any()) }
     }
 
     @Test
-    fun shouldDeleteVenues() {
-        every { venueService.deleteVenue(any()) } just runs
+    fun shouldDeleteEventTicketTypes() {
+        every { ticketTypeService.deleteByEventId(any()) } just runs
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
+
         val response = mvc.perform(
-            delete("/ticketera/venues/delete/${venue.id}")
+            delete("/ticketera/tickets/types/delete/${eventId}")
                 .headers(httpHeaders)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
         assertThat(response.status).isEqualTo(HttpStatus.OK.value())
 
-        verify { venueService.deleteVenue(any()) }
+        verify { ticketTypeService.deleteByEventId(any()) }
         verify { userAuthHeadersService.isAdminOrOrganizer(any()) }
     }
 }

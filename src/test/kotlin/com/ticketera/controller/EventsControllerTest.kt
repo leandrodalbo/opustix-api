@@ -45,7 +45,7 @@ class EventsControllerTest: TestData() {
         every { eventService.allEvents() } returns listOf(event)
 
         val response = mvc.perform(
-            get("/ticketera/private/events/all")
+            get("/ticketera/events/all")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -60,7 +60,7 @@ class EventsControllerTest: TestData() {
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
-            put("/ticketera/private/events/update")
+            put("/ticketera/events/update")
                 .headers(httpHeaders)
                 .content(objectMapper.writeValueAsString(UpdateEventDto.fromEntity(event)))
                 .contentType(MediaType.APPLICATION_JSON)
@@ -78,7 +78,7 @@ class EventsControllerTest: TestData() {
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
-            post("/ticketera/private/events/new")
+            post("/ticketera/events/new")
                 .headers(httpHeaders)
                 .content(objectMapper.writeValueAsString(NewEventDto.fromEntity(event)))
                 .contentType(MediaType.APPLICATION_JSON)
@@ -95,7 +95,7 @@ class EventsControllerTest: TestData() {
         every { eventService.deleteEvent(any()) } just runs
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
         val response = mvc.perform(
-            delete("/ticketera/private/events/delete/${event.id}")
+            delete("/ticketera/events/delete/${event.id}")
                 .headers(httpHeaders)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response

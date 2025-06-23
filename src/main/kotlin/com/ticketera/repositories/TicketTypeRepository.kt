@@ -8,5 +8,5 @@ import java.util.UUID
 @Repository
 interface TicketTypeRepository : CrudRepository<TicketType, UUID> {
     fun deleteByEventId(eventId: UUID)
-    fun findByEventId(eventId: UUID): TicketType?
+    fun findAllByEventId(eventId: UUID): List<TicketType>
 }
