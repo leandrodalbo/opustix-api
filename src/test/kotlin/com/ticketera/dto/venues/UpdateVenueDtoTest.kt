@@ -1,8 +1,7 @@
-package com.ticketera.dto
+package com.ticketera.dto.venues
 
 import com.ticketera.TestData
-import com.ticketera.dto.venues.UpdateVenueDto
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import kotlin.test.Test
 
 class UpdateVenueDtoTest: TestData() {
@@ -13,13 +12,13 @@ class UpdateVenueDtoTest: TestData() {
             updateVenueDto, venue
         )
 
-        assertThat(updatedVenue.name).isEqualTo(updateVenueDto.name)
-        assertThat(updatedVenue.address).isEqualTo(updateVenueDto.address)
+        Assertions.assertThat(updatedVenue.name).isEqualTo(updateVenueDto.name)
+        Assertions.assertThat(updatedVenue.address).isEqualTo(updateVenueDto.address)
     }
 
     @Test
     fun shouldGetDtoFromTheEntity() {
-        assertThat(
+        Assertions.assertThat(
             UpdateVenueDto.fromEntity(
                 venue
             )

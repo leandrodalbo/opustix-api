@@ -2,6 +2,8 @@ package com.ticketera
 
 import com.ticketera.dto.events.NewEventDto
 import com.ticketera.dto.events.UpdateEventDto
+import com.ticketera.dto.ticketTypes.NewTicketTypeDto
+import com.ticketera.dto.ticketTypes.UpdateTicketTypeDto
 import com.ticketera.dto.venues.NewVenueDto
 import com.ticketera.dto.venues.UpdateVenueDto
 import com.ticketera.model.Event
@@ -87,5 +89,28 @@ abstract class TestData {
         Instant.now().toEpochMilli(),
         1000,
         venue.id
+    )
+
+    protected val newTicketTypeDto = NewTicketTypeDto(
+        "GOLDEN",
+        BigDecimal(150.0),
+        "ARS",
+        Instant.now().toEpochMilli(),
+        Instant.now().toEpochMilli(),
+        500,
+        "golden-ticket",
+        event.id
+    )
+
+    protected val updateTicketTypeDto = UpdateTicketTypeDto(
+        ticketTypeId,
+        "GOLDEN",
+        BigDecimal(150.0),
+        "ARS",
+        Instant.now().toEpochMilli(),
+        Instant.now().toEpochMilli(),
+        500,
+        "golden-ticket",
+        event.id
     )
 }
