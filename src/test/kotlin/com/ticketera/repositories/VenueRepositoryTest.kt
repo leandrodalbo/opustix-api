@@ -13,32 +13,23 @@ import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import java.time.Instant
-import java.util.UUID
+
 
 @Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-final class VenueRepositoryTest {
+final class VenueRepositoryTest : RepositoryTestData() {
+
     @Autowired
     private lateinit var venueRepository: VenueRepository
 
     @Autowired
     private lateinit var entityManager: TestEntityManager
 
-    private val venueId = UUID.randomUUID()
 
     @BeforeEach
     fun setup() {
-        entityManager.persistAndFlush(
-            Venue(
-                venueId,
-                "venue-0",
-                address = "Road x at 1324",
-                Instant.now().toEpochMilli()
-            )
-        )
-
+        entityManager.persistAndFlush(venue)
     }
 
     @Test

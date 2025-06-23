@@ -1,6 +1,6 @@
 package com.ticketera.repositories
 
-import com.ticketera.model.Event
+import com.ticketera.model.TicketType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -14,43 +14,49 @@ import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 
+
 @Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-final class EventRepositoryTest : RepositoryTestData() {
+final class TicketTypeRepositoryTest : RepositoryTestData() {
     @Autowired
-    private lateinit var eventRepository: EventRepository
+    private lateinit var ticketTypeRepository: TicketTypeRepository
 
     @Autowired
     private lateinit var entityManager: TestEntityManager
 
+
     @BeforeEach
     fun setup() {
         val savedVenue = entityManager.persistAndFlush(venue)
-        entityManager.persistAndFlush(
-            event.copy(venue = savedVenue)
-        )
-
+        entityManager.persistAndFlush(event.copy(venue = savedVenue))
+        entityManager.persistAndFlush(ticketType.copy(event = event))
     }
 
 
     @Test
     fun shouldFindById() {
-        assertThat(eventRepository.findById(eventId).get())
-            .isInstanceOfAny(Event::class.java)
+        assertThat(ticketTypeRepository.findById(ticketTypeId).get())
+            .isInstanceOfAny(TicketType::class.java)
     }
 
     @Test
     fun shouldFindByAll() {
-        assertThat(eventRepository.findAll().map { it.id })
-            .isEqualTo(listOf(eventId))
+        assertThat(ticketTypeRepository.findAll().map { it.id })
+            .isEqualTo(listOf(ticketTypeId))
     }
 
     @Test
-    fun shouldDeleteById() {
-        eventRepository.deleteById(eventId)
-        assertThat(eventRepository.findById(venueId))
+    fun shouldDeleteByEventId() {
+        ticketTypeRepository.deleteByEventId(eventId)
+        assertThat(ticketTypeRepository.findById(ticketTypeId))
             .isEmpty
+    }
+
+    @Test
+    fun shouldFindByEventId() {
+        assertThat(ticketTypeRepository.findByEventId(eventId))
+            .isInstanceOfAny(TicketType::class.java)
     }
 
     companion object {
@@ -74,5 +80,4 @@ final class EventRepositoryTest : RepositoryTestData() {
             registry.add("spring.flyway.password", postgres::getPassword)
         }
     }
-
 }
