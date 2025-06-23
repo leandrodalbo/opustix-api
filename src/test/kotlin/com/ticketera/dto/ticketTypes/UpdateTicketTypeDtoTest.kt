@@ -12,8 +12,8 @@ class UpdateTicketTypeDtoTest : TestData() {
             updateTicketTypeDto, ticketType, event
         )
 
-        Assertions.assertThat(updatedTicketType.startTime).isEqualTo(updateTicketTypeDto.startTime)
-        Assertions.assertThat(updatedTicketType.endTime).isEqualTo(updateTicketTypeDto.endTime)
+        Assertions.assertThat(updatedTicketType.saleStart).isEqualTo(updateTicketTypeDto.startTime)
+        Assertions.assertThat(updatedTicketType.saleEnd).isEqualTo(updateTicketTypeDto.endTime)
     }
 
     @Test

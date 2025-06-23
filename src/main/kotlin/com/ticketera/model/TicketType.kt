@@ -21,10 +21,10 @@ data class TicketType(
     val currency: String,
 
     @Column(name = "sale_start", nullable = false)
-    val startTime: Long,
+    val saleStart: Long,
 
     @Column(name = "sale_end", nullable = false)
-    val endTime: Long,
+    val saleEnd: Long,
 
     val quantity: Int,
     val description: String,

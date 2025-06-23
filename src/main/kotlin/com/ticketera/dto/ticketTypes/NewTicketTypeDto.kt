@@ -22,8 +22,8 @@ data class NewTicketTypeDto(
                 ticketType.name,
                 ticketType.price,
                 ticketType.currency,
-                ticketType.startTime,
-                ticketType.endTime,
+                ticketType.saleStart,
+                ticketType.saleEnd,
                 ticketType.quantity,
                 ticketType.description,
                 ticketType.event.id
