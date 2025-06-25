@@ -10,6 +10,7 @@ import com.ticketera.model.TicketType
 import com.ticketera.repositories.EventRepository
 import com.ticketera.repositories.TicketTypeRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
 @Service
@@ -53,6 +54,7 @@ class TicketTypeService(
 
     }
 
+    @Transactional
     fun deleteByEventId(uuid: UUID) = ticketTypeRepository.deleteByEventId(uuid)
 
     fun findByEventId(uuid: UUID) = ticketTypeRepository.findAllByEventId(uuid)
