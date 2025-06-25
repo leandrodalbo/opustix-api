@@ -1,5 +1,7 @@
 package com.ticketera
 
+import com.ticketera.dto.eventSectors.NewEventSectorDto
+import com.ticketera.dto.eventSectors.UpdateEventSectorDto
 import com.ticketera.dto.events.NewEventDto
 import com.ticketera.dto.events.UpdateEventDto
 import com.ticketera.dto.ticketTypes.NewTicketTypeDto
@@ -124,5 +126,20 @@ abstract class TestData {
         500,
         "golden-ticket",
         event.id
+    )
+
+    protected val newEventSectorDto = NewEventSectorDto(
+        "sector-1",
+        "test-sector",
+        11.11,
+        eventId
+    )
+
+    protected val updateEventSectorDto = UpdateEventSectorDto(
+        eventSectorId,
+        "sector-1-new-name",
+        "updated-testing-sector",
+        11.11,
+        eventId
     )
 }

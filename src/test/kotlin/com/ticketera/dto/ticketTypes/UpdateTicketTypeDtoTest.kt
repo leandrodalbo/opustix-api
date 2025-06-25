@@ -7,7 +7,7 @@ import kotlin.test.Test
 class UpdateTicketTypeDtoTest : TestData() {
 
     @Test
-    fun shouldGetAnUpdatedVenueFromDto() {
+    fun shouldGetAnUpdatedTicketTypeFromDto() {
         val updatedTicketType = UpdateTicketTypeDto.updatedTicketType(
             updateTicketTypeDto, ticketType, event
         )
