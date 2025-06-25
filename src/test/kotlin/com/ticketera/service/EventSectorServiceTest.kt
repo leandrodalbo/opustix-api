@@ -25,7 +25,7 @@ class EventSectorServiceTest : TestData() {
     )
 
     @Test
-    fun shouldSaveAnewTicketType() {
+    fun shouldSaveAnewEventSector() {
         every { eventSectorRepository.save(any()) } returns eventSector
         every { eventRepository.findById(any()) } returns Optional.of(event)
 
@@ -38,7 +38,7 @@ class EventSectorServiceTest : TestData() {
     }
 
     @Test
-    fun shouldNotSaveATicketTypeWithoutAnEvent() {
+    fun shouldNotSaveAnEventSectorWithoutAnEvent() {
         every { eventRepository.findById(any()) } returns Optional.empty()
 
         assertThatExceptionOfType(TicketeraException::class.java)
@@ -50,7 +50,7 @@ class EventSectorServiceTest : TestData() {
     }
 
     @Test
-    fun shouldUpdateATicketType() {
+    fun shouldUpdateAnEventSector() {
         every { eventRepository.findById(any()) } returns Optional.of(event)
         every { eventSectorRepository.findById(any()) } returns Optional.of(eventSector)
         every { eventSectorRepository.save(any()) } returns eventSector

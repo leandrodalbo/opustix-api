@@ -39,7 +39,7 @@ class EventSectorControllerTest : TestData() {
     val objectMapper = jacksonObjectMapper()
 
     @Test
-    fun shouldFetchEventTicketTypes() {
+    fun shouldFetchEventSectors() {
         every { eventSectorService.findByEventId(any()) } returns listOf(eventSector)
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
@@ -55,7 +55,7 @@ class EventSectorControllerTest : TestData() {
     }
 
     @Test
-    fun shouldUpdateATicketType() {
+    fun shouldUpdateAnEventSectors() {
         every { eventSectorService.updateEventSector(any()) } returns eventSector
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
@@ -73,7 +73,7 @@ class EventSectorControllerTest : TestData() {
     }
 
     @Test
-    fun shouldCreateATicketType() {
+    fun shouldCreateAnEventSectors() {
         every { eventSectorService.addEventSector(any()) } returns eventSector
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
@@ -91,7 +91,7 @@ class EventSectorControllerTest : TestData() {
     }
 
     @Test
-    fun shouldDeleteEventTicketTypes() {
+    fun shouldDeleteEventSectors() {
         every { eventSectorService.deleteByEventId(any()) } just runs
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
