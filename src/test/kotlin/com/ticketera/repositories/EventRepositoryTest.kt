@@ -27,11 +27,8 @@ final class EventRepositoryTest : TestData() {
 
     @BeforeEach
     fun setup() {
-        val savedVenue = entityManager.persistAndFlush(venue)
-        entityManager.persistAndFlush(
-            event.copy(venue = savedVenue)
-        )
-
+        entityManager.persistAndFlush(venue)
+        entityManager.persistAndFlush(event)
     }
 
 

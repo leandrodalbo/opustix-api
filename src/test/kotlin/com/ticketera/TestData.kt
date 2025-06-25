@@ -7,6 +7,7 @@ import com.ticketera.dto.ticketTypes.UpdateTicketTypeDto
 import com.ticketera.dto.venues.NewVenueDto
 import com.ticketera.dto.venues.UpdateVenueDto
 import com.ticketera.model.Event
+import com.ticketera.model.EventSector
 import com.ticketera.model.TicketType
 import com.ticketera.model.Venue
 import org.springframework.http.HttpHeaders
@@ -18,6 +19,7 @@ abstract class TestData {
     protected val venueId = UUID.randomUUID()
     protected val eventId = UUID.randomUUID()
     protected val ticketTypeId = UUID.randomUUID()
+    protected val eventSectorId = UUID.randomUUID()
 
     protected val headersMap = mapOf(
         "x-Roles" to "USER,X-USER-ROLE,ADMIN",
@@ -60,6 +62,16 @@ abstract class TestData {
         Instant.now().toEpochMilli(),
         event
     )
+
+    protected val eventSector = EventSector(
+        eventSectorId,
+        "Testing Event Sector",
+        "Testing Event Sector",
+        10.0,
+        Instant.now().toEpochMilli(),
+        event
+    )
+
 
     protected val newVenueDto = NewVenueDto(
         "new-venue",
