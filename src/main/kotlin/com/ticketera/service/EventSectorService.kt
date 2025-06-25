@@ -18,7 +18,7 @@ class EventSectorService(
     private val eventRepository: EventRepository
 ) {
 
-    fun addTicketEventSector(newEventSectorDto: NewEventSectorDto): EventSector {
+    fun addEventSector(newEventSectorDto: NewEventSectorDto): EventSector {
         val event = eventRepository.findById(newEventSectorDto.eventId).orElseThrow {
             TicketeraException(ErrorMessage.EVENT_NOT_FOUND)
         }
