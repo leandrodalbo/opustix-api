@@ -1,7 +1,7 @@
 package com.ticketera.service
 
-import com.ticketera.dto.NewVenueDto
-import com.ticketera.dto.UpdateVenueDto
+import com.ticketera.dto.venues.NewVenueDto
+import com.ticketera.dto.venues.UpdateVenueDto
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.Venue

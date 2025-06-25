@@ -1,4 +1,4 @@
-package com.ticketera.dto
+package com.ticketera.dto.events
 
 import com.ticketera.model.Event
 import com.ticketera.model.Venue

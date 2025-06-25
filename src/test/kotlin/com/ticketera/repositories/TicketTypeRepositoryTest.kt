@@ -1,7 +1,7 @@
 package com.ticketera.repositories
 
 import com.ticketera.TestData
-import com.ticketera.model.Venue
+import com.ticketera.model.TicketType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -15,14 +15,12 @@ import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 
-
 @Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-final class VenueRepositoryTest : TestData() {
-
+final class TicketTypeRepositoryTest : TestData() {
     @Autowired
-    private lateinit var venueRepository: VenueRepository
+    private lateinit var ticketTypeRepository: TicketTypeRepository
 
     @Autowired
     private lateinit var entityManager: TestEntityManager
@@ -30,26 +28,35 @@ final class VenueRepositoryTest : TestData() {
 
     @BeforeEach
     fun setup() {
-        entityManager.persistAndFlush(venue)
+        val savedVenue = entityManager.persistAndFlush(venue)
+        entityManager.persistAndFlush(event.copy(venue = savedVenue))
+        entityManager.persistAndFlush(ticketType.copy(event = event))
     }
+
 
     @Test
     fun shouldFindById() {
-        assertThat(venueRepository.findById(venueId).get())
-            .isInstanceOfAny(Venue::class.java)
+        assertThat(ticketTypeRepository.findById(ticketTypeId).get())
+            .isInstanceOfAny(TicketType::class.java)
     }
 
     @Test
     fun shouldFindByAll() {
-        assertThat(venueRepository.findAll().map { it.id })
-            .isEqualTo(listOf(venueId))
+        assertThat(ticketTypeRepository.findAll().map { it.id })
+            .isEqualTo(listOf(ticketTypeId))
     }
 
     @Test
-    fun shouldDeleteById() {
-        venueRepository.deleteById(venueId)
-        assertThat(venueRepository.findById(venueId))
+    fun shouldDeleteByEventId() {
+        ticketTypeRepository.deleteByEventId(eventId)
+        assertThat(ticketTypeRepository.findById(ticketTypeId))
             .isEmpty
+    }
+
+    @Test
+    fun shouldFindByEventId() {
+        assertThat(ticketTypeRepository.findAllByEventId(eventId))
+            .isEqualTo(listOf(ticketType))
     }
 
     companion object {

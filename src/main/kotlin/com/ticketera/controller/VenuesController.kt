@@ -1,7 +1,7 @@
 package com.ticketera.controller
 
-import com.ticketera.dto.NewVenueDto
-import com.ticketera.dto.UpdateVenueDto
+import com.ticketera.dto.venues.NewVenueDto
+import com.ticketera.dto.venues.UpdateVenueDto
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.Venue
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController
-@RequestMapping("/ticketera/private/venues")
+@RequestMapping("/ticketera/venues")
 class VenuesController(private val headersService: AuthHeadersService, private val venueService: VenueService) {
 
     @GetMapping("/all")
