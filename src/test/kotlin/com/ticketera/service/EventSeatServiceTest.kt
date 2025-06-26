@@ -104,7 +104,7 @@ class EventSeatServiceTest : TestData() {
     fun shouldFindTheSeatsWithoutASector() {
         every { eventSeatRepository.findAllByEventId(any()) } returns listOf(eventSeat)
 
-        eventSeatService.findSeats(eventId)
+        assertThat(eventSeatService.findSeats(eventId)).isEqualTo(listOf(eventSeat))
 
         verify { eventSeatRepository.findAllByEventId(any()) }
     }
@@ -113,7 +113,7 @@ class EventSeatServiceTest : TestData() {
     fun shouldFindTheSeatsWithASector() {
         every { eventSeatRepository.findAllByEventIdAndSectorId(any(), any()) } returns listOf(eventSeat)
 
-        eventSeatService.findSeats(eventId, eventSectorId)
+        assertThat(eventSeatService.findSeats(eventId, eventSectorId)).isEqualTo(listOf(eventSeat))
 
         verify { eventSeatRepository.findAllByEventIdAndSectorId(any(), any()) }
     }
