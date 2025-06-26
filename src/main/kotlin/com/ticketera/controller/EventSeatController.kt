@@ -1,72 +1,64 @@
 package com.ticketera.controller
 
-import com.ticketera.dto.ticketTypes.NewTicketTypeDto
-import com.ticketera.dto.ticketTypes.UpdateTicketTypeDto
+import com.ticketera.dto.eventSeats.NewEventSeatsDto
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
-import com.ticketera.model.TicketType
+import com.ticketera.model.EventSeat
 import com.ticketera.service.AuthHeadersService
-import com.ticketera.service.TicketTypeService
+import com.ticketera.service.EventSeatService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.RequestParam
 import java.util.UUID
 
 @RestController
-@RequestMapping("/ticketera/tickets/types")
-class TicketTypeController(
+@RequestMapping("/ticketera/events/seats")
+class EventSeatController(
     private val headersService: AuthHeadersService,
-    private val ticketTypeService: TicketTypeService
+    private val eventSeatService: EventSeatService
 ) {
 
     @GetMapping("/{eventId}/all")
-    fun eventTickets(
+    fun eventSeats(
         @PathVariable("eventId")
-        eventId: UUID
-    ): List<TicketType> {
-        return ticketTypeService.findByEventId(eventId)
+        eventId: UUID,
+        @RequestParam(required = false)
+        sectorId: UUID?
+    ): List<EventSeat> {
+        return eventSeatService.findSeats(eventId, sectorId)
     }
 
-    @PutMapping("/update")
-    @ResponseStatus(HttpStatus.CREATED)
-    fun updateTicketType(
-        @RequestHeader
-        headers: Map<String, String>,
-        @RequestBody
-        updateTicketTypeDto: UpdateTicketTypeDto
-    ): TicketType {
-        if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
-        return ticketTypeService.updateTicketType(updateTicketTypeDto)
-    }
 
     @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
-    fun newTicketType(
+    fun newEventSeats(
         @RequestHeader
         headers: Map<String, String>,
         @RequestBody
-        newTicketTypeDto: NewTicketTypeDto
-    ): TicketType {
+        newEventSeatsDto: NewEventSeatsDto
+    ): List<EventSeat> {
         if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
-        return ticketTypeService.addTicketType(newTicketTypeDto)
+        return eventSeatService.generateEventSeats(newEventSeatsDto)
     }
 
     @DeleteMapping("/delete/{eventId}")
-    fun deleteTicketTypes(
+    fun deleteEventSeats(
         @RequestHeader
         headers: Map<String, String>,
         @PathVariable("eventId")
-        eventId: UUID
+        eventId: UUID,
+        @RequestParam(required = false)
+        sectorId: UUID?
     ) {
         if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
-        ticketTypeService.deleteByEventId(eventId)
+        eventSeatService.deleteSeats(eventId, sectorId)
     }
 }

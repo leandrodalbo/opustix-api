@@ -1,5 +1,6 @@
 package com.ticketera
 
+import com.ticketera.dto.eventSeats.NewEventSeatsDto
 import com.ticketera.dto.eventSectors.NewEventSectorDto
 import com.ticketera.dto.eventSectors.UpdateEventSectorDto
 import com.ticketera.dto.events.NewEventDto
@@ -9,6 +10,7 @@ import com.ticketera.dto.ticketTypes.UpdateTicketTypeDto
 import com.ticketera.dto.venues.NewVenueDto
 import com.ticketera.dto.venues.UpdateVenueDto
 import com.ticketera.model.Event
+import com.ticketera.model.EventSeat
 import com.ticketera.model.EventSector
 import com.ticketera.model.TicketType
 import com.ticketera.model.Venue
@@ -22,6 +24,7 @@ abstract class TestData {
     protected val eventId = UUID.randomUUID()
     protected val ticketTypeId = UUID.randomUUID()
     protected val eventSectorId = UUID.randomUUID()
+    protected val eventSeatId = UUID.randomUUID()
 
     protected val headersMap = mapOf(
         "x-Roles" to "USER,X-USER-ROLE,ADMIN",
@@ -72,6 +75,17 @@ abstract class TestData {
         10.0,
         Instant.now().toEpochMilli(),
         event
+    )
+
+    protected val eventSeat = EventSeat(
+        eventSeatId,
+        "Testing Seat",
+        "Seat on Row X",
+        "10",
+        0.0,
+        Instant.now().toEpochMilli(),
+        event,
+        eventSector
     )
 
 
@@ -141,5 +155,15 @@ abstract class TestData {
         "updated-testing-sector",
         11.11,
         eventId
+    )
+
+    protected val newEventSeatsDto = NewEventSeatsDto(
+        1,
+        5,
+        "row-0",
+        "row-0",
+        0.0,
+        eventId,
+        eventSectorId
     )
 }

@@ -41,7 +41,6 @@ class TicketTypeControllerTest : TestData() {
     @Test
     fun shouldFetchEventTicketTypes() {
         every { ticketTypeService.findByEventId(any()) } returns listOf(ticketType)
-        every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             get("/ticketera/tickets/types/${eventId}/all")
@@ -50,7 +49,6 @@ class TicketTypeControllerTest : TestData() {
 
         assertThat(response.status).isEqualTo(HttpStatus.OK.value())
 
-        verify { userAuthHeadersService.isAdminOrOrganizer(any()) }
         verify { ticketTypeService.findByEventId(any()) }
     }
 
