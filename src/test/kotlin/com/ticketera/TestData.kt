@@ -1,5 +1,6 @@
 package com.ticketera
 
+import com.ticketera.dto.eventSeats.NewEventSeatsDto
 import com.ticketera.dto.eventSectors.NewEventSectorDto
 import com.ticketera.dto.eventSectors.UpdateEventSectorDto
 import com.ticketera.dto.events.NewEventDto
@@ -154,5 +155,15 @@ abstract class TestData {
         "updated-testing-sector",
         11.11,
         eventId
+    )
+
+    protected val newEventSeatsDto = NewEventSeatsDto(
+        1,
+        5,
+        "row-0",
+        "row-0",
+        0.0,
+        eventId,
+        eventSectorId
     )
 }
