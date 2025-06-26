@@ -5,7 +5,7 @@ import com.ticketera.model.UserRole
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class AuthHeadersServiceTest : TestData(){
+class AuthHeadersServiceTest : TestData() {
 
     private val authHeadersService = AuthHeadersService()
 
@@ -23,5 +23,10 @@ class AuthHeadersServiceTest : TestData(){
     @Test
     fun shouldValidateAdminOrOrganizer() {
         assertThat(authHeadersService.isAdminOrOrganizer(headersMap)).isTrue
+    }
+
+    @Test
+    fun shouldValidateAUser() {
+        assertThat(authHeadersService.isAUser(headersMap)).isTrue
     }
 }

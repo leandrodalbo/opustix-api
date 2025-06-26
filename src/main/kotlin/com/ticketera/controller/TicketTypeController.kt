@@ -29,12 +29,9 @@ class TicketTypeController(
 
     @GetMapping("/{eventId}/all")
     fun eventTickets(
-        @RequestHeader
-        headers: Map<String, String>,
         @PathVariable("eventId")
         eventId: UUID
     ): List<TicketType> {
-        if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
         return ticketTypeService.findByEventId(eventId)
     }
 

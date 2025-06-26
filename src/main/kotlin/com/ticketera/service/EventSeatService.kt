@@ -39,14 +39,14 @@ class EventSeatService(
     }
 
     @Transactional
-    fun deleteSeats(eventId: UUID, sectorId: UUID?) {
+    fun deleteSeats(eventId: UUID, sectorId: UUID? = null) {
         sectorId?.let {
             eventSeatRepository.deleteByEventIdAndSectorId(eventId, it)
         } ?: eventSeatRepository.deleteByEventId(eventId)
     }
 
 
-    fun findSeats(eventId: UUID, sectorId: UUID?) {
+    fun findSeats(eventId: UUID, sectorId: UUID? = null) {
         sectorId?.let {
             eventSeatRepository.findAllByEventIdAndSectorId(eventId, it)
         } ?: eventSeatRepository.findAllByEventId(eventId)

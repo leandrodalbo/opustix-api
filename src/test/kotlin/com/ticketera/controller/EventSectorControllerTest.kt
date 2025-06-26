@@ -41,7 +41,6 @@ class EventSectorControllerTest : TestData() {
     @Test
     fun shouldFetchEventSectors() {
         every { eventSectorService.findByEventId(any()) } returns listOf(eventSector)
-        every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             get("/ticketera/events/sector/${eventId}/all")
@@ -50,7 +49,6 @@ class EventSectorControllerTest : TestData() {
 
         assertThat(response.status).isEqualTo(HttpStatus.OK.value())
 
-        verify { userAuthHeadersService.isAdminOrOrganizer(any()) }
         verify { eventSectorService.findByEventId(any()) }
     }
 

@@ -20,6 +20,9 @@ class AuthHeadersService {
             it.roles.contains(UserRole.ADMIN) || it.roles.contains(UserRole.ORGANIZER)
         }
 
+    fun isAUser(headers: Map<String, String>) =
+        getUser(headers).roles.contains(UserRole.USER)
+
     private fun extractRoles(roles: String?) = roles
         ?.split(",")
         ?.mapNotNull { role ->
