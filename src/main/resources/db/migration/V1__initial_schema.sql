@@ -79,6 +79,7 @@ CREATE TABLE purchase (
     total_price NUMERIC(10, 2) NOT NULL,
     payment_status VARCHAR(20) NOT NULL,
 
+    expires_at BIGINT,
     created_at BIGINT NOT NULL
 );
 
@@ -96,7 +97,7 @@ CREATE TABLE reservation (
     status VARCHAR(20) NOT NULL,
 
     created_at BIGINT NOT NULL,
-    expires_at BIGINT,
+
 
     CONSTRAINT fk_reservation_purchase FOREIGN KEY (purchase_id) REFERENCES purchase(id) ON DELETE CASCADE,
     CONSTRAINT fk_reservation_event FOREIGN KEY (event_id) REFERENCES event(id) ON DELETE CASCADE,
@@ -121,4 +122,4 @@ CREATE TABLE ticket (
 
 CREATE UNIQUE INDEX uq_reservation_event_seat
 ON reservation(event_id, seat_id)
-WHERE seat_id IS NOT NULL AND status IN ('HELD', 'CONFIRMED');
+WHERE seat_id IS NOT NULL AND status IN ('PENDING', 'CONFIRMED');
