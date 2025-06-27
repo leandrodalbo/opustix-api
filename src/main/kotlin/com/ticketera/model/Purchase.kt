@@ -7,7 +7,6 @@ import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.CascadeType
 import jakarta.persistence.FetchType
-import java.math.BigDecimal
 import java.time.Instant
 import java.util.UUID
 
@@ -23,7 +22,7 @@ data class Purchase(
     val userInfo: String,
 
     @Column(name = "total_price")
-    val totalPrice: BigDecimal,
+    val totalPrice: Double,
 
     @Column(name = "payment_status")
     val paymentStatus: PaymentStatus,
@@ -35,8 +34,24 @@ data class Purchase(
     val createdAt: Long,
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val reservations: MutableList<Reservation?> = ArrayList<Reservation?>()
+    val reservations: List<Reservation> = emptyList()
 
 ) {
     fun isExpired() = expiresAt?.let { it < Instant.now().toEpochMilli() }
+
+    override fun toString(): String {
+        return "Purchase(id=$id, userInfo='$userInfo', totalPrice=$totalPrice, paymentStatus=$paymentStatus, expiresAt=$expiresAt, createdAt=$createdAt)"
+    }
+
+    override fun hashCode(): Int {
+        return this.id.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as Purchase
+        return id == other.id
+    }
 }

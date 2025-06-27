@@ -29,4 +29,24 @@ data class EventSector(
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id", nullable = false)
     val event: Event
-)
+) {
+
+
+    override fun hashCode(): Int {
+        return this.id.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as EventSector
+        return id == other.id
+    }
+
+    override fun toString(): String {
+        return "EventSector(id=$id, name='$name', description=$description, priceAddition=$priceAddition, createdAt=$createdAt)"
+    }
+
+
+}

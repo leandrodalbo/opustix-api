@@ -12,11 +12,15 @@ import com.ticketera.dto.venues.UpdateVenueDto
 import com.ticketera.model.Event
 import com.ticketera.model.EventSeat
 import com.ticketera.model.EventSector
+import com.ticketera.model.PaymentStatus
+import com.ticketera.model.Purchase
+import com.ticketera.model.Reservation
+import com.ticketera.model.ReservationStatus
 import com.ticketera.model.TicketType
 import com.ticketera.model.Venue
 import org.springframework.http.HttpHeaders
-import java.math.BigDecimal
 import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.UUID
 
 abstract class TestData {
@@ -25,6 +29,8 @@ abstract class TestData {
     protected val ticketTypeId = UUID.randomUUID()
     protected val eventSectorId = UUID.randomUUID()
     protected val eventSeatId = UUID.randomUUID()
+    protected val reservationId = UUID.randomUUID()
+    protected val purchaseId = UUID.randomUUID()
 
     protected val headersMap = mapOf(
         "x-Roles" to "USER,X-USER-ROLE,ADMIN",
@@ -58,7 +64,7 @@ abstract class TestData {
     protected val ticketType = TicketType(
         ticketTypeId,
         "GOLDEN",
-        BigDecimal(132.44),
+        132.44,
         "ARS",
         Instant.now().toEpochMilli(),
         Instant.now().toEpochMilli(),
@@ -88,6 +94,26 @@ abstract class TestData {
         eventSector
     )
 
+    protected val purchase = Purchase(
+        purchaseId,
+        "user data",
+        100.0,
+        PaymentStatus.INITIATED,
+        Instant.now().plus(30, ChronoUnit.MINUTES).toEpochMilli(),
+        Instant.now().toEpochMilli()
+    )
+
+    protected val reservation = Reservation(
+        reservationId,
+        purchase,
+        event,
+        ticketType,
+        eventSector,
+        eventSeat,
+        100.0,
+        ReservationStatus.PENDING,
+        Instant.now().toEpochMilli()
+    )
 
     protected val newVenueDto = NewVenueDto(
         "new-venue",
@@ -121,7 +147,7 @@ abstract class TestData {
 
     protected val newTicketTypeDto = NewTicketTypeDto(
         "GOLDEN",
-        BigDecimal(150.0),
+        150.0,
         "ARS",
         Instant.now().toEpochMilli(),
         Instant.now().toEpochMilli(),
@@ -133,7 +159,7 @@ abstract class TestData {
     protected val updateTicketTypeDto = UpdateTicketTypeDto(
         ticketTypeId,
         "GOLDEN",
-        BigDecimal(150.0),
+        150.0,
         "ARS",
         Instant.now().toEpochMilli(),
         Instant.now().toEpochMilli(),

@@ -6,8 +6,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
-import java.math.BigDecimal
-import java.util.*
+import java.util.UUID
 
 @Entity
 @Table(name = "reservation")
@@ -18,7 +17,7 @@ data class Reservation(
 
     @ManyToOne
     @JoinColumn(name = "purchase_id", nullable = false)
-    private val purchase: Purchase,
+    val purchase: Purchase,
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id", nullable = false)
@@ -36,7 +35,23 @@ data class Reservation(
     @JoinColumn(name = "seat_id", nullable = true)
     val seat: EventSeat? = null,
 
-    val price: BigDecimal,
+    val price: Double,
     val status: ReservationStatus,
     val createdAt: Long
-)
+) {
+    override fun toString(): String {
+        return "Reservation(id=$id, status=$status, createdAt=$createdAt)"
+    }
+
+    override fun hashCode(): Int {
+        return this.id.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as Reservation
+        return id == other.id
+    }
+}

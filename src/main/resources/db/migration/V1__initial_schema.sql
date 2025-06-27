@@ -24,7 +24,7 @@ CREATE TABLE ticket_type (
 
     event_id UUID NOT NULL,
     name VARCHAR(100) NOT NULL,
-    price NUMERIC(10, 2) NOT NULL,
+    price DOUBLE PRECISION NOT NULL,
     currency VARCHAR(3),
 
     sale_start BIGINT,
@@ -45,7 +45,7 @@ CREATE TABLE event_sector (
 
     name VARCHAR(100) NOT NULL,
     description TEXT,
-    price_addition NUMERIC(10, 2),
+    price_addition DOUBLE PRECISION,
 
     created_at BIGINT NOT NULL,
 
@@ -64,7 +64,7 @@ CREATE TABLE event_seat (
     seat_row_info VARCHAR(20),
     seat_number VARCHAR(20),
 
-    price_addition NUMERIC(10, 2),
+    price_addition DOUBLE PRECISION,
 
     created_at BIGINT NOT NULL,
 
@@ -76,7 +76,7 @@ CREATE TABLE purchase (
     id UUID PRIMARY KEY,
 
     user_info TEXT NOT NULL,
-    total_price NUMERIC(10, 2) NOT NULL,
+    total_price DOUBLE PRECISION NOT NULL,
     payment_status VARCHAR(20) NOT NULL,
 
     expires_at BIGINT,
@@ -93,7 +93,7 @@ CREATE TABLE reservation (
     sector_id UUID,
     seat_id UUID,
 
-    price NUMERIC(10, 2) NOT NULL,
+    price DOUBLE PRECISION NOT NULL,
     status VARCHAR(20) NOT NULL,
 
     created_at BIGINT NOT NULL,

@@ -35,4 +35,22 @@ data class EventSeat(
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sector_id", nullable = false)
     val sector: EventSector?
-)
+) {
+
+
+    override fun hashCode(): Int {
+        return this.id.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as EventSeat
+        return id == other.id
+    }
+
+    override fun toString(): String {
+        return "EventSeat(id=$id, label='$label', seatRowInfo=$seatRowInfo, seatNumber=$seatNumber, priceAddition=$priceAddition, createdAt=$createdAt)"
+    }
+}

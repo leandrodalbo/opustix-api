@@ -2,13 +2,12 @@ package com.ticketera.dto.ticketTypes
 
 import com.ticketera.model.Event
 import com.ticketera.model.TicketType
-import java.math.BigDecimal
 import java.time.Instant
 import java.util.UUID
 
 data class NewTicketTypeDto(
     val name: String,
-    val price: BigDecimal,
+    val price: Double,
     val currency: String,
     val startTime: Long?,
     val endTime: Long?,
