@@ -43,7 +43,7 @@ data class Purchase(
     fun isExpired() = expiresAt?.let { it < Instant.now().toEpochMilli() }
 
     override fun toString(): String {
-        return "Purchase(id=$id, userInfo='$userInfo', totalPrice=$totalPrice, paymentStatus=$paymentStatus, expiresAt=$expiresAt, createdAt=$createdAt)"
+        return "Purchase(id=$id, userInfo=$userInfo, totalPrice=$totalPrice, paymentStatus=$paymentStatus, expiresAt=$expiresAt, createdAt=$createdAt)"
     }
 
     override fun hashCode(): Int {

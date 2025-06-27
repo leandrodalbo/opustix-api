@@ -37,7 +37,7 @@ data class Event(
 ) {
 
     override fun toString(): String {
-        return "Event(id=$id, title='$title', description='$description', startTime=$startTime, endTime=$endTime, capacity=$capacity, createdAt=$createdAt)"
+        return "Event(id=$id, title=$title, description=$description)"
     }
 
     override fun hashCode(): Int {

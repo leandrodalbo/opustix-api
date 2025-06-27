@@ -99,7 +99,7 @@ abstract class TestData {
         "user data",
         100.0,
         PaymentStatus.INITIATED,
-        Instant.now().plus(30, ChronoUnit.MINUTES).toEpochMilli(),
+        Instant.now().plus(10, ChronoUnit.MINUTES).toEpochMilli(),
         Instant.now().toEpochMilli()
     )
 

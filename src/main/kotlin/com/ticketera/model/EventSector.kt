@@ -45,7 +45,7 @@ data class EventSector(
     }
 
     override fun toString(): String {
-        return "EventSector(id=$id, name='$name', description=$description, priceAddition=$priceAddition, createdAt=$createdAt)"
+        return "EventSector(id=$id, name=$name, description=$description)"
     }
 
 

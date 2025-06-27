@@ -33,7 +33,7 @@ data class Venue(
     }
 
     override fun toString(): String {
-        return "Venue(id=$id, name='$name', address='$address', createdAt=$createdAt)"
+        return "Venue(id=$id, name=$name, createdAt=$createdAt)"
     }
 
 }

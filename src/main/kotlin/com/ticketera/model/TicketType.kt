@@ -49,6 +49,6 @@ data class TicketType(
     }
 
     override fun toString(): String {
-        return "TicketType(id=$id, name='$name', price=$price, currency='$currency', saleStart=$saleStart, saleEnd=$saleEnd, quantity=$quantity, description='$description', createdAt=$createdAt)"
+        return "TicketType(id=$id, name=$name, description=$description)"
     }
 }

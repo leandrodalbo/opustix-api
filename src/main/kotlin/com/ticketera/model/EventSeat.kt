@@ -51,6 +51,6 @@ data class EventSeat(
     }
 
     override fun toString(): String {
-        return "EventSeat(id=$id, label='$label', seatRowInfo=$seatRowInfo, seatNumber=$seatNumber, priceAddition=$priceAddition, createdAt=$createdAt)"
+        return "EventSeat(id=$id, label=$label)"
     }
 }
