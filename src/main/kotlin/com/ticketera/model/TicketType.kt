@@ -8,7 +8,6 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.FetchType
-import java.math.BigDecimal
 import java.util.UUID
 
 @Entity
@@ -17,7 +16,7 @@ data class TicketType(
     @Id
     val id: UUID,
     val name: String,
-    val price: BigDecimal,
+    val price: Double,
     val currency: String,
 
     @Column(name = "sale_start", nullable = false)
@@ -35,4 +34,21 @@ data class TicketType(
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id", nullable = false)
     val event: Event
-)
+) {
+
+    override fun hashCode(): Int {
+        return this.id.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as TicketType
+        return id == other.id
+    }
+
+    override fun toString(): String {
+        return "TicketType(id=$id, name=$name, description=$description)"
+    }
+}

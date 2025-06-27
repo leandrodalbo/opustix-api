@@ -19,4 +19,21 @@ data class Venue(
 
     @Column(name = "created_at", nullable = false)
     val createdAt: Long
-)
+) {
+    override fun hashCode(): Int {
+        return this.id.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as Venue
+        return id == other.id
+    }
+
+    override fun toString(): String {
+        return "Venue(id=$id, name=$name, createdAt=$createdAt)"
+    }
+
+}

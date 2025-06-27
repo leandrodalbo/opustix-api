@@ -34,4 +34,21 @@ data class Event(
 
     @Column(name = "created_at", nullable = false)
     val createdAt: Long
-)
+) {
+
+    override fun toString(): String {
+        return "Event(id=$id, title=$title, description=$description)"
+    }
+
+    override fun hashCode(): Int {
+        return this.id.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as Event
+        return id == other.id
+    }
+}
