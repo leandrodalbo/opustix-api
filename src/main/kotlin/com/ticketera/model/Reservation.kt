@@ -1,6 +1,8 @@
 package com.ticketera.model
 
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
@@ -36,6 +38,8 @@ data class Reservation(
     val seat: EventSeat? = null,
 
     val price: Double,
+
+    @Enumerated(EnumType.ORDINAL)
     val status: ReservationStatus,
     val createdAt: Long
 ) {

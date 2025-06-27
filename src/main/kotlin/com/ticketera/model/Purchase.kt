@@ -6,6 +6,8 @@ import jakarta.persistence.Table
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.CascadeType
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
 import java.time.Instant
 import java.util.UUID
@@ -25,6 +27,7 @@ data class Purchase(
     val totalPrice: Double,
 
     @Column(name = "payment_status")
+    @Enumerated(EnumType.ORDINAL)
     val paymentStatus: PaymentStatus,
 
     @Column(name = "expires_at")

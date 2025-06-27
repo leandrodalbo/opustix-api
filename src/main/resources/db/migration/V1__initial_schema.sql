@@ -77,7 +77,7 @@ CREATE TABLE purchase (
 
     user_info TEXT NOT NULL,
     total_price DOUBLE PRECISION NOT NULL,
-    payment_status VARCHAR(20) NOT NULL,
+    payment_status SMALLINT NOT NULL,
 
     expires_at BIGINT,
     created_at BIGINT NOT NULL
@@ -94,7 +94,7 @@ CREATE TABLE reservation (
     seat_id UUID,
 
     price DOUBLE PRECISION NOT NULL,
-    status VARCHAR(20) NOT NULL,
+    status SMALLINT NOT NULL,
 
     created_at BIGINT NOT NULL,
 
@@ -122,4 +122,4 @@ CREATE TABLE ticket (
 
 CREATE UNIQUE INDEX uq_reservation_event_seat
 ON reservation(event_id, seat_id)
-WHERE seat_id IS NOT NULL AND status IN ('PENDING', 'CONFIRMED');
+WHERE seat_id IS NOT NULL AND status IN (0 , 1);
