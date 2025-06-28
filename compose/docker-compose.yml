@@ -1,0 +1,11 @@
+services:
+  ticketera-db:
+    image: "postgres:16.4"
+    container_name: "ticketera-db"
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
