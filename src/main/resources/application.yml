@@ -5,8 +5,8 @@ spring:
     name: ticketera
 
   datasource:
-    username: ticketera
-    password: dGVzdGRi
+    username: user
+    password: password
     url: jdbc:postgresql://localhost:5432/ticketera
     driverClassName: org.postgresql.Driver
     hikari:
@@ -14,8 +14,8 @@ spring:
       maximum-pool-size: 5
 
   flyway:
-    user: ticketera
-    password: dGVzdGRi
+    user: user
+    password: password
     url: jdbc:postgresql://localhost:5432/ticketera
 
 
