@@ -1,0 +1,29 @@
+package com.ticketera.dto.reservation
+
+import com.ticketera.TestData
+import com.ticketera.model.Reservation
+import com.ticketera.model.ReservationStatus
+import kotlin.test.Test
+import org.assertj.core.api.Assertions.assertThat
+
+class NewReservationDtoTest : TestData() {
+
+    @Test
+    fun shouldCreateAReservationFromDto() {
+        val dto = NewReservationDto(eventId, ticketTypeId, eventSectorId, eventSeatId)
+
+        val reservation = NewReservationDto.newReservation(dto, purchase, event, ticketType, eventSector, eventSeat)
+
+        assertThat(reservation).isInstanceOf(Reservation::class.java)
+        assertThat(reservation.id).isEqualTo(reservationId)
+        assertThat(reservation.price).isEqualTo(142.44)
+        assertThat(reservation.status).isEqualTo(ReservationStatus.PENDING)
+        assertThat(reservation.createdAt).isNotNull()
+    }
+
+    @Test
+    fun shouldGetDtoFromTheEntity() {
+        assertThat(NewReservationDto.fromEntity(reservation))
+            .isInstanceOf(NewReservationDto::class.java)
+    }
+}
