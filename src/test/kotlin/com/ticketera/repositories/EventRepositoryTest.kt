@@ -26,8 +26,11 @@ final class EventRepositoryTest : TestData() {
 
     @BeforeEach
     fun setup() {
-        entityManager.persistAndFlush(venue)
-        entityManager.persistAndFlush(event)
+        entityManager.persist(venue)
+        entityManager.persist(event)
+        entityManager.persist(banner)
+        entityManager.flush()
+        entityManager.clear()
     }
 
 
@@ -41,6 +44,12 @@ final class EventRepositoryTest : TestData() {
     fun shouldFindByAll() {
         assertThat(eventRepository.findAll().map { it.id })
             .isEqualTo(listOf(eventId))
+    }
+
+    @Test
+    fun shouldLoadBanners() {
+        assertThat(eventRepository.findById(eventId).get().banners.toList())
+            .isEqualTo(listOf(banner))
     }
 
     @Test
