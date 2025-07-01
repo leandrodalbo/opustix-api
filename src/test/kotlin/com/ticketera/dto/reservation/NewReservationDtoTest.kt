@@ -10,9 +10,7 @@ class NewReservationDtoTest : TestData() {
 
     @Test
     fun shouldCreateAReservationFromDto() {
-        val dto = NewReservationDto(eventId, ticketTypeId, eventSectorId, eventSeatId)
-
-        val reservation = NewReservationDto.newReservation(dto, purchase, event, ticketType, eventSector, eventSeat)
+        val reservation = NewReservationDto.newReservation(purchase, event, ticketType, eventSector, eventSeat)
 
         assertThat(reservation).isInstanceOf(Reservation::class.java)
         assertThat(reservation.id).isNotNull()

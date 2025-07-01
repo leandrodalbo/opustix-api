@@ -17,7 +17,7 @@ class NewReservationDto(
     val seatId: UUID? = null
 ) {
     companion object {
-        fun newReservation(dto: NewReservationDto, purchase: Purchase, event: Event, ticketType: TicketType, sector: EventSector?, seat: EventSeat?): Reservation {
+        fun newReservation(purchase: Purchase, event: Event, ticketType: TicketType, sector: EventSector?, seat: EventSeat?): Reservation {
             return Reservation(
                 id = UUID.randomUUID(),
                 purchase = purchase,
