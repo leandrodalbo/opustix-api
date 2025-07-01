@@ -48,5 +48,5 @@ class EventService(
 
     fun deleteEvent(uuid: UUID) = eventRepository.deleteById(uuid)
 
-    fun allEvents() = eventRepository.findAll()
+    fun allEvents() = eventRepository.findAll().filter { !it.hasFinished() }
 }

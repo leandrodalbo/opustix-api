@@ -59,7 +59,9 @@ abstract class TestData {
         Instant.now().toEpochMilli(),
         Instant.now().toEpochMilli(),
         1000,
+        "concert",
         venue,
+
         Instant.now().toEpochMilli()
     )
 
@@ -138,6 +140,7 @@ abstract class TestData {
         Instant.now().toEpochMilli(),
         Instant.now().toEpochMilli(),
         1000,
+        "concert",
         venue.id
     )
 
@@ -148,6 +151,7 @@ abstract class TestData {
         Instant.now().toEpochMilli(),
         Instant.now().toEpochMilli(),
         1000,
+        "concert",
         venue.id
     )
 

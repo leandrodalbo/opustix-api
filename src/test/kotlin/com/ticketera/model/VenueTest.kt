@@ -22,4 +22,6 @@ class VenueTest : TestData() {
     fun shouldOverrideHashcode() {
         assertThat(venue.hashCode()).isEqualTo(venue.copy().hashCode())
     }
+
+
 }

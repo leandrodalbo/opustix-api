@@ -8,6 +8,8 @@ import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.FetchType
 import jakarta.persistence.JoinColumn
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.UUID
 
 @Entity
@@ -28,6 +30,8 @@ data class Event(
 
     val capacity: Int,
 
+    val category: String,
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "venue_id", nullable = false)
     val venue: Venue,
@@ -35,6 +39,8 @@ data class Event(
     @Column(name = "created_at", nullable = false)
     val createdAt: Long
 ) {
+
+    fun hasFinished() = Instant.now().minus(1, ChronoUnit.DAYS).toEpochMilli() > endTime
 
     override fun toString(): String {
         return "Event(id=$id, title=$title, description=$description)"
