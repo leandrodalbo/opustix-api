@@ -15,7 +15,7 @@ import java.util.UUID
 data class Reservation(
 
     @Id
-    private val id: UUID,
+    val id: UUID,
 
     @ManyToOne
     @JoinColumn(name = "purchase_id", nullable = false)

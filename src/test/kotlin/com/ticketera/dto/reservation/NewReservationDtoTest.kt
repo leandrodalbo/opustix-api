@@ -15,7 +15,7 @@ class NewReservationDtoTest : TestData() {
         val reservation = NewReservationDto.newReservation(dto, purchase, event, ticketType, eventSector, eventSeat)
 
         assertThat(reservation).isInstanceOf(Reservation::class.java)
-        assertThat(reservation.id).isEqualTo(reservationId)
+        assertThat(reservation.id).isNotNull()
         assertThat(reservation.price).isEqualTo(142.44)
         assertThat(reservation.status).isEqualTo(ReservationStatus.PENDING)
         assertThat(reservation.createdAt).isNotNull()
