@@ -47,6 +47,8 @@ abstract class TestData {
         venueId,
         "venue-0",
         address = "Road x at 1324",
+        city = "CABA",
+        country = "Argentina",
         Instant.now().toEpochMilli()
     )
 
@@ -117,13 +119,17 @@ abstract class TestData {
 
     protected val newVenueDto = NewVenueDto(
         "new-venue",
-        "road x"
+        "road x",
+        "CABA",
+        "Argentina",
     )
 
     protected val updateVenueDto = UpdateVenueDto(
         venue.id,
         "new-venue-name",
-        "new-venue-address"
+        "new-venue-address",
+        "CABA",
+        "Argentina",
     )
 
     protected val newEventDto = NewEventDto(
