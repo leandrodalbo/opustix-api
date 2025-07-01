@@ -7,6 +7,8 @@ import java.util.UUID
 data class NewVenueDto(
     val name: String,
     val address: String,
+    val city : String,
+    val country: String
 ) {
 
     companion object {
@@ -14,6 +16,8 @@ data class NewVenueDto(
             return NewVenueDto(
                 name = venue.name,
                 address = venue.address,
+                city = venue.city,
+                country = venue.country
             )
         }
 
@@ -22,6 +26,8 @@ data class NewVenueDto(
                 id = UUID.randomUUID(),
                 name = newVenueDto.name,
                 address = newVenueDto.address,
+                city = newVenueDto.city,
+                country = newVenueDto.country,
                 createdAt = Instant.now().toEpochMilli()
             )
         }

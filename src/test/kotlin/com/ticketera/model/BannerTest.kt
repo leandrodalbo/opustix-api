@@ -4,17 +4,17 @@ import com.ticketera.TestData
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class VenueTest : TestData() {
+class BannerTest : TestData() {
 
     @Test
     fun shouldOverrideEquals() {
-        assertThat(venue).isEqualTo(venue.copy())
+        assertThat(banner).isEqualTo(banner.copy())
     }
 
     @Test
     fun shouldOverrideToString() {
-        assertThat(venue.toString()).isEqualTo(
-            "Venue(id=${venue.id}, name=${venue.name}, createdAt=${venue.createdAt})"
+        assertThat(banner.toString()).isEqualTo(
+            "Banner(id=${banner.id}, url=${banner.imageUrl})"
         )
     }
 

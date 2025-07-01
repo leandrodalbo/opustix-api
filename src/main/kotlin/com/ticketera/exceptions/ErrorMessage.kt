@@ -3,6 +3,7 @@ package com.ticketera.exceptions
 enum class ErrorMessage(val message: String) {
     VENUE_NOT_FOUND("Venue not found."),
     EVENT_NOT_FOUND("Event not found."),
+    BANNER_NOT_FOUND("Banner not found."),
     INVALID_REQUEST("Invalid request."),
     DATABASE_ERROR("A database error occurred."),
     INTERNAL_SERVER_ERROR("Internal server error."),

@@ -4,6 +4,7 @@ import com.ticketera.model.Event
 import com.ticketera.model.Venue
 import java.time.Instant
 import java.util.UUID
+import kotlin.String
 
 data class NewEventDto(
     val title: String,
@@ -11,6 +12,7 @@ data class NewEventDto(
     val startTime: Long,
     val endTime: Long,
     val capacity: Int,
+    val category: String,
     val venueId: UUID
 ) {
     companion object {
@@ -21,6 +23,7 @@ data class NewEventDto(
                 startTime = event.startTime,
                 endTime = event.endTime,
                 capacity = event.capacity,
+                category = event.category,
                 venueId = event.venue.id
             )
         }
@@ -33,6 +36,7 @@ data class NewEventDto(
                 startTime = newEventDto.startTime,
                 endTime = newEventDto.endTime,
                 capacity = newEventDto.capacity,
+                category = newEventDto.category,
                 venue = venue,
                 createdAt = Instant.now().toEpochMilli()
             )

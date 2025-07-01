@@ -1,7 +1,7 @@
 package com.ticketera.repositories
 
 import com.ticketera.TestData
-import com.ticketera.model.Event
+import com.ticketera.model.Banner
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -17,47 +17,33 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-final class EventRepositoryTest : TestData() {
+final class BannerRepositoryTest : TestData() {
     @Autowired
-    private lateinit var eventRepository: EventRepository
+    private lateinit var bannerRepository: BannerRepository
 
     @Autowired
     private lateinit var entityManager: TestEntityManager
 
+
     @BeforeEach
     fun setup() {
-        entityManager.persist(venue)
-        entityManager.persist(event)
-        entityManager.persist(banner)
-        entityManager.flush()
-        entityManager.clear()
+        entityManager.persistAndFlush(venue)
+        entityManager.persistAndFlush(event)
+        entityManager.persistAndFlush(banner)
     }
-
 
     @Test
     fun shouldFindById() {
-        assertThat(eventRepository.findById(eventId).get())
-            .isInstanceOfAny(Event::class.java)
+        assertThat(bannerRepository.findById(bannerId).get())
+            .isInstanceOfAny(Banner::class.java)
     }
 
     @Test
     fun shouldFindByAll() {
-        assertThat(eventRepository.findAll().map { it.id })
-            .isEqualTo(listOf(eventId))
+        assertThat(bannerRepository.findAll().map { it.id })
+            .isEqualTo(listOf(bannerId))
     }
 
-    @Test
-    fun shouldLoadBanners() {
-        assertThat(eventRepository.findById(eventId).get().banners.toList())
-            .isEqualTo(listOf(banner))
-    }
-
-    @Test
-    fun shouldDeleteById() {
-        eventRepository.deleteById(eventId)
-        assertThat(eventRepository.findById(venueId))
-            .isEmpty
-    }
 
     companion object {
         @Container

@@ -9,6 +9,7 @@ import com.ticketera.dto.ticketTypes.NewTicketTypeDto
 import com.ticketera.dto.ticketTypes.UpdateTicketTypeDto
 import com.ticketera.dto.venues.NewVenueDto
 import com.ticketera.dto.venues.UpdateVenueDto
+import com.ticketera.model.Banner
 import com.ticketera.model.Event
 import com.ticketera.model.EventSeat
 import com.ticketera.model.EventSector
@@ -19,6 +20,7 @@ import com.ticketera.model.ReservationStatus
 import com.ticketera.model.TicketType
 import com.ticketera.model.Venue
 import org.springframework.http.HttpHeaders
+import org.springframework.mock.web.MockMultipartFile
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.UUID
@@ -31,6 +33,7 @@ abstract class TestData {
     protected val eventSeatId = UUID.randomUUID()
     protected val reservationId = UUID.randomUUID()
     protected val purchaseId = UUID.randomUUID()
+    protected val bannerId = UUID.randomUUID()
 
     protected val headersMap = mapOf(
         "x-Roles" to "USER,X-USER-ROLE,ADMIN",
@@ -43,10 +46,16 @@ abstract class TestData {
         add("Authorization", "Bearer token")
     }
 
+    private val imageBytes = javaClass.getResourceAsStream("/banner.jpg").readBytes()
+    val multipartFile = MockMultipartFile("file", "test-image.jpg", "image/jpeg", imageBytes)
+
+
     protected val venue = Venue(
         venueId,
         "venue-0",
         address = "Road x at 1324",
+        city = "CABA",
+        country = "Argentina",
         Instant.now().toEpochMilli()
     )
 
@@ -57,8 +66,20 @@ abstract class TestData {
         Instant.now().toEpochMilli(),
         Instant.now().toEpochMilli(),
         1000,
+        "concert",
         venue,
+
         Instant.now().toEpochMilli()
+    )
+
+    protected val banner = Banner(
+        bannerId,
+        "https://s3.banner.img?id=${bannerId}",
+        true,
+        false,
+        false,
+        Instant.now().toEpochMilli(),
+        event
     )
 
     protected val ticketType = TicketType(
@@ -117,13 +138,17 @@ abstract class TestData {
 
     protected val newVenueDto = NewVenueDto(
         "new-venue",
-        "road x"
+        "road x",
+        "CABA",
+        "Argentina",
     )
 
     protected val updateVenueDto = UpdateVenueDto(
         venue.id,
         "new-venue-name",
-        "new-venue-address"
+        "new-venue-address",
+        "CABA",
+        "Argentina",
     )
 
     protected val newEventDto = NewEventDto(
@@ -132,6 +157,7 @@ abstract class TestData {
         Instant.now().toEpochMilli(),
         Instant.now().toEpochMilli(),
         1000,
+        "concert",
         venue.id
     )
 
@@ -142,6 +168,7 @@ abstract class TestData {
         Instant.now().toEpochMilli(),
         Instant.now().toEpochMilli(),
         1000,
+        "concert",
         venue.id
     )
 

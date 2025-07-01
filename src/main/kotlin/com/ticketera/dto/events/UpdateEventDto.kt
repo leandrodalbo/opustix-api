@@ -11,6 +11,7 @@ data class UpdateEventDto(
     val startTime: Long?,
     val endTime: Long?,
     val capacity: Int?,
+    val category: String?,
     val venueId: UUID?
 ) {
     companion object {
@@ -22,6 +23,7 @@ data class UpdateEventDto(
                 startTime = event.startTime,
                 endTime = event.endTime,
                 capacity = event.capacity,
+                category = event.category,
                 venueId = event.venue.id
             )
         }
@@ -34,6 +36,7 @@ data class UpdateEventDto(
                 startTime = updateEventDto.startTime ?: event.startTime,
                 endTime = updateEventDto.endTime ?: event.endTime,
                 capacity = updateEventDto.capacity ?: event.capacity,
+                category = updateEventDto.category ?: event.category,
                 venue = venue,
                 createdAt = event.createdAt
             )

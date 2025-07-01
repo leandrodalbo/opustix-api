@@ -1,6 +1,5 @@
 package com.ticketera.model
 
-
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
@@ -16,6 +15,10 @@ data class Venue(
     val name: String,
 
     val address: String,
+
+    val city: String,
+
+    val country: String,
 
     @Column(name = "created_at", nullable = false)
     val createdAt: Long

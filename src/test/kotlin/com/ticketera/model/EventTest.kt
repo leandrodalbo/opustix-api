@@ -22,4 +22,9 @@ class EventTest : TestData() {
     fun shouldOverrideHashcode() {
         assertThat(event.hashCode()).isEqualTo(event.copy().hashCode())
     }
+
+    @Test
+    fun shouldCheckItIsNotFinished() {
+        assertThat(event.hasFinished()).isFalse
+    }
 }

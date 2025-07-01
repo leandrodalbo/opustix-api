@@ -30,6 +30,7 @@ final class VenueRepositoryTest : TestData() {
     @BeforeEach
     fun setup() {
         entityManager.persistAndFlush(venue)
+        entityManager.persistAndFlush(event)
     }
 
     @Test
@@ -49,6 +50,13 @@ final class VenueRepositoryTest : TestData() {
         venueRepository.deleteById(venueId)
         assertThat(venueRepository.findById(venueId))
             .isEmpty
+    }
+
+    @Test
+    fun shouldFindByEventId() {
+        val result = venueRepository.findByEventId(eventId)
+        assertThat(result)
+            .isEqualTo(venue)
     }
 
     companion object {
