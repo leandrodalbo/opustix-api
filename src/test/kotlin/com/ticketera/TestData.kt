@@ -20,6 +20,7 @@ import com.ticketera.model.ReservationStatus
 import com.ticketera.model.TicketType
 import com.ticketera.model.Venue
 import org.springframework.http.HttpHeaders
+import org.springframework.mock.web.MockMultipartFile
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.UUID
@@ -44,6 +45,10 @@ abstract class TestData {
         add("X-Roles", "ADMIN,USER")
         add("Authorization", "Bearer token")
     }
+
+    private val imageBytes = javaClass.getResourceAsStream("/banner.jpg").readBytes()
+    val multipartFile = MockMultipartFile("file", "test-image.jpg", "image/jpeg", imageBytes)
+
 
     protected val venue = Venue(
         venueId,
