@@ -9,6 +9,7 @@ import com.ticketera.dto.ticketTypes.NewTicketTypeDto
 import com.ticketera.dto.ticketTypes.UpdateTicketTypeDto
 import com.ticketera.dto.venues.NewVenueDto
 import com.ticketera.dto.venues.UpdateVenueDto
+import com.ticketera.model.Banner
 import com.ticketera.model.Event
 import com.ticketera.model.EventSeat
 import com.ticketera.model.EventSector
@@ -31,6 +32,7 @@ abstract class TestData {
     protected val eventSeatId = UUID.randomUUID()
     protected val reservationId = UUID.randomUUID()
     protected val purchaseId = UUID.randomUUID()
+    protected val bannerId = UUID.randomUUID()
 
     protected val headersMap = mapOf(
         "x-Roles" to "USER,X-USER-ROLE,ADMIN",
@@ -63,6 +65,16 @@ abstract class TestData {
         venue,
 
         Instant.now().toEpochMilli()
+    )
+
+    protected val banner = Banner(
+        bannerId,
+        "https://s3.banner.img?id=${bannerId}",
+        true,
+        false,
+        false,
+        Instant.now().toEpochMilli(),
+        event
     )
 
     protected val ticketType = TicketType(
