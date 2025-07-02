@@ -4,16 +4,16 @@ import com.ticketera.TestData
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
-class UpdateTicketTypeDtoTest : TestData() {
+class UpdateTicketTypeDtoTest {
 
     @Test
     fun shouldGetAnUpdatedTicketTypeFromDto() {
         val updatedTicketType = UpdateTicketTypeDto.updatedTicketType(
-            updateTicketTypeDto, ticketType, event
+            TestData.updateTicketTypeDto, TestData.ticketType, TestData.event
         )
 
-        assertThat(updatedTicketType.saleStart).isEqualTo(updateTicketTypeDto.startTime)
-        assertThat(updatedTicketType.saleEnd).isEqualTo(updateTicketTypeDto.endTime)
+        assertThat(updatedTicketType.saleStart).isEqualTo(TestData.updateTicketTypeDto.startTime)
+        assertThat(updatedTicketType.saleEnd).isEqualTo(TestData.updateTicketTypeDto.endTime)
     }
 
 }

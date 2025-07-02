@@ -4,11 +4,11 @@ import com.ticketera.TestData
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
 
-class NewEventSeatsDtoTest : TestData() {
+class NewEventSeatsDtoTest {
 
     @Test
     fun shouldCreateAListOfEventSeats() {
-        val seats = NewEventSeatsDto.newEventSeats(newEventSeatsDto, event, eventSector)
+        val seats = NewEventSeatsDto.newEventSeats(TestData.newEventSeatsDto, TestData.event, TestData.eventSector)
 
         assertThat(seats).isInstanceOf(List::class.java)
         assertThat(seats[0].seatNumber).isEqualTo("1")

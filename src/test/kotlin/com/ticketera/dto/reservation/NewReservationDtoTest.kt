@@ -6,11 +6,17 @@ import com.ticketera.model.ReservationStatus
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
 
-class NewReservationDtoTest : TestData() {
+class NewReservationDtoTest {
 
     @Test
     fun shouldCreateAReservationFromDto() {
-        val reservation = NewReservationDto.newReservation(purchase, event, ticketType, eventSector, eventSeat)
+        val reservation = NewReservationDto.newReservation(
+            TestData.purchase,
+            TestData.event,
+            TestData.ticketType,
+            TestData.eventSector,
+            TestData.eventSeat
+        )
 
         assertThat(reservation).isInstanceOf(Reservation::class.java)
         assertThat(reservation.id).isNotNull()

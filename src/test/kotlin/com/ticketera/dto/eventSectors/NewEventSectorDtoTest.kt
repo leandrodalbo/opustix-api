@@ -5,11 +5,11 @@ import com.ticketera.model.EventSector
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
 
-class NewEventSectorDtoTest : TestData() {
+class NewEventSectorDtoTest {
 
     @Test
     fun shouldCreateAnEventSectorFromDto() {
-        val ticketType = NewEventSectorDto.newEventSector(newEventSectorDto, event)
+        val ticketType = NewEventSectorDto.newEventSector(TestData.newEventSectorDto, TestData.event)
 
         assertThat(ticketType).isInstanceOf(EventSector::class.java)
         assertThat(ticketType.id).isNotNull

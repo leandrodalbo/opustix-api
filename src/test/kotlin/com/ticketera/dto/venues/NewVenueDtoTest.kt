@@ -5,11 +5,11 @@ import com.ticketera.model.Venue
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
-class NewVenueDtoTest : TestData() {
+class NewVenueDtoTest {
 
     @Test
     fun shouldCreateAVenueFromDto() {
-        val venue = NewVenueDto.newVenue(newVenueDto)
+        val venue = NewVenueDto.newVenue(TestData.newVenueDto)
 
         assertThat(venue).isInstanceOf(Venue::class.java)
         assertThat(venue.id).isNotNull

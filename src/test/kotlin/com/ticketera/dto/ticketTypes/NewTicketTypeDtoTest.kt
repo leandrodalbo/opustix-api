@@ -5,11 +5,11 @@ import com.ticketera.model.TicketType
 import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
-class NewTicketTypeDtoTest : TestData() {
+class NewTicketTypeDtoTest {
 
     @Test
     fun shouldCreateATicketTypeFromDto() {
-        val ticketType = NewTicketTypeDto.newTicketType(newTicketTypeDto, event)
+        val ticketType = NewTicketTypeDto.newTicketType(TestData.newTicketTypeDto, TestData.event)
 
         assertThat(ticketType).isInstanceOf(TicketType::class.java)
         assertThat(ticketType.id).isNotNull
