@@ -31,13 +31,5 @@ class NewReservationDto(
             )
         }
 
-        fun fromEntity(reservation: Reservation): NewReservationDto {
-            return NewReservationDto(
-                eventId = reservation.event.id,
-                ticketTypeId = reservation.ticketType.id,
-                sectorId = reservation.sector?.id,
-                seatId = reservation.seat?.id
-            )
-        }
     }
 }

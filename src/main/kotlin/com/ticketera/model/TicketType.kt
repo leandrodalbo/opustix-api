@@ -12,7 +12,7 @@ import java.util.UUID
 
 @Entity
 @Table(name = "ticket_type")
-data class TicketType(
+ class TicketType(
     @Id
     val id: UUID,
     val name: String,
@@ -51,4 +51,17 @@ data class TicketType(
     override fun toString(): String {
         return "TicketType(id=$id, name=$name, description=$description)"
     }
+
+    constructor() : this(
+        UUID.randomUUID(),
+        "",
+        0.0,
+        "",
+        0L,
+        0L,
+        0,
+        "",
+        0L,
+        Event()
+    )
 }

@@ -16,17 +16,6 @@ data class NewEventDto(
     val venueId: UUID
 ) {
     companion object {
-        fun fromEntity(event: Event): NewEventDto {
-            return NewEventDto(
-                title = event.title,
-                description = event.description,
-                startTime = event.startTime,
-                endTime = event.endTime,
-                capacity = event.capacity,
-                category = event.category,
-                venueId = event.venue.id
-            )
-        }
 
         fun newEvent(newEventDto: NewEventDto, venue: Venue): Event {
             return Event(

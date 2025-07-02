@@ -15,10 +15,4 @@ class NewVenueDtoTest : TestData() {
         Assertions.assertThat(venue.id).isNotNull
         Assertions.assertThat(venue.createdAt).isNotNull
     }
-
-    @Test
-    fun shouldGetDtoFromTheEntity() {
-        Assertions.assertThat(NewVenueDto.fromEntity(venue))
-            .isInstanceOf(NewVenueDto::class.java)
-    }
 }

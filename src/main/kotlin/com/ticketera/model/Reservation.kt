@@ -12,7 +12,7 @@ import java.util.UUID
 
 @Entity
 @Table(name = "reservation")
-data class Reservation(
+class Reservation(
 
     @Id
     val id: UUID,
@@ -58,4 +58,16 @@ data class Reservation(
         other as Reservation
         return id == other.id
     }
+
+    constructor() : this(
+        UUID.randomUUID(),
+        Purchase(),
+        Event(),
+        TicketType(),
+        null,
+        null,
+        0.0,
+        ReservationStatus.PENDING,
+        0L
+    )
 }

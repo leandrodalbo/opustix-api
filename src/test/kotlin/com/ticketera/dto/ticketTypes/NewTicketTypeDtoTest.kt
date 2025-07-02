@@ -15,10 +15,4 @@ class NewTicketTypeDtoTest : TestData() {
         Assertions.assertThat(ticketType.id).isNotNull
         Assertions.assertThat(ticketType.createdAt).isNotNull
     }
-
-    @Test
-    fun shouldGetDtoFromTheEntity() {
-        Assertions.assertThat(NewTicketTypeDto.fromEntity(ticketType))
-            .isInstanceOf(NewTicketTypeDto::class.java)
-    }
 }

@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delet
 import org.junit.jupiter.api.Test
 
 @WebMvcTest(EventSectorController::class)
-class EventSectorControllerTest : TestData() {
+class EventSectorControllerTest  {
 
     @Autowired
     private lateinit var mvc: MockMvc
@@ -40,10 +40,10 @@ class EventSectorControllerTest : TestData() {
 
     @Test
     fun shouldFetchEventSectors() {
-        every { eventSectorService.findByEventId(any()) } returns listOf(eventSector)
+        every { eventSectorService.findByEventId(any()) } returns listOf(TestData.eventSector)
 
         val response = mvc.perform(
-            get("/ticketera/events/sector/${eventId}/all")
+            get("/ticketera/events/sector/${TestData.event.id}/all")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -54,13 +54,13 @@ class EventSectorControllerTest : TestData() {
 
     @Test
     fun shouldUpdateAnEventSectors() {
-        every { eventSectorService.updateEventSector(any()) } returns eventSector
+        every { eventSectorService.updateEventSector(any()) } returns TestData.eventSector
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             put("/ticketera/events/sector/update")
-                .headers(httpHeaders)
-                .content(objectMapper.writeValueAsString(updateEventSectorDto))
+                .headers(TestData.httpHeaders)
+                .content(objectMapper.writeValueAsString(TestData.updateEventSectorDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -72,13 +72,13 @@ class EventSectorControllerTest : TestData() {
 
     @Test
     fun shouldCreateAnEventSectors() {
-        every { eventSectorService.addEventSector(any()) } returns eventSector
+        every { eventSectorService.addEventSector(any()) } returns TestData.eventSector
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             post("/ticketera/events/sector/new")
-                .headers(httpHeaders)
-                .content(objectMapper.writeValueAsString(newEventSectorDto))
+                .headers(TestData.httpHeaders)
+                .content(objectMapper.writeValueAsString(TestData.newEventSectorDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -94,8 +94,8 @@ class EventSectorControllerTest : TestData() {
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
-            delete("/ticketera/events/sector/delete/${eventId}")
-                .headers(httpHeaders)
+            delete("/ticketera/events/sector/delete/${TestData.event.id}")
+                .headers(TestData.httpHeaders)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 

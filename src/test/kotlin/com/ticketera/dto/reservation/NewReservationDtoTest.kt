@@ -19,9 +19,4 @@ class NewReservationDtoTest : TestData() {
         assertThat(reservation.createdAt).isNotNull()
     }
 
-    @Test
-    fun shouldGetDtoFromTheEntity() {
-        assertThat(NewReservationDto.fromEntity(reservation))
-            .isInstanceOf(NewReservationDto::class.java)
-    }
 }

@@ -16,12 +16,4 @@ class UpdateTicketTypeDtoTest : TestData() {
         Assertions.assertThat(updatedTicketType.saleEnd).isEqualTo(updateTicketTypeDto.endTime)
     }
 
-    @Test
-    fun shouldGetDtoFromTheEntity() {
-        Assertions.assertThat(
-            UpdateTicketTypeDto.fromEntity(
-                ticketType
-            )
-        ).isInstanceOf(UpdateTicketTypeDto::class.java)
-    }
 }

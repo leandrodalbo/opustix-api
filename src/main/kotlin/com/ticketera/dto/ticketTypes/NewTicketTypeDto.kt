@@ -16,19 +16,6 @@ data class NewTicketTypeDto(
     val eventId: UUID
 ) {
     companion object {
-        fun fromEntity(ticketType: TicketType): NewTicketTypeDto {
-            return NewTicketTypeDto(
-                ticketType.name,
-                ticketType.price,
-                ticketType.currency,
-                ticketType.saleStart,
-                ticketType.saleEnd,
-                ticketType.quantity,
-                ticketType.description,
-                ticketType.event.id
-            )
-        }
-
         fun newTicketType(newTicketTypeDto: NewTicketTypeDto, event: Event): TicketType {
             return TicketType(
                 id = UUID.randomUUID(),

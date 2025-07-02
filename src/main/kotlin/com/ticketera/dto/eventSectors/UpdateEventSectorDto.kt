@@ -12,16 +12,6 @@ data class UpdateEventSectorDto(
     val eventId: UUID?
 ) {
     companion object {
-        fun fromEntity(eventSector: EventSector): UpdateEventSectorDto {
-            return UpdateEventSectorDto(
-                eventSector.id,
-                eventSector.name,
-                eventSector.description,
-                eventSector.priceAddition,
-                eventSector.event.id
-            )
-        }
-
         fun updatedEventSector(dto: UpdateEventSectorDto, eventSector: EventSector, event: Event): EventSector {
             return EventSector(
                 eventSector.id,

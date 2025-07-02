@@ -18,9 +18,4 @@ class NewEventDtoTest : TestData() {
         Assertions.assertThat(event.createdAt).isNotNull
     }
 
-    @Test
-    fun shouldGetDtoFromTheEntity() {
-        Assertions.assertThat(NewEventDto.fromEntity(event))
-            .isInstanceOf(NewEventDto::class.java)
-    }
 }

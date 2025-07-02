@@ -4,24 +4,22 @@ import com.ticketera.TestData
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class VenueTest : TestData() {
+class VenueTest {
 
     @Test
     fun shouldOverrideEquals() {
-        assertThat(venue).isEqualTo(venue.copy())
+        assertThat(TestData.venue).isNotEqualTo(Venue())
     }
 
     @Test
     fun shouldOverrideToString() {
-        assertThat(venue.toString()).isEqualTo(
-            "Venue(id=${venue.id}, name=${venue.name}, createdAt=${venue.createdAt})"
+        assertThat(TestData.venue.toString()).isEqualTo(
+            "Venue(id=${TestData.venue.id}, name=${TestData.venue.name}, createdAt=${TestData.venue.createdAt})"
         )
     }
 
     @Test
     fun shouldOverrideHashcode() {
-        assertThat(venue.hashCode()).isEqualTo(venue.copy().hashCode())
+        assertThat(TestData.venue.hashCode()).isEqualTo(TestData.venue.id.hashCode())
     }
-
-
 }

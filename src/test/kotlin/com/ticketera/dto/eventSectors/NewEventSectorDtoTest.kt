@@ -16,9 +16,4 @@ class NewEventSectorDtoTest : TestData() {
         Assertions.assertThat(ticketType.createdAt).isNotNull
     }
 
-    @Test
-    fun shouldGetDtoFromTheEntity() {
-        Assertions.assertThat(NewEventSectorDto.fromEntity(eventSector))
-            .isInstanceOf(NewEventSectorDto::class.java)
-    }
 }

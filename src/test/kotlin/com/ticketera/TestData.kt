@@ -26,197 +26,191 @@ import java.time.temporal.ChronoUnit
 import java.util.UUID
 
 abstract class TestData {
-    protected val venueId = UUID.randomUUID()
-    protected val eventId = UUID.randomUUID()
-    protected val ticketTypeId = UUID.randomUUID()
-    protected val eventSectorId = UUID.randomUUID()
-    protected val eventSeatId = UUID.randomUUID()
-    protected val reservationId = UUID.randomUUID()
-    protected val purchaseId = UUID.randomUUID()
-    protected val bannerId = UUID.randomUUID()
+    companion object {
 
-    protected val headersMap = mapOf(
-        "x-Roles" to "USER,X-USER-ROLE,ADMIN",
-        "X-name" to "any-name",
-        "x-email" to "any@mail.com",
-    )
+        val headersMap = mapOf(
+            "x-Roles" to "USER,X-USER-ROLE,ADMIN",
+            "X-name" to "any-name",
+            "x-email" to "any@mail.com",
+        )
 
-    val httpHeaders = HttpHeaders().apply {
-        add("X-Roles", "ADMIN,USER")
-        add("Authorization", "Bearer token")
+        val httpHeaders = HttpHeaders().apply {
+            add("X-Roles", "ADMIN,USER")
+            add("Authorization", "Bearer token")
+        }
+
+        private val imageBytes = javaClass.getResourceAsStream("/banner.jpg").readBytes()
+        val multipartFile = MockMultipartFile("file", "test-image.jpg", "image/jpeg", imageBytes)
+
+
+        val venue = Venue(
+            UUID.randomUUID(),
+            "venue-0",
+            address = "Road x at 1324",
+            city = "CABA",
+            country = "Argentina",
+            Instant.now().toEpochMilli()
+        )
+
+        val event = Event(
+            UUID.randomUUID(),
+            "event-x",
+            "event-x",
+            Instant.now().toEpochMilli(),
+            Instant.now().toEpochMilli(),
+            1000,
+            "concert",
+            venue,
+
+            Instant.now().toEpochMilli()
+        )
+
+        val banner = Banner(
+            UUID.randomUUID(),
+            "https://s3.banner.img?id=${UUID.randomUUID()}",
+            true,
+            false,
+            false,
+            Instant.now().toEpochMilli(),
+            event
+        )
+
+        val ticketType = TicketType(
+            UUID.randomUUID(),
+            "GOLDEN",
+            132.44,
+            "ARS",
+            Instant.now().toEpochMilli(),
+            Instant.now().toEpochMilli(),
+            500,
+            "Golden Ticket",
+            Instant.now().toEpochMilli(),
+            event
+        )
+
+        val eventSector = EventSector(
+            UUID.randomUUID(),
+            "Testing Event Sector",
+            "Testing Event Sector",
+            10.0,
+            Instant.now().toEpochMilli(),
+            event
+        )
+
+        val eventSeat = EventSeat(
+            UUID.randomUUID(),
+            "Testing Seat",
+            "Seat on Row X",
+            "10",
+            0.0,
+            Instant.now().toEpochMilli(),
+            event,
+            eventSector
+        )
+
+        val purchase = Purchase(
+            UUID.randomUUID(),
+            "user data",
+            100.0,
+            PaymentStatus.INITIATED,
+            Instant.now().plus(10, ChronoUnit.MINUTES).toEpochMilli(),
+            Instant.now().toEpochMilli()
+        )
+
+        val reservation = Reservation(
+            UUID.randomUUID(),
+            purchase,
+            event,
+            ticketType,
+            eventSector,
+            eventSeat,
+            100.0,
+            ReservationStatus.PENDING,
+            Instant.now().toEpochMilli()
+        )
+
+        val newVenueDto = NewVenueDto(
+            "new-venue",
+            "road x",
+            "CABA",
+            "Argentina",
+        )
+
+        val updateVenueDto = UpdateVenueDto(
+            venue.id,
+            "new-venue-name",
+            "new-venue-address",
+            "CABA",
+            "Argentina",
+        )
+
+        val newEventDto = NewEventDto(
+            "event-x",
+            "event-x",
+            Instant.now().toEpochMilli(),
+            Instant.now().toEpochMilli(),
+            1000,
+            "concert",
+            venue.id
+        )
+
+        val updateEventDto = UpdateEventDto(
+            id = event.id,
+            "event-new-title",
+            "event-updated",
+            Instant.now().toEpochMilli(),
+            Instant.now().toEpochMilli(),
+            1000,
+            "concert",
+            venue.id
+        )
+
+        val newTicketTypeDto = NewTicketTypeDto(
+            "GOLDEN",
+            150.0,
+            "ARS",
+            Instant.now().toEpochMilli(),
+            Instant.now().toEpochMilli(),
+            500,
+            "golden-ticket",
+            event.id
+        )
+
+        val updateTicketTypeDto = UpdateTicketTypeDto(
+            ticketType.id,
+            "GOLDEN",
+            150.0,
+            "ARS",
+            Instant.now().toEpochMilli(),
+            Instant.now().toEpochMilli(),
+            500,
+            "golden-ticket",
+            event.id
+        )
+
+        val newEventSectorDto = NewEventSectorDto(
+            "sector-1",
+            "test-sector",
+            11.11,
+            event.id
+        )
+
+        val updateEventSectorDto = UpdateEventSectorDto(
+            eventSector.id,
+            "sector-1-new-name",
+            "updated-testing-sector",
+            11.11,
+            event.id
+        )
+
+        val newEventSeatsDto = NewEventSeatsDto(
+            1,
+            5,
+            "row-0",
+            "row-0",
+            0.0,
+            event.id,
+            eventSector.id
+        )
     }
-
-    private val imageBytes = javaClass.getResourceAsStream("/banner.jpg").readBytes()
-    val multipartFile = MockMultipartFile("file", "test-image.jpg", "image/jpeg", imageBytes)
-
-
-    protected val venue = Venue(
-        venueId,
-        "venue-0",
-        address = "Road x at 1324",
-        city = "CABA",
-        country = "Argentina",
-        Instant.now().toEpochMilli()
-    )
-
-    protected val event = Event(
-        eventId,
-        "event-x",
-        "event-x",
-        Instant.now().toEpochMilli(),
-        Instant.now().toEpochMilli(),
-        1000,
-        "concert",
-        venue,
-
-        Instant.now().toEpochMilli()
-    )
-
-    protected val banner = Banner(
-        bannerId,
-        "https://s3.banner.img?id=${bannerId}",
-        true,
-        false,
-        false,
-        Instant.now().toEpochMilli(),
-        event
-    )
-
-    protected val ticketType = TicketType(
-        ticketTypeId,
-        "GOLDEN",
-        132.44,
-        "ARS",
-        Instant.now().toEpochMilli(),
-        Instant.now().toEpochMilli(),
-        500,
-        "Golden Ticket",
-        Instant.now().toEpochMilli(),
-        event
-    )
-
-    protected val eventSector = EventSector(
-        eventSectorId,
-        "Testing Event Sector",
-        "Testing Event Sector",
-        10.0,
-        Instant.now().toEpochMilli(),
-        event
-    )
-
-    protected val eventSeat = EventSeat(
-        eventSeatId,
-        "Testing Seat",
-        "Seat on Row X",
-        "10",
-        0.0,
-        Instant.now().toEpochMilli(),
-        event,
-        eventSector
-    )
-
-    protected val purchase = Purchase(
-        purchaseId,
-        "user data",
-        100.0,
-        PaymentStatus.INITIATED,
-        Instant.now().plus(10, ChronoUnit.MINUTES).toEpochMilli(),
-        Instant.now().toEpochMilli()
-    )
-
-    protected val reservation = Reservation(
-        reservationId,
-        purchase,
-        event,
-        ticketType,
-        eventSector,
-        eventSeat,
-        100.0,
-        ReservationStatus.PENDING,
-        Instant.now().toEpochMilli()
-    )
-
-    protected val newVenueDto = NewVenueDto(
-        "new-venue",
-        "road x",
-        "CABA",
-        "Argentina",
-    )
-
-    protected val updateVenueDto = UpdateVenueDto(
-        venue.id,
-        "new-venue-name",
-        "new-venue-address",
-        "CABA",
-        "Argentina",
-    )
-
-    protected val newEventDto = NewEventDto(
-        "event-x",
-        "event-x",
-        Instant.now().toEpochMilli(),
-        Instant.now().toEpochMilli(),
-        1000,
-        "concert",
-        venue.id
-    )
-
-    protected val updateEventDto = UpdateEventDto(
-        id = UUID.randomUUID(),
-        "event-new-title",
-        "event-updated",
-        Instant.now().toEpochMilli(),
-        Instant.now().toEpochMilli(),
-        1000,
-        "concert",
-        venue.id
-    )
-
-    protected val newTicketTypeDto = NewTicketTypeDto(
-        "GOLDEN",
-        150.0,
-        "ARS",
-        Instant.now().toEpochMilli(),
-        Instant.now().toEpochMilli(),
-        500,
-        "golden-ticket",
-        event.id
-    )
-
-    protected val updateTicketTypeDto = UpdateTicketTypeDto(
-        ticketTypeId,
-        "GOLDEN",
-        150.0,
-        "ARS",
-        Instant.now().toEpochMilli(),
-        Instant.now().toEpochMilli(),
-        500,
-        "golden-ticket",
-        event.id
-    )
-
-    protected val newEventSectorDto = NewEventSectorDto(
-        "sector-1",
-        "test-sector",
-        11.11,
-        eventId
-    )
-
-    protected val updateEventSectorDto = UpdateEventSectorDto(
-        eventSectorId,
-        "sector-1-new-name",
-        "updated-testing-sector",
-        11.11,
-        eventId
-    )
-
-    protected val newEventSeatsDto = NewEventSeatsDto(
-        1,
-        5,
-        "row-0",
-        "row-0",
-        0.0,
-        eventId,
-        eventSectorId
-    )
 }

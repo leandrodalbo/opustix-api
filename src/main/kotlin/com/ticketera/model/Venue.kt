@@ -4,11 +4,12 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
 import jakarta.persistence.Id
+import java.time.Instant
 import java.util.UUID
 
 @Entity
 @Table(name = "venue")
-data class Venue(
+class Venue(
     @Id
     val id: UUID,
 
@@ -39,4 +40,12 @@ data class Venue(
         return "Venue(id=$id, name=$name, createdAt=$createdAt)"
     }
 
+    constructor() : this(
+        id = UUID.randomUUID(),
+        name = "",
+        address = "",
+        city = "",
+        country = "",
+        createdAt = 0L
+    )
 }

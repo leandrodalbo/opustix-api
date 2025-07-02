@@ -12,7 +12,7 @@ import java.util.UUID
 
 @Entity
 @Table(name = "event_sector")
-data class EventSector(
+class EventSector(
     @Id
     val id: UUID,
 
@@ -48,5 +48,13 @@ data class EventSector(
         return "EventSector(id=$id, name=$name, description=$description)"
     }
 
+    constructor() : this(
+        UUID.randomUUID(),
+        "",
+        null,
+        null,
+        0L,
+        Event()
+    )
 
 }

@@ -11,7 +11,7 @@ import java.util.UUID
 
 @Entity
 @Table(name = "event_seat")
-data class EventSeat(
+class EventSeat(
     @Id
     val id: UUID,
     val label: String,
@@ -53,4 +53,15 @@ data class EventSeat(
     override fun toString(): String {
         return "EventSeat(id=$id, label=$label)"
     }
+
+    constructor() : this(
+        UUID.randomUUID(),
+        "",
+        null,
+        null,
+        null,
+        0L,
+        Event(),
+        null
+    )
 }

@@ -15,11 +15,4 @@ class UpdateEventDtoTest : TestData(){
         Assertions.assertThat(updatedEvent.title).isEqualTo(updateEventDto.title)
         Assertions.assertThat(updatedEvent.venue.id).isEqualTo(updateEventDto.venueId)
     }
-
-    @Test
-    fun shouldGetDtoFromTheEntity() {
-        Assertions.assertThat(
-            UpdateEventDto.fromEntity(event)
-        ).isInstanceOf(UpdateEventDto::class.java)
-    }
 }

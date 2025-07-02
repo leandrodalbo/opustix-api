@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delet
 import org.junit.jupiter.api.Test
 
 @WebMvcTest(TicketTypeController::class)
-class TicketTypeControllerTest : TestData() {
+class TicketTypeControllerTest {
 
     @Autowired
     private lateinit var mvc: MockMvc
@@ -40,10 +40,10 @@ class TicketTypeControllerTest : TestData() {
 
     @Test
     fun shouldFetchEventTicketTypes() {
-        every { ticketTypeService.findByEventId(any()) } returns listOf(ticketType)
+        every { ticketTypeService.findByEventId(any()) } returns listOf(TestData.ticketType)
 
         val response = mvc.perform(
-            get("/ticketera/tickets/types/${eventId}/all")
+            get("/ticketera/tickets/types/${TestData.event.id}/all")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -54,13 +54,13 @@ class TicketTypeControllerTest : TestData() {
 
     @Test
     fun shouldUpdateATicketType() {
-        every { ticketTypeService.updateTicketType(any()) } returns ticketType
+        every { ticketTypeService.updateTicketType(any()) } returns TestData.ticketType
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             put("/ticketera/tickets/types/update")
-                .headers(httpHeaders)
-                .content(objectMapper.writeValueAsString(updateTicketTypeDto))
+                .headers(TestData.httpHeaders)
+                .content(objectMapper.writeValueAsString(TestData.updateTicketTypeDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -72,13 +72,13 @@ class TicketTypeControllerTest : TestData() {
 
     @Test
     fun shouldCreateATicketType() {
-        every { ticketTypeService.addTicketType(any()) } returns ticketType
+        every { ticketTypeService.addTicketType(any()) } returns TestData.ticketType
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             post("/ticketera/tickets/types/new")
-                .headers(httpHeaders)
-                .content(objectMapper.writeValueAsString(newTicketTypeDto))
+                .headers(TestData.httpHeaders)
+                .content(objectMapper.writeValueAsString(TestData.newTicketTypeDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -94,8 +94,8 @@ class TicketTypeControllerTest : TestData() {
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
-            delete("/ticketera/tickets/types/delete/${eventId}")
-                .headers(httpHeaders)
+            delete("/ticketera/tickets/types/delete/${TestData.event.id}")
+                .headers(TestData.httpHeaders)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 

@@ -16,12 +16,4 @@ class UpdateEventSectorDtoTest : TestData() {
         Assertions.assertThat(updated.description).isEqualTo(updateEventSectorDto.description)
     }
 
-    @Test
-    fun shouldGetDtoFromTheEntity() {
-        Assertions.assertThat(
-            UpdateEventSectorDto.fromEntity(
-                eventSector
-            )
-        ).isInstanceOf(UpdateEventSectorDto::class.java)
-    }
 }
