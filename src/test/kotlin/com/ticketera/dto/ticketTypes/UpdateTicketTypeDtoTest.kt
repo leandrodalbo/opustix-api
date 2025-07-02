@@ -1,7 +1,7 @@
 package com.ticketera.dto.ticketTypes
 
 import com.ticketera.TestData
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
 class UpdateTicketTypeDtoTest : TestData() {
@@ -12,8 +12,8 @@ class UpdateTicketTypeDtoTest : TestData() {
             updateTicketTypeDto, ticketType, event
         )
 
-        Assertions.assertThat(updatedTicketType.saleStart).isEqualTo(updateTicketTypeDto.startTime)
-        Assertions.assertThat(updatedTicketType.saleEnd).isEqualTo(updateTicketTypeDto.endTime)
+        assertThat(updatedTicketType.saleStart).isEqualTo(updateTicketTypeDto.startTime)
+        assertThat(updatedTicketType.saleEnd).isEqualTo(updateTicketTypeDto.endTime)
     }
 
 }

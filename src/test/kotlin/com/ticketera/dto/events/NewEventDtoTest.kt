@@ -2,8 +2,8 @@ package com.ticketera.dto.events
 
 import com.ticketera.TestData
 import com.ticketera.model.Event
-import org.assertj.core.api.Assertions
 import kotlin.test.Test
+import org.assertj.core.api.Assertions.assertThat
 
 class NewEventDtoTest : TestData() {
 
@@ -13,9 +13,9 @@ class NewEventDtoTest : TestData() {
             newEventDto, venue
         )
 
-        Assertions.assertThat(event).isInstanceOf(Event::class.java)
-        Assertions.assertThat(event.id).isNotNull
-        Assertions.assertThat(event.createdAt).isNotNull
+        assertThat(event).isInstanceOf(Event::class.java)
+        assertThat(event.id).isNotNull
+        assertThat(event.createdAt).isNotNull
     }
 
 }
