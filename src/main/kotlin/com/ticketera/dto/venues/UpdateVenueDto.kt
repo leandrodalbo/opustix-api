@@ -11,16 +11,6 @@ data class UpdateVenueDto(
     val country: String?
 ) {
     companion object {
-        fun fromEntity(venue: Venue): UpdateVenueDto {
-            return UpdateVenueDto(
-                id = venue.id,
-                name = venue.name,
-                address = venue.address,
-                city = venue.city,
-                country = venue.country
-            )
-        }
-
         fun updatedVenue(updateVenueDto: UpdateVenueDto, venue: Venue): Venue {
             return Venue(
                 venue.id,

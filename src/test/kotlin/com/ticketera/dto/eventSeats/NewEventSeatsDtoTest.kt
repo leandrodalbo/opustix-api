@@ -1,17 +1,17 @@
 package com.ticketera.dto.eventSeats
 
 import com.ticketera.TestData
-import org.assertj.core.api.Assertions
 import kotlin.test.Test
+import org.assertj.core.api.Assertions.assertThat
 
-class NewEventSeatsDtoTest : TestData() {
+class NewEventSeatsDtoTest {
 
     @Test
     fun shouldCreateAListOfEventSeats() {
-        val seats = NewEventSeatsDto.newEventSeats(newEventSeatsDto, event, eventSector)
+        val seats = NewEventSeatsDto.newEventSeats(TestData.newEventSeatsDto, TestData.event, TestData.eventSector)
 
-        Assertions.assertThat(seats).isInstanceOf(List::class.java)
-        Assertions.assertThat(seats[0].seatNumber).isEqualTo("1")
-        Assertions.assertThat(seats[4].seatNumber).isEqualTo("5")
+        assertThat(seats).isInstanceOf(List::class.java)
+        assertThat(seats[0].seatNumber).isEqualTo("1")
+        assertThat(seats[4].seatNumber).isEqualTo("5")
     }
 }

@@ -1,70 +1,55 @@
 package com.ticketera.repositories
 
+import com.ticketera.TestContainerConf
 import com.ticketera.TestData
 import com.ticketera.model.EventSector
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 
 @Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-final class EventSectorRepositoryTest : TestData() {
+final class EventSectorRepositoryTest : TestContainerConf() {
     @Autowired
     private lateinit var eventSectorRepository: EventSectorRepository
-
-    @Autowired
-    private lateinit var entityManager: TestEntityManager
-
-
-    @BeforeEach
-    fun setup() {
-        entityManager.persistAndFlush(venue)
-        entityManager.persistAndFlush(event.copy(venue = venue))
-        entityManager.persistAndFlush(eventSector.copy(event = event))
-    }
 
 
     @Test
     fun shouldFindById() {
-        assertThat(eventSectorRepository.findById(eventSectorId).get())
+        assertThat(eventSectorRepository.findById(TestData.eventSector.id).get())
             .isInstanceOfAny(EventSector::class.java)
     }
 
     @Test
     fun shouldFindByAll() {
         assertThat(eventSectorRepository.findAll().map { it.id })
-            .isEqualTo(listOf(eventSectorId))
+            .isEqualTo(listOf(TestData.eventSector.id))
     }
 
     @Test
     fun shouldDeleteByEventId() {
-        eventSectorRepository.deleteByEventId(eventId)
-        assertThat(eventSectorRepository.findById(eventSectorId))
+        eventSectorRepository.deleteByEventId(TestData.event.id)
+        assertThat(eventSectorRepository.findById(TestData.eventSector.id))
             .isEmpty
     }
 
     @Test
     fun shouldFindByEventId() {
-        assertThat(eventSectorRepository.findAllByEventId(eventId))
-            .isEqualTo(listOf(eventSector))
+        assertThat(eventSectorRepository.findAllByEventId(TestData.event.id))
+            .isEqualTo(listOf(TestData.eventSector))
     }
 
     companion object {
-        @Container
-        val postgres = TestContainerConf.postgres
-
         @JvmStatic
         @DynamicPropertySource
-        fun registerProperties(registry: DynamicPropertyRegistry) =
-            TestContainerConf.registerProperties(registry)
+        fun dynamicProperties(registry: DynamicPropertyRegistry) {
+            registerProperties(registry)
+        }
     }
 }

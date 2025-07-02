@@ -1,8 +1,7 @@
 package com.ticketera.service
 
 import com.ticketera.TestData
-import com.ticketera.dto.events.NewEventDto
-import com.ticketera.dto.events.UpdateEventDto
+
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.repositories.EventRepository
 import com.ticketera.repositories.VenueRepository
@@ -16,7 +15,7 @@ import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
 import java.util.Optional
 
-class EventServiceTest : TestData() {
+class EventServiceTest {
 
     private val eventRepository: EventRepository = mockk()
     private val venueRepository: VenueRepository = mockk()
@@ -28,12 +27,12 @@ class EventServiceTest : TestData() {
 
     @Test
     fun shouldSaveAnewEvent() {
-        every { venueRepository.findById(any()) } returns Optional.of(venue)
-        every { eventRepository.save(any()) } returns event
+        every { venueRepository.findById(any()) } returns Optional.of(TestData.venue)
+        every { eventRepository.save(any()) } returns TestData.event
 
-        val saved = eventService.addEvent(NewEventDto.fromEntity(event))
+        val saved = eventService.addEvent(TestData.newEventDto)
 
-        assertThat(saved).isEqualTo(event)
+        assertThat(saved).isEqualTo(TestData.event)
 
         verify { eventRepository.save(any()) }
         verify { venueRepository.findById(any()) }
@@ -45,7 +44,7 @@ class EventServiceTest : TestData() {
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                eventService.addEvent(NewEventDto.fromEntity(event))
+                eventService.addEvent(TestData.newEventDto)
             }
 
         verify { venueRepository.findById(any()) }
@@ -53,13 +52,13 @@ class EventServiceTest : TestData() {
 
     @Test
     fun shouldUpdateAnEvent() {
-        every { eventRepository.findById(any()) } returns Optional.of(event)
-        every { venueRepository.findById(any()) } returns Optional.of(venue)
-        every { eventRepository.save(any()) } returns event
+        every { eventRepository.findById(any()) } returns Optional.of(TestData.event)
+        every { venueRepository.findById(any()) } returns Optional.of(TestData.venue)
+        every { eventRepository.save(any()) } returns TestData.event
 
-        val saved = eventService.updateEvent(UpdateEventDto.fromEntity(event))
+        val saved = eventService.updateEvent(TestData.updateEventDto)
 
-        assertThat(saved).isEqualTo(event)
+        assertThat(saved).isEqualTo(TestData.event)
 
         verify { eventRepository.save(any()) }
         verify { venueRepository.findById(any()) }
@@ -72,7 +71,7 @@ class EventServiceTest : TestData() {
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                eventService.updateEvent(UpdateEventDto.fromEntity(event))
+                eventService.updateEvent(TestData.updateEventDto)
             }
 
         verify { eventRepository.findById(any()) }
@@ -80,12 +79,12 @@ class EventServiceTest : TestData() {
 
     @Test
     fun shouldNotUpdateEventsWithoutAVenue() {
-        every { eventRepository.findById(any()) } returns Optional.of(event)
+        every { eventRepository.findById(any()) } returns Optional.of(TestData.event)
         every { venueRepository.findById(any()) } returns Optional.empty()
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                eventService.updateEvent(UpdateEventDto.fromEntity(event))
+                eventService.updateEvent(TestData.updateEventDto)
             }
 
         verify { eventRepository.findById(any()) }
@@ -96,17 +95,17 @@ class EventServiceTest : TestData() {
     fun shouldDeleteAnEvent() {
         every { eventRepository.deleteById(any()) } just runs
 
-        eventService.deleteEvent(event.id)
+        eventService.deleteEvent(TestData.event.id)
 
         verify { eventRepository.deleteById(any()) }
     }
 
     @Test
     fun shouldFetchAllEvents() {
-        every { eventRepository.findAll() } returns listOf(event)
+        every { eventRepository.findAll() } returns listOf(TestData.event)
 
         assertThat(eventService.allEvents())
-            .isEqualTo(listOf(event))
+            .isEqualTo(listOf(TestData.event))
 
         verify { eventRepository.findAll() }
     }

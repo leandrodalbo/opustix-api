@@ -3,8 +3,6 @@ package com.ticketera.controller
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.ticketera.TestData
-import com.ticketera.dto.events.NewEventDto
-import com.ticketera.dto.events.UpdateEventDto
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.EventService
 import io.mockk.every
@@ -27,7 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delet
 import org.junit.jupiter.api.Test
 
 @WebMvcTest(EventsController::class)
-class EventsControllerTest: TestData() {
+class EventsControllerTest {
 
     @Autowired
     private lateinit var mvc: MockMvc
@@ -42,7 +40,7 @@ class EventsControllerTest: TestData() {
 
     @Test
     fun shouldAllEvents() {
-        every { eventService.allEvents() } returns listOf(event)
+        every { eventService.allEvents() } returns listOf(TestData.event)
 
         val response = mvc.perform(
             get("/ticketera/events/all")
@@ -56,13 +54,13 @@ class EventsControllerTest: TestData() {
 
     @Test
     fun shouldUpdateEvents() {
-        every { eventService.updateEvent(any()) } returns event
+        every { eventService.updateEvent(any()) } returns TestData.event
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             put("/ticketera/events/update")
-                .headers(httpHeaders)
-                .content(objectMapper.writeValueAsString(UpdateEventDto.fromEntity(event)))
+                .headers(TestData.httpHeaders)
+                .content(objectMapper.writeValueAsString(TestData.updateEventDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -74,13 +72,13 @@ class EventsControllerTest: TestData() {
 
     @Test
     fun shouldCreateEvents() {
-        every { eventService.addEvent(any()) } returns event
+        every { eventService.addEvent(any()) } returns TestData.event
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             post("/ticketera/events/new")
-                .headers(httpHeaders)
-                .content(objectMapper.writeValueAsString(NewEventDto.fromEntity(event)))
+                .headers(TestData.httpHeaders)
+                .content(objectMapper.writeValueAsString(TestData.newEventDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -95,8 +93,8 @@ class EventsControllerTest: TestData() {
         every { eventService.deleteEvent(any()) } just runs
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
         val response = mvc.perform(
-            delete("/ticketera/events/delete/${event.id}")
-                .headers(httpHeaders)
+            delete("/ticketera/events/delete/${TestData.event.id}")
+                .headers(TestData.httpHeaders)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 

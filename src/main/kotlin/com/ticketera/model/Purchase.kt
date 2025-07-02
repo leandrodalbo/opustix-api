@@ -15,7 +15,7 @@ import java.util.UUID
 
 @Entity
 @Table(name = "purchase")
-data class Purchase(
+class Purchase(
 
     @Id
     val id: UUID,
@@ -57,4 +57,14 @@ data class Purchase(
         other as Purchase
         return id == other.id
     }
+
+    constructor() : this(
+        UUID.randomUUID(),
+        "",
+        0.0,
+        PaymentStatus.INITIATED,
+        null,
+        0L,
+        emptyList()
+    )
 }

@@ -15,18 +15,6 @@ data class UpdateEventDto(
     val venueId: UUID?
 ) {
     companion object {
-        fun fromEntity(event: Event): UpdateEventDto {
-            return UpdateEventDto(
-                id = event.id,
-                title = event.title,
-                description = event.description,
-                startTime = event.startTime,
-                endTime = event.endTime,
-                capacity = event.capacity,
-                category = event.category,
-                venueId = event.venue.id
-            )
-        }
 
         fun updatedEvent(updateEventDto: UpdateEventDto, venue: Venue, event: Event): Event {
             return Event(

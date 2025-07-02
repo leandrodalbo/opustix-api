@@ -20,7 +20,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest
 import software.amazon.awssdk.services.s3.model.PutObjectResponse
 import java.util.Optional
 
-class BannerServiceTest : TestData() {
+class BannerServiceTest {
 
     private val s3Client: S3Client = mockk()
 
@@ -36,15 +36,15 @@ class BannerServiceTest : TestData() {
 
     @Test
     fun shouldUploadAndSaveABanner() {
-        every { eventRepository.findById(any()) } returns Optional.of(event)
-        every { bannerRepository.save(any()) } returns banner
+        every { eventRepository.findById(any()) } returns Optional.of(TestData.event)
+        every { bannerRepository.save(any()) } returns TestData.banner
         every { s3Client.putObject(any<PutObjectRequest>(), any<RequestBody>()) } returns PutObjectResponse.builder()
             .eTag("mock-etag").build()
 
 
-        val saved = bannerService.uploadBanner(multipartFile, eventId, true, false, false)
+        val saved = bannerService.uploadBanner(TestData.multipartFile, TestData.event.id, true, false, false)
 
-        assertThat(saved).isEqualTo(banner)
+        assertThat(saved).isEqualTo(TestData.banner)
 
         verify { eventRepository.findById(any()) }
         verify { bannerRepository.save(any()) }
@@ -58,7 +58,7 @@ class BannerServiceTest : TestData() {
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                bannerService.uploadBanner(multipartFile, eventId, true, false, false)
+                bannerService.uploadBanner(TestData.multipartFile, TestData.event.id, true, false, false)
             }
 
         verify { eventRepository.findById(any()) }
@@ -67,13 +67,13 @@ class BannerServiceTest : TestData() {
 
     @Test
     fun shouldDeleteABanner() {
-        every { bannerRepository.findById(any()) } returns Optional.of(banner)
+        every { bannerRepository.findById(any()) } returns Optional.of(TestData.banner)
         every { bannerRepository.deleteById(any()) } just runs
         every {
             s3Client.deleteObject(any<DeleteObjectRequest>())
         } returns DeleteObjectResponse.builder().build()
 
-        bannerService.deleteBanner(bannerId)
+        bannerService.deleteBanner(TestData.banner.id)
 
 
         verify { bannerRepository.findById(any()) }
@@ -88,7 +88,7 @@ class BannerServiceTest : TestData() {
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                bannerService.deleteBanner(bannerId)
+                bannerService.deleteBanner(TestData.banner.id)
             }
 
         verify { bannerRepository.findById(any()) }

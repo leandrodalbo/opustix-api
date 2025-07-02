@@ -11,7 +11,7 @@ import java.util.UUID
 
 @Entity
 @Table(name = "event_banners")
-data class Banner(
+class Banner(
     @Id
     val id: UUID,
 
@@ -51,4 +51,14 @@ data class Banner(
     override fun toString(): String {
         return "Banner(id=$id, url=$imageUrl)"
     }
+
+    constructor() : this(
+        UUID.randomUUID(),
+        null,
+        false,
+        false,
+        false,
+        0L,
+        Event()
+    )
 }

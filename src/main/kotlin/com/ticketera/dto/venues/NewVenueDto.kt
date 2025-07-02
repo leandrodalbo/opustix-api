@@ -12,15 +12,6 @@ data class NewVenueDto(
 ) {
 
     companion object {
-        fun fromEntity(venue: Venue): NewVenueDto {
-            return NewVenueDto(
-                name = venue.name,
-                address = venue.address,
-                city = venue.city,
-                country = venue.country
-            )
-        }
-
         fun newVenue(newVenueDto: NewVenueDto): Venue {
             return Venue(
                 id = UUID.randomUUID(),

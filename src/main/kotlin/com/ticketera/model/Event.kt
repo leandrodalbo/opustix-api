@@ -16,7 +16,7 @@ import java.util.UUID
 
 @Entity
 @Table(name = "event")
-data class Event(
+class Event(
     @Id
     val id: UUID,
 
@@ -62,4 +62,17 @@ data class Event(
         other as Event
         return id == other.id
     }
+
+    constructor() : this(
+        UUID.randomUUID(),
+        "",
+        "",
+        0L,
+        0L,
+        0,
+        "",
+        Venue(),
+        0L,
+        emptyList()
+    )
 }

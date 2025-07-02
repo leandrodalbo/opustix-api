@@ -3,8 +3,6 @@ package com.ticketera.controller
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.ticketera.TestData
-import com.ticketera.dto.venues.NewVenueDto
-import com.ticketera.dto.venues.UpdateVenueDto
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.VenueService
 import io.mockk.every
@@ -27,7 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delet
 import org.junit.jupiter.api.Test
 
 @WebMvcTest(VenuesController::class)
-class VenuesControllerTest : TestData() {
+class VenuesControllerTest {
 
     @Autowired
     private lateinit var mvc: MockMvc
@@ -43,7 +41,7 @@ class VenuesControllerTest : TestData() {
 
     @Test
     fun shouldAllVenues() {
-        every { venueService.allVenues() } returns listOf(venue)
+        every { venueService.allVenues() } returns listOf(TestData.venue)
 
         val response = mvc.perform(
             get("/ticketera/venues/all")
@@ -57,13 +55,13 @@ class VenuesControllerTest : TestData() {
 
     @Test
     fun shouldUpdateVenues() {
-        every { venueService.updateVenue(any()) } returns venue
+        every { venueService.updateVenue(any()) } returns TestData.venue
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             put("/ticketera/venues/update")
-                .headers(httpHeaders)
-                .content(objectMapper.writeValueAsString(UpdateVenueDto.fromEntity(venue)))
+                .headers(TestData.httpHeaders)
+                .content(objectMapper.writeValueAsString(TestData.updateVenueDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -75,13 +73,13 @@ class VenuesControllerTest : TestData() {
 
     @Test
     fun shouldCreateVenues() {
-        every { venueService.addVenue(any()) } returns venue
+        every { venueService.addVenue(any()) } returns TestData.venue
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             post("/ticketera/venues/new")
-                .headers(httpHeaders)
-                .content(objectMapper.writeValueAsString(NewVenueDto.fromEntity(venue)))
+                .headers(TestData.httpHeaders)
+                .content(objectMapper.writeValueAsString(TestData.newVenueDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -96,8 +94,8 @@ class VenuesControllerTest : TestData() {
         every { venueService.deleteVenue(any()) } just runs
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
         val response = mvc.perform(
-            delete("/ticketera/venues/delete/${venue.id}")
-                .headers(httpHeaders)
+            delete("/ticketera/venues/delete/${TestData.venue.id}")
+                .headers(TestData.httpHeaders)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 

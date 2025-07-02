@@ -2,23 +2,17 @@ package com.ticketera.dto.venues
 
 import com.ticketera.TestData
 import com.ticketera.model.Venue
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import kotlin.test.Test
 
-class NewVenueDtoTest : TestData() {
+class NewVenueDtoTest {
 
     @Test
     fun shouldCreateAVenueFromDto() {
-        val venue = NewVenueDto.newVenue(newVenueDto)
+        val venue = NewVenueDto.newVenue(TestData.newVenueDto)
 
-        Assertions.assertThat(venue).isInstanceOf(Venue::class.java)
-        Assertions.assertThat(venue.id).isNotNull
-        Assertions.assertThat(venue.createdAt).isNotNull
-    }
-
-    @Test
-    fun shouldGetDtoFromTheEntity() {
-        Assertions.assertThat(NewVenueDto.fromEntity(venue))
-            .isInstanceOf(NewVenueDto::class.java)
+        assertThat(venue).isInstanceOf(Venue::class.java)
+        assertThat(venue.id).isNotNull
+        assertThat(venue.createdAt).isNotNull
     }
 }

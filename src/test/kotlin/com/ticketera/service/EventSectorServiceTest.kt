@@ -14,7 +14,7 @@ import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
 import java.util.Optional
 
-class EventSectorServiceTest : TestData() {
+class EventSectorServiceTest {
 
     private val eventRepository: EventRepository = mockk()
     private val eventSectorRepository: EventSectorRepository = mockk()
@@ -26,12 +26,12 @@ class EventSectorServiceTest : TestData() {
 
     @Test
     fun shouldSaveAnewEventSector() {
-        every { eventSectorRepository.save(any()) } returns eventSector
-        every { eventRepository.findById(any()) } returns Optional.of(event)
+        every { eventSectorRepository.save(any()) } returns TestData.eventSector
+        every { eventRepository.findById(any()) } returns Optional.of(TestData.event)
 
-        val saved = ticketTypeService.addEventSector(newEventSectorDto)
+        val saved = ticketTypeService.addEventSector(TestData.newEventSectorDto)
 
-        assertThat(saved).isEqualTo(eventSector)
+        assertThat(saved).isEqualTo(TestData.eventSector)
 
         verify { eventRepository.findById(any()) }
         verify { eventSectorRepository.save(any()) }
@@ -43,7 +43,7 @@ class EventSectorServiceTest : TestData() {
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                ticketTypeService.addEventSector(newEventSectorDto)
+                ticketTypeService.addEventSector(TestData.newEventSectorDto)
             }
 
         verify { eventRepository.findById(any()) }
@@ -51,13 +51,13 @@ class EventSectorServiceTest : TestData() {
 
     @Test
     fun shouldUpdateAnEventSector() {
-        every { eventRepository.findById(any()) } returns Optional.of(event)
-        every { eventSectorRepository.findById(any()) } returns Optional.of(eventSector)
-        every { eventSectorRepository.save(any()) } returns eventSector
+        every { eventRepository.findById(any()) } returns Optional.of(TestData.event)
+        every { eventSectorRepository.findById(any()) } returns Optional.of(TestData.eventSector)
+        every { eventSectorRepository.save(any()) } returns TestData.eventSector
 
-        val saved = ticketTypeService.updateEventSector(updateEventSectorDto)
+        val saved = ticketTypeService.updateEventSector(TestData.updateEventSectorDto)
 
-        assertThat(saved).isEqualTo(eventSector)
+        assertThat(saved).isEqualTo(TestData.eventSector)
 
         verify { eventSectorRepository.save(any()) }
         verify { eventSectorRepository.findById(any()) }
@@ -66,12 +66,12 @@ class EventSectorServiceTest : TestData() {
 
     @Test
     fun shouldUpdateItWithoutEvents() {
-        every { eventSectorRepository.findById(any()) } returns Optional.of(eventSector)
-        every { eventSectorRepository.save(any()) } returns eventSector
+        every { eventSectorRepository.findById(any()) } returns Optional.of(TestData.eventSector)
+        every { eventSectorRepository.save(any()) } returns TestData.eventSector
 
-        val saved = ticketTypeService.updateEventSector(updateEventSectorDto.copy(eventId = null))
+        val saved = ticketTypeService.updateEventSector(TestData.updateEventSectorDto.copy(eventId = null))
 
-        assertThat(saved).isEqualTo(eventSector)
+        assertThat(saved).isEqualTo(TestData.eventSector)
 
         verify { eventSectorRepository.save(any()) }
         verify { eventSectorRepository.findById(any()) }
@@ -79,12 +79,12 @@ class EventSectorServiceTest : TestData() {
 
     @Test
     fun shouldNotUpdateItIfNotFound() {
-        every { eventRepository.findById(any()) } returns Optional.of(event)
+        every { eventRepository.findById(any()) } returns Optional.of(TestData.event)
         every { eventSectorRepository.findById(any()) } returns Optional.empty()
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                ticketTypeService.updateEventSector(updateEventSectorDto)
+                ticketTypeService.updateEventSector(TestData.updateEventSectorDto)
             }
 
         verify { eventRepository.findById(any()) }
@@ -95,17 +95,17 @@ class EventSectorServiceTest : TestData() {
     fun shouldDeleteByEventId() {
         every { eventSectorRepository.deleteByEventId(any()) } just runs
 
-        ticketTypeService.deleteByEventId(eventId)
+        ticketTypeService.deleteByEventId(TestData.event.id)
 
         verify { eventSectorRepository.deleteByEventId(any()) }
     }
 
     @Test
     fun shouldFetchAllByEventId() {
-        every { eventSectorRepository.findAllByEventId(any()) } returns listOf(eventSector)
+        every { eventSectorRepository.findAllByEventId(any()) } returns listOf(TestData.eventSector)
 
-        assertThat(ticketTypeService.findByEventId(eventId))
-            .isEqualTo(listOf(eventSector))
+        assertThat(ticketTypeService.findByEventId(TestData.event.id))
+            .isEqualTo(listOf(TestData.eventSector))
 
         verify { eventSectorRepository.findAllByEventId(any()) }
     }

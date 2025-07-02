@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delet
 import org.junit.jupiter.api.Test
 
 @WebMvcTest(BannerController::class)
-class BannerControllerTest : TestData() {
+class BannerControllerTest {
 
     @Autowired
     private lateinit var mvc: MockMvc
@@ -35,20 +35,20 @@ class BannerControllerTest : TestData() {
 
     @Test
     fun shouldUploadABanner() {
-        every { bannerService.uploadBanner(any(), eventId, true, false, false) } returns banner
+        every { bannerService.uploadBanner(any(), TestData.event.id, true, false, false) } returns TestData.banner
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             multipart("/ticketera/banners/upload")
-                .file(multipartFile)
-                .param("eventId", eventId.toString())
+                .file(TestData.multipartFile)
+                .param("eventId", TestData.event.id.toString())
                 .param("isMain", "true")
-                .headers(httpHeaders)
+                .headers(TestData.httpHeaders)
         ).andReturn().response
 
         assertThat(response.status).isEqualTo(HttpStatus.CREATED.value())
 
-        verify { bannerService.uploadBanner(any(), eventId, true, false, false) }
+        verify { bannerService.uploadBanner(any(), TestData.event.id, true, false, false) }
         verify { userAuthHeadersService.isAdminOrOrganizer(any()) }
     }
 
@@ -58,8 +58,8 @@ class BannerControllerTest : TestData() {
         every { bannerService.deleteBanner(any()) } just runs
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
         val response = mvc.perform(
-            delete("/ticketera/banners/delete/${bannerId}")
-                .headers(httpHeaders)
+            delete("/ticketera/banners/delete/${TestData.banner.id}")
+                .headers(TestData.httpHeaders)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 

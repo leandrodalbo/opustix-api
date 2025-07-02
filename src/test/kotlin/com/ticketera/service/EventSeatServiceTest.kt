@@ -16,7 +16,7 @@ import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
 import java.util.Optional
 
-class EventSeatServiceTest : TestData() {
+class EventSeatServiceTest {
 
     private val eventRepository: EventRepository = mockk()
     private val eventSectorRepository: EventSectorRepository = mockk()
@@ -30,13 +30,13 @@ class EventSeatServiceTest : TestData() {
 
     @Test
     fun shouldGenerateTheSeatsAnSaveThem() {
-        every { eventSeatRepository.saveAll(any<List<EventSeat>>()) } returns listOf(eventSeat)
-        every { eventRepository.findById(any()) } returns Optional.of(event)
-        every { eventSectorRepository.findById(any()) } returns Optional.of(eventSector)
+        every { eventSeatRepository.saveAll(any<List<EventSeat>>()) } returns listOf(TestData.eventSeat)
+        every { eventRepository.findById(any()) } returns Optional.of(TestData.event)
+        every { eventSectorRepository.findById(any()) } returns Optional.of(TestData.eventSector)
 
-        val saved = eventSeatService.generateEventSeats(newEventSeatsDto)
+        val saved = eventSeatService.generateEventSeats(TestData.newEventSeatsDto)
 
-        assertThat(saved).isEqualTo(listOf(eventSeat))
+        assertThat(saved).isEqualTo(listOf(TestData.eventSeat))
 
         verify { eventRepository.findById(any()) }
         verify { eventSectorRepository.findById(any()) }
@@ -45,12 +45,12 @@ class EventSeatServiceTest : TestData() {
 
     @Test
     fun shouldGenerateTheSeatsWithoutASector() {
-        every { eventSeatRepository.saveAll(any<List<EventSeat>>()) } returns listOf(eventSeat)
-        every { eventRepository.findById(any()) } returns Optional.of(event)
+        every { eventSeatRepository.saveAll(any<List<EventSeat>>()) } returns listOf(TestData.eventSeat)
+        every { eventRepository.findById(any()) } returns Optional.of(TestData.event)
 
-        val saved = eventSeatService.generateEventSeats(newEventSeatsDto.copy(sectorId = null))
+        val saved = eventSeatService.generateEventSeats(TestData.newEventSeatsDto.copy(sectorId = null))
 
-        assertThat(saved).isEqualTo(listOf(eventSeat))
+        assertThat(saved).isEqualTo(listOf(TestData.eventSeat))
 
         verify { eventRepository.findById(any()) }
         verify { eventSeatRepository.saveAll(any<List<EventSeat>>()) }
@@ -62,7 +62,7 @@ class EventSeatServiceTest : TestData() {
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                eventSeatService.generateEventSeats(newEventSeatsDto)
+                eventSeatService.generateEventSeats(TestData.newEventSeatsDto)
             }
 
         verify { eventRepository.findById(any()) }
@@ -70,12 +70,12 @@ class EventSeatServiceTest : TestData() {
 
     @Test
     fun shouldNotSaveSeatsWithoutASectorWhenTheSectorIsPresent() {
-        every { eventRepository.findById(any()) } returns Optional.of(event)
+        every { eventRepository.findById(any()) } returns Optional.of(TestData.event)
         every { eventSectorRepository.findById(any()) } returns Optional.empty()
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                eventSeatService.generateEventSeats(newEventSeatsDto)
+                eventSeatService.generateEventSeats(TestData.newEventSeatsDto)
             }
 
         verify { eventRepository.findById(any()) }
@@ -86,7 +86,7 @@ class EventSeatServiceTest : TestData() {
     fun shouldDeleteTheSeatsWithoutASector() {
         every { eventSeatRepository.deleteByEventId(any()) } just runs
 
-        eventSeatService.deleteSeats(eventId)
+        eventSeatService.deleteSeats(TestData.event.id)
 
         verify { eventSeatRepository.deleteByEventId(any()) }
     }
@@ -95,25 +95,30 @@ class EventSeatServiceTest : TestData() {
     fun shouldDeleteTheSeatsWithASector() {
         every { eventSeatRepository.deleteByEventIdAndSectorId(any(), any()) } just runs
 
-        eventSeatService.deleteSeats(eventId, eventSectorId)
+        eventSeatService.deleteSeats(TestData.event.id, TestData.eventSector.id)
 
         verify { eventSeatRepository.deleteByEventIdAndSectorId(any(), any()) }
     }
 
     @Test
     fun shouldFindTheSeatsWithoutASector() {
-        every { eventSeatRepository.findAllByEventId(any()) } returns listOf(eventSeat)
+        every { eventSeatRepository.findAllByEventId(any()) } returns listOf(TestData.eventSeat)
 
-        assertThat(eventSeatService.findSeats(eventId)).isEqualTo(listOf(eventSeat))
+        assertThat(eventSeatService.findSeats(TestData.event.id)).isEqualTo(listOf(TestData.eventSeat))
 
         verify { eventSeatRepository.findAllByEventId(any()) }
     }
 
     @Test
     fun shouldFindTheSeatsWithASector() {
-        every { eventSeatRepository.findAllByEventIdAndSectorId(any(), any()) } returns listOf(eventSeat)
+        every { eventSeatRepository.findAllByEventIdAndSectorId(any(), any()) } returns listOf(TestData.eventSeat)
 
-        assertThat(eventSeatService.findSeats(eventId, eventSectorId)).isEqualTo(listOf(eventSeat))
+        assertThat(
+            eventSeatService.findSeats(
+                TestData.event.id,
+                TestData.eventSector.id
+            )
+        ).isEqualTo(listOf(TestData.eventSeat))
 
         verify { eventSeatRepository.findAllByEventIdAndSectorId(any(), any()) }
     }

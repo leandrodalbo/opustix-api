@@ -5,7 +5,6 @@ import com.ninjasquad.springmockk.MockkBean
 import com.ticketera.TestData
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.EventSeatService
-import com.ticketera.service.EventSectorService
 import io.mockk.every
 import io.mockk.verify
 import io.mockk.just
@@ -25,7 +24,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delet
 import org.junit.jupiter.api.Test
 
 @WebMvcTest(EventSeatController::class)
-class EventSeatControllerTest : TestData() {
+class EventSeatControllerTest {
 
     @Autowired
     private lateinit var mvc: MockMvc
@@ -40,11 +39,11 @@ class EventSeatControllerTest : TestData() {
 
     @Test
     fun shouldFetchEventSeats() {
-        every { eventSeatService.findSeats(any(), any()) } returns listOf(eventSeat)
+        every { eventSeatService.findSeats(any(), any()) } returns listOf(TestData.eventSeat)
 
         val response = mvc.perform(
-            get("/ticketera/events/seats/${eventId}/all")
-                .param("sectorId", eventSectorId.toString())
+            get("/ticketera/events/seats/${TestData.event.id}/all")
+                .param("sectorId", TestData.eventSector.id.toString())
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -56,13 +55,13 @@ class EventSeatControllerTest : TestData() {
 
     @Test
     fun shouldCreateEventSeats() {
-        every { eventSeatService.generateEventSeats(any()) } returns listOf(eventSeat)
+        every { eventSeatService.generateEventSeats(any()) } returns listOf(TestData.eventSeat)
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             post("/ticketera/events/seats/new")
-                .headers(httpHeaders)
-                .content(objectMapper.writeValueAsString(newEventSeatsDto))
+                .headers(TestData.httpHeaders)
+                .content(objectMapper.writeValueAsString(TestData.newEventSeatsDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -78,9 +77,9 @@ class EventSeatControllerTest : TestData() {
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
-            delete("/ticketera/events/seats/delete/${eventId}")
-                .headers(httpHeaders)
-                .param("sectorId", eventSectorId.toString())
+            delete("/ticketera/events/seats/delete/${TestData.event.id}")
+                .headers(TestData.httpHeaders)
+                .param("sectorId", TestData.eventSector.id.toString())
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 

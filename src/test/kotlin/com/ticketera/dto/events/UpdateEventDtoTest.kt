@@ -1,25 +1,18 @@
 package com.ticketera.dto.events
 
 import com.ticketera.TestData
-import org.assertj.core.api.Assertions
 import kotlin.test.Test
+import org.assertj.core.api.Assertions.assertThat
 
-class UpdateEventDtoTest : TestData(){
+class UpdateEventDtoTest {
 
     @Test
     fun shouldGetAnUpdatedEventFromDto() {
         val updatedEvent = UpdateEventDto.updatedEvent(
-            updateEventDto, venue, event
+            TestData.updateEventDto, TestData.venue, TestData.event
         )
-        Assertions.assertThat(updatedEvent.id).isEqualTo(updateEventDto.id)
-        Assertions.assertThat(updatedEvent.title).isEqualTo(updateEventDto.title)
-        Assertions.assertThat(updatedEvent.venue.id).isEqualTo(updateEventDto.venueId)
-    }
-
-    @Test
-    fun shouldGetDtoFromTheEntity() {
-        Assertions.assertThat(
-            UpdateEventDto.fromEntity(event)
-        ).isInstanceOf(UpdateEventDto::class.java)
+        assertThat(updatedEvent.id).isEqualTo(TestData.updateEventDto.id)
+        assertThat(updatedEvent.title).isEqualTo(TestData.updateEventDto.title)
+        assertThat(updatedEvent.venue.id).isEqualTo(TestData.updateEventDto.venueId)
     }
 }
