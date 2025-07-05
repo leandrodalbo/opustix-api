@@ -1,7 +1,7 @@
 services:
   ticketera-db:
-    image: "postgres:16.4"
-    container_name: "ticketera-db"
+    image: postgres:15
+    container_name: ticketera-db
     ports:
       - 5432:5432
     environment:
@@ -9,3 +9,89 @@ services:
       - POSTGRES_PASSWORD=password
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ticketera_data:/var/lib/postgresql/data
+
+  localstack:
+    image: localstack/localstack:3.0
+    container_name: localstack
+    ports:
+      - 4566:4566
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+    volumes:
+      - localstack_data:/var/lib/localstack
+
+  s3-init:
+    image: amazon/aws-cli
+    container_name: s3-init
+    depends_on:
+      - localstack
+    entrypoint: >
+      sh -c "aws --endpoint-url=http://localstack:4566 s3 mb s3://bucket-name"
+  
+
+  api:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    ports:
+      - 8082:8082
+    depends_on:
+      - localstack
+      - ticketera-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ticketera-db:5432/ticketera
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      - SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT=2000
+      - SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=5
+      - SPRING_FLYWAY_URL=jdbc:postgresql://ticketera-db:5432/ticketera
+      - SPRING_FLYWAY_USER=user
+      - SPRING_FLYWAY_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - SPRING_JPA_SHOW_SQL=false
+      - AWS_ACCESS_KEY=test
+      - AWS_SECRET_KEY=test
+      - AWS_REGION=us-east-1
+      - AWS_BUCKET=bucket-name
+      - AWS_ENDPOINT=http://localstack:4566
+
+
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.3
+    container_name: keycloak
+    command: start-dev
+    depends_on:
+      - ticketera-db
+    ports:
+      - 8080:8080
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://ticketera-db:5432/ticketeraauth
+      - KC_DB_USERNAME=user
+      - KC_DB_PASSWORD=password
+
+
+  event-gateway:
+    image: ghcr.io/leandrodalbo/event-gateway:latest
+    container_name: event-gateway
+    depends_on:
+      - keycloak
+      - api
+    ports:
+      - 8081:8081
+    environment:
+      - KEYCLOAK_REALM_URI=http://keycloak:8080/realms/ticketera
+      - KEYCLOAK_URI=http://keycloak:8080
+      - EVENTS_API_URI=http://api:8082
+      - ALLOWED_ORIGINS=http://localhost:5173
+
+volumes:
+  ticketera_data:
+  localstack_data:

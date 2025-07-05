@@ -1,38 +1,40 @@
 server:
   port: 8082
+
 spring:
   application:
     name: ticketera
 
   datasource:
-    username: user
-    password: password
-    url: jdbc:postgresql://localhost:5432/ticketera
-    driverClassName: org.postgresql.Driver
+    username: ${SPRING_DATASOURCE_USERNAME:user}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ticketera}
+    driverClassName: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.postgresql.Driver}
     hikari:
-      connection-timeout: 2000
-      maximum-pool-size: 5
+      connection-timeout: ${SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT:2000}
+      maximum-pool-size: ${SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE:5}
 
   flyway:
-    user: user
-    password: password
-    url: jdbc:postgresql://localhost:5432/ticketera
-
+    user: ${SPRING_FLYWAY_USER:user}
+    password: ${SPRING_FLYWAY_PASSWORD:password}
+    url: ${SPRING_FLYWAY_URL:jdbc:postgresql://localhost:5432/ticketera}
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: false
-aws:
-  accessKey: ACCESS_KEY
-  secretKey: SECRET_KEY
-  region: us-east-1
-  bucket: bucket-name
+        dialect: ${SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
+    show-sql: ${SPRING_JPA_SHOW_SQL:false}
 
-#
-#logging:
-#  level:
-#    org.springframework.jdbc.datasource.init.ScriptUtils: DEBUG
+aws:
+  accessKey: ${AWS_ACCESS_KEY}
+  secretKey: ${AWS_SECRET_KEY}
+  region: ${AWS_REGION}
+  bucket: ${AWS_BUCKET}
+  endpoint: ${AWS_ENDPOINT}
+
+# Optional logging
+# logging:
+#   level:
+#     org.springframework.jdbc.datasource.init.ScriptUtils: DEBUG
