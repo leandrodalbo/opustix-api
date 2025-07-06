@@ -39,37 +39,7 @@ services:
 #      - AWS_REGION=us-east-1
 #      - AWS_BUCKET=bucket-name
 
-#
-#  keycloak:
-#    image: quay.io/keycloak/keycloak:24.0.3
-#    container_name: keycloak
-#    command: start-dev
-#    depends_on:
-#      - ticketera-db
-#    ports:
-#      - 8080:8080
-#    environment:
-#      - KEYCLOAK_ADMIN=admin
-#      - KEYCLOAK_ADMIN_PASSWORD=admin
-#      - KC_DB=postgres
-#      - KC_DB_URL=jdbc:postgresql://ticketera-db:5432/ticketeraauth
-#      - KC_DB_USERNAME=user
-#      - KC_DB_PASSWORD=password
 
-
-#  event-gateway:
-#    image: ghcr.io/leandrodalbo/event-gateway:latest
-#    container_name: event-gateway
-#    depends_on:
-#      - keycloak
-#      - api
-#    ports:
-#      - 8081:8081
-#    environment:
-#      - KEYCLOAK_REALM_URI=http://keycloak:8080/realms/ticketera
-#      - KEYCLOAK_URI=http://keycloak:8080
-#      - EVENTS_API_URI=http://api:8082
-#      - ALLOWED_ORIGINS=http://localhost:5173
 
 volumes:
   ticketera_data:
