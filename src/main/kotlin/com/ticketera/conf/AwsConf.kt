@@ -8,7 +8,6 @@ import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.s3.S3Client
-import java.net.URI
 
 @Configuration
 class AwsConf {
@@ -20,11 +19,10 @@ class AwsConf {
             awsProps.secretKey
         )
 
-        val builder = S3Client.builder()
+        return  S3Client.builder()
             .region(Region.of(awsProps.region))
             .credentialsProvider(StaticCredentialsProvider.create(credentials))
+            .build()
 
-        return awsProps.endpoint?.let { builder.endpointOverride(URI.create(awsProps.endpoint)).build() }
-            ?: builder.build()
     }
 }

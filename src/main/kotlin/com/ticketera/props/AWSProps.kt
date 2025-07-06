@@ -7,6 +7,5 @@ data class AWSProps(
     val accessKey: String,
     val secretKey: String,
     val region: String,
-    val bucket: String,
-    val endpoint: String? = null
+    val bucket: String
 )
