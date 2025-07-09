@@ -74,7 +74,7 @@ class VenueServiceTest {
         every { venueRepository.findAll() } returns listOf(TestData.venue)
 
         assertThat(venueService.allVenues())
-            .isEqualTo(listOf(TestData.venue))
+            .isEqualTo(listOf(TestData.venueDto))
 
         verify { venueRepository.findAll() }
     }

@@ -1,14 +1,17 @@
 package com.ticketera
 
+import com.ticketera.dto.banners.BannerDto
 import com.ticketera.dto.eventSeats.NewEventSeatsDto
 import com.ticketera.dto.eventSectors.NewEventSectorDto
 import com.ticketera.dto.eventSectors.UpdateEventSectorDto
+import com.ticketera.dto.events.EventDto
 import com.ticketera.dto.events.NewEventDto
 import com.ticketera.dto.events.UpdateEventDto
 import com.ticketera.dto.ticketTypes.NewTicketTypeDto
 import com.ticketera.dto.ticketTypes.UpdateTicketTypeDto
 import com.ticketera.dto.venues.NewVenueDto
 import com.ticketera.dto.venues.UpdateVenueDto
+import com.ticketera.dto.venues.VenueDto
 import com.ticketera.model.Banner
 import com.ticketera.model.Event
 import com.ticketera.model.EventSeat
@@ -153,6 +156,10 @@ abstract class TestData {
             "concert",
             venue.id
         )
+
+        val eventDto = EventDto.fromEntity(event)
+        val venueDto = VenueDto.fromEntity(venue)
+        val bannerDto = BannerDto.fromEntity(banner)
 
         val updateEventDto = UpdateEventDto(
             id = event.id,

@@ -1,5 +1,6 @@
 package com.ticketera.service
 
+import com.ticketera.dto.events.EventDto
 import com.ticketera.dto.events.NewEventDto
 import com.ticketera.dto.events.UpdateEventDto
 import com.ticketera.exceptions.ErrorMessage
@@ -49,4 +50,5 @@ class EventService(
     fun deleteEvent(uuid: UUID) = eventRepository.deleteById(uuid)
 
     fun allEvents() = eventRepository.findAll().filter { !it.hasFinished() }
+        .map { EventDto.fromEntity(it) }
 }

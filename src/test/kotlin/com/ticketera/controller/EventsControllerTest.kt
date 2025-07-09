@@ -40,7 +40,7 @@ class EventsControllerTest {
 
     @Test
     fun shouldAllEvents() {
-        every { eventService.allEvents() } returns listOf(TestData.event)
+        every { eventService.allEvents() } returns listOf(TestData.eventDto)
 
         val response = mvc.perform(
             get("/ticketera/events/all")
