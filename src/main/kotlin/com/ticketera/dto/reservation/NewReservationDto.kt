@@ -10,7 +10,7 @@ import com.ticketera.model.TicketType
 import java.time.Instant
 import java.util.UUID
 
-class NewReservationDto(
+data class NewReservationDto(
     val eventId: UUID,
     val ticketTypeId: UUID,
     val sectorId: UUID? = null,
