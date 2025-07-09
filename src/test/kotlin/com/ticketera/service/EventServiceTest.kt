@@ -105,7 +105,7 @@ class EventServiceTest {
         every { eventRepository.findAll() } returns listOf(TestData.event)
 
         assertThat(eventService.allEvents())
-            .isEqualTo(listOf(TestData.event))
+            .isEqualTo(listOf(TestData.eventDto))
 
         verify { eventRepository.findAll() }
     }

@@ -1,5 +1,6 @@
 package com.ticketera.controller
 
+import com.ticketera.dto.events.EventDto
 import com.ticketera.dto.events.NewEventDto
 import com.ticketera.dto.events.UpdateEventDto
 import com.ticketera.exceptions.ErrorMessage
@@ -25,7 +26,7 @@ import java.util.UUID
 class EventsController(private val headersService: AuthHeadersService, private val eventsService: EventService) {
 
     @GetMapping("/all")
-    fun findEvents() = eventsService.allEvents()
+    fun findEvents(): List<EventDto> = eventsService.allEvents()
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)

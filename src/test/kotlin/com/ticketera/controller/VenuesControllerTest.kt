@@ -41,7 +41,7 @@ class VenuesControllerTest {
 
     @Test
     fun shouldAllVenues() {
-        every { venueService.allVenues() } returns listOf(TestData.venue)
+        every { venueService.allVenues() } returns listOf(TestData.venueDto)
 
         val response = mvc.perform(
             get("/ticketera/venues/all")
