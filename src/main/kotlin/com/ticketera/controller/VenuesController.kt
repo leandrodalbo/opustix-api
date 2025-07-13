@@ -2,6 +2,7 @@ package com.ticketera.controller
 
 import com.ticketera.dto.venues.NewVenueDto
 import com.ticketera.dto.venues.UpdateVenueDto
+import com.ticketera.dto.venues.VenueDto
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.Venue
@@ -25,7 +26,7 @@ import java.util.UUID
 class VenuesController(private val headersService: AuthHeadersService, private val venueService: VenueService) {
 
     @GetMapping("/all")
-    fun venues() = venueService.allVenues()
+    fun venues(): List<VenueDto> = venueService.allVenues()
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)

@@ -19,9 +19,10 @@ class AwsConf {
             awsProps.secretKey
         )
 
-        return S3Client.builder()
+        return  S3Client.builder()
             .region(Region.of(awsProps.region))
             .credentialsProvider(StaticCredentialsProvider.create(credentials))
             .build()
+
     }
 }

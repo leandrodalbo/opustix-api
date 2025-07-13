@@ -15,7 +15,7 @@ abstract class TestContainerConf {
 
 
     companion object {
-        val postgres = PostgreSQLContainer<Nothing>("postgres:16.4")
+        val postgres = PostgreSQLContainer<Nothing>("postgres:15")
             .apply {
                 withDatabaseName("ticketera")
                 withUsername("ticketera")

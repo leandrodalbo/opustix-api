@@ -2,6 +2,7 @@ package com.ticketera.service
 
 import com.ticketera.dto.venues.NewVenueDto
 import com.ticketera.dto.venues.UpdateVenueDto
+import com.ticketera.dto.venues.VenueDto
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.Venue
@@ -33,5 +34,5 @@ class VenueService(
 
     fun deleteVenue(uuid: UUID) = venueRepository.deleteById(uuid)
 
-    fun allVenues() = venueRepository.findAll()
+    fun allVenues() = venueRepository.findAll().map { VenueDto.fromEntity(it) }
 }
