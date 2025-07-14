@@ -1,29 +1,29 @@
 package com.ticketera.dto.purchase
 
+import com.ticketera.dto.reservation.ReservationDto
 import com.ticketera.model.PaymentStatus
 import com.ticketera.model.Purchase
-import com.ticketera.model.Reservation
 import java.util.UUID
 
-data class NewPurchaseDto(
+data class PurchaseDto(
     val id: UUID,
     val userInfo: String,
     val totalPrice: Double,
     val paymentStatus: PaymentStatus,
     val expiresAt: Long? = null,
-    val createdAt: Long,
-    val reservations: List<Reservation>
+    val reservations: List<ReservationDto>
 ) {
     companion object {
-        fun fromEntities(purchase: Purchase, reservations: List<Reservation>): NewPurchaseDto {
-            return NewPurchaseDto(
+        fun fromEntity(purchase: Purchase): PurchaseDto {
+            return PurchaseDto(
                 id = purchase.id,
                 userInfo = purchase.userInfo,
                 totalPrice = purchase.totalPrice,
                 paymentStatus = purchase.paymentStatus,
                 expiresAt = purchase.expiresAt,
-                createdAt = purchase.createdAt,
-                reservations = reservations
+                reservations = purchase.reservations.map { reservation ->
+                    ReservationDto.fromEntity(reservation)
+                }
             )
         }
     }

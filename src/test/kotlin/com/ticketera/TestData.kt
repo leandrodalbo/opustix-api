@@ -7,6 +7,7 @@ import com.ticketera.dto.eventSectors.UpdateEventSectorDto
 import com.ticketera.dto.events.EventDto
 import com.ticketera.dto.events.NewEventDto
 import com.ticketera.dto.events.UpdateEventDto
+import com.ticketera.dto.reservation.ReservationDto
 import com.ticketera.dto.ticketTypes.NewTicketTypeDto
 import com.ticketera.dto.ticketTypes.UpdateTicketTypeDto
 import com.ticketera.dto.venues.NewVenueDto
@@ -117,7 +118,7 @@ abstract class TestData {
             100.0,
             PaymentStatus.INITIATED,
             Instant.now().plus(10, ChronoUnit.MINUTES).toEpochMilli(),
-            Instant.now().toEpochMilli()
+            Instant.now().toEpochMilli(),
         )
 
         val reservation = Reservation(
@@ -218,6 +219,22 @@ abstract class TestData {
             0.0,
             event.id,
             eventSector.id
+        )
+
+        val reservationDto = ReservationDto(
+            reservation.id,
+            reservation.event.id,
+            reservation.ticketType.id,
+            reservation.ticketType.name,
+            reservation.ticketType.price,
+            reservation.ticketType.currency,
+            reservation.price,
+            reservation.status,
+            reservation.sector?.id,
+            reservation.sector?.name,
+            reservation.seat?.id,
+            reservation.seat?.label,
+            reservation.seat?.seatRowInfo
         )
     }
 }
