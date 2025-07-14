@@ -10,7 +10,7 @@ class ReservationDtoTest {
     fun shouldCreateADtoFromEntity() {
         val dto = ReservationDto.fromEntity(TestData.reservation)
 
-        assertThat(dto).isNotNull
+        assertThat(dto).isNull()
         assertThat(dto).isEqualTo(TestData.reservationDto)
     }
 }
