@@ -1,6 +1,7 @@
 package com.ticketera.dto.reservation
 
 import com.ticketera.TestData
+import com.ticketera.auxmodel.PendingReservation
 import com.ticketera.model.Reservation
 import com.ticketera.model.ReservationStatus
 import kotlin.test.Test
@@ -12,10 +13,13 @@ class NewReservationDtoTest {
     fun shouldCreateAReservationFromDto() {
         val reservation = NewReservationDto.newReservation(
             TestData.purchase,
-            TestData.event,
-            TestData.ticketType,
-            TestData.eventSector,
-            TestData.eventSeat
+            PendingReservation(
+                TestData.event,
+                TestData.ticketType,
+                TestData.eventSector,
+                TestData.eventSeat,
+                142.44
+            )
         )
 
         assertThat(reservation).isInstanceOf(Reservation::class.java)

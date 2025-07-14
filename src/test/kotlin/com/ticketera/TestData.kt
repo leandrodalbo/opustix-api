@@ -7,6 +7,8 @@ import com.ticketera.dto.eventSectors.UpdateEventSectorDto
 import com.ticketera.dto.events.EventDto
 import com.ticketera.dto.events.NewEventDto
 import com.ticketera.dto.events.UpdateEventDto
+import com.ticketera.dto.purchase.PurchaseDto
+import com.ticketera.dto.reservation.NewReservationDto
 import com.ticketera.dto.reservation.ReservationDto
 import com.ticketera.dto.ticketTypes.NewTicketTypeDto
 import com.ticketera.dto.ticketTypes.UpdateTicketTypeDto
@@ -22,6 +24,8 @@ import com.ticketera.model.Purchase
 import com.ticketera.model.Reservation
 import com.ticketera.model.ReservationStatus
 import com.ticketera.model.TicketType
+import com.ticketera.model.User
+import com.ticketera.model.UserRole
 import com.ticketera.model.Venue
 import org.springframework.http.HttpHeaders
 import org.springframework.mock.web.MockMultipartFile
@@ -46,6 +50,12 @@ abstract class TestData {
         private val imageBytes = javaClass.getResourceAsStream("/banner.jpg").readBytes()
         val multipartFile = MockMultipartFile("file", "test-image.jpg", "image/jpeg", imageBytes)
 
+        val user = User(
+            "any-name",
+            "family-name",
+            "any@mail.com",
+            setOf(UserRole.USER)
+        )
 
         val venue = Venue(
             UUID.randomUUID(),
@@ -221,6 +231,13 @@ abstract class TestData {
             eventSector.id
         )
 
+        val newReservationDto = NewReservationDto(
+            event.id,
+            ticketType.id,
+            null,
+            null
+        )
+
         val reservationDto = ReservationDto(
             reservation.id,
             reservation.event.id,
@@ -235,6 +252,15 @@ abstract class TestData {
             reservation.seat?.id,
             reservation.seat?.label,
             reservation.seat?.seatRowInfo
+        )
+
+        val purchaseDto = PurchaseDto(
+            purchase.id,
+            purchase.userInfo,
+            purchase.totalPrice,
+            purchase.paymentStatus,
+            purchase.expiresAt,
+            listOf(reservationDto)
         )
     }
 }
