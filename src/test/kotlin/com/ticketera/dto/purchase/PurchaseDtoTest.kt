@@ -8,8 +8,8 @@ class PurchaseDtoTest {
 
     @Test
     fun shouldCreateANewPurchaseDtoFromEntity() {
-        val dto = PurchaseDto.fromEntity(
-            TestData.purchase
+        val dto = PurchaseDto.fromEntities(
+            TestData.purchase, listOf(TestData.reservation)
         )
 
         assertThat(dto).isInstanceOf(PurchaseDto::class.java)
@@ -18,7 +18,7 @@ class PurchaseDtoTest {
         assertThat(dto.totalPrice).isEqualTo(TestData.purchase.totalPrice)
         assertThat(dto.paymentStatus).isEqualTo(TestData.purchase.paymentStatus)
         assertThat(dto.expiresAt).isEqualTo(TestData.purchase.expiresAt)
-        assertThat(dto.reservations).isEmpty()
+        assertThat(dto.reservations).isNotEmpty
     }
 
 }

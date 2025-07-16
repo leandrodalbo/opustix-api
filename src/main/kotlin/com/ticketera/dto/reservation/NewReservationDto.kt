@@ -1,12 +1,9 @@
 package com.ticketera.dto.reservation
 
-import com.ticketera.model.Event
-import com.ticketera.model.EventSeat
-import com.ticketera.model.EventSector
+import com.ticketera.auxmodel.PendingReservation
 import com.ticketera.model.Purchase
 import com.ticketera.model.Reservation
 import com.ticketera.model.ReservationStatus
-import com.ticketera.model.TicketType
 import java.time.Instant
 import java.util.UUID
 
@@ -17,15 +14,15 @@ data class NewReservationDto(
     val seatId: UUID? = null
 ) {
     companion object {
-        fun newReservation(purchase: Purchase, event: Event, ticketType: TicketType, sector: EventSector?, seat: EventSeat?): Reservation {
+        fun newReservation(purchase: Purchase, pendingReservation: PendingReservation): Reservation {
             return Reservation(
                 id = UUID.randomUUID(),
                 purchase = purchase,
-                event = event,
-                ticketType = ticketType,
-                sector = sector,
-                seat = seat,
-                price = ticketType.price + (sector?.priceAddition ?: 0.0) + (seat?.priceAddition ?: 0.0),
+                event = pendingReservation.event,
+                ticketType = pendingReservation.ticketType,
+                sector = pendingReservation.sector,
+                seat = pendingReservation.seat,
+                price = pendingReservation.price,
                 status = ReservationStatus.PENDING,
                 createdAt = Instant.now().toEpochMilli()
             )
