@@ -45,6 +45,19 @@ final class EventRepositoryTest : TestContainerConf() {
             .isEmpty
     }
 
+
+    @Test
+    fun shouldFetchEventDetails() {
+        val result = eventRepository.fetchEventDetailsRaw(TestData.event.id)[0]
+
+        assertThat(result["ticket_id"]).isEqualTo(TestData.ticketType.id)
+        assertThat(result["sector_id"]).isEqualTo(TestData.eventSector.id)
+        assertThat(result["seat_id"]).isEqualTo(TestData.eventSeat.id)
+        assertThat(result["event_id"]).isEqualTo(TestData.event.id)
+
+    }
+
+
     companion object {
         @JvmStatic
         @DynamicPropertySource

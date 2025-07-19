@@ -51,4 +51,9 @@ class EventService(
 
     fun allEvents() = eventRepository.findAll().filter { !it.hasFinished() }
         .map { EventDto.fromEntity(it) }
+
+
+    fun eventDetail(){
+
+    }
 }
