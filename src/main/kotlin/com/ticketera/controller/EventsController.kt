@@ -1,5 +1,6 @@
 package com.ticketera.controller
 
+import com.ticketera.dto.events.EventDetailsDto
 import com.ticketera.dto.events.EventDto
 import com.ticketera.dto.events.NewEventDto
 import com.ticketera.dto.events.UpdateEventDto
@@ -27,6 +28,11 @@ class EventsController(private val headersService: AuthHeadersService, private v
 
     @GetMapping("/all")
     fun findEvents(): List<EventDto> = eventsService.allEvents()
+
+    @GetMapping("/{eventId}/details")
+    fun findEvents(@PathVariable eventId: String): EventDetailsDto =
+        eventsService.eventDetails(UUID.fromString(eventId))
+
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)

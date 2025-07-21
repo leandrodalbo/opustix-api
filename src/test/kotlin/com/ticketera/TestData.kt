@@ -6,6 +6,7 @@ import com.ticketera.dto.eventSeats.NewEventSeatsDto
 import com.ticketera.dto.eventSectors.EventSectorDto
 import com.ticketera.dto.eventSectors.NewEventSectorDto
 import com.ticketera.dto.eventSectors.UpdateEventSectorDto
+import com.ticketera.dto.events.EventDetailsDto
 import com.ticketera.dto.events.EventDto
 import com.ticketera.dto.events.NewEventDto
 import com.ticketera.dto.events.UpdateEventDto
@@ -186,6 +187,8 @@ abstract class TestData {
         val bannerDto = BannerDto.fromEntity(banner)
         val eventSectorDto = EventSectorDto.fromEntity(eventSector)
         val eventSeatDto = EventSeatDto.fromEntity(eventSeat)
+        val eventDetailsDto =
+            EventDetailsDto.fromEntities(event, venue, listOf(ticketType), listOf(eventSector), listOf(eventSeat))
 
         val updateEventDto = UpdateEventDto(
             id = event.id,
