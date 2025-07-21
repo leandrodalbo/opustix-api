@@ -4,7 +4,7 @@ import com.ticketera.TestData
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
 
-class EventSeatTest {
+class EventSeatDtoTest {
 
     @Test
     fun shouldCreateADtoFromEntity() {

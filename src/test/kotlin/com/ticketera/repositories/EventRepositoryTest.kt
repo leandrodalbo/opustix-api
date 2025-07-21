@@ -45,10 +45,6 @@ final class EventRepositoryTest : TestContainerConf() {
             .isEmpty
     }
 
-
-
-
-
     companion object {
         @JvmStatic
         @DynamicPropertySource
