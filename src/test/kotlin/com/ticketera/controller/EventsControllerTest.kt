@@ -39,7 +39,7 @@ class EventsControllerTest {
     val objectMapper = jacksonObjectMapper()
 
     @Test
-    fun shouldAllEvents() {
+    fun shouldFetchAllEvents() {
         every { eventService.allEvents() } returns listOf(TestData.eventDto)
 
         val response = mvc.perform(
@@ -50,6 +50,20 @@ class EventsControllerTest {
         assertThat(response.status).isEqualTo(HttpStatus.OK.value())
 
         verify { eventService.allEvents() }
+    }
+
+    @Test
+    fun shouldFetchAnEventDetails() {
+        every { eventService.eventDetails(any()) } returns TestData.eventDetailsDto
+
+        val response = mvc.perform(
+            get("/ticketera/events/${TestData.event.id}/details")
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andReturn().response
+
+        assertThat(response.status).isEqualTo(HttpStatus.OK.value())
+
+        verify { eventService.eventDetails(any()) }
     }
 
     @Test
