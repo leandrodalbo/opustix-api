@@ -43,8 +43,8 @@ class EventData {
                 VenueData.venue,
                 BannerData.bannerImageUrl,
                 listOf(TicketTypeData.ticketType),
-                listOf(EventSectorData.eventSector),
-                listOf(EventSeatData.eventSeat)
+                setOf(EventSectorData.eventSector),
+                setOf(EventSeatData.eventSeat)
             )
 
         val updateEventDto = UpdateEventDto(

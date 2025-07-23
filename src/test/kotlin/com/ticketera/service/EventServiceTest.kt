@@ -1,11 +1,12 @@
 package com.ticketera.service
 
 import com.ticketera.data.EventData
+import com.ticketera.data.TicketTypeData
 import com.ticketera.data.VenueData
-import com.ticketera.dto.events.EventDetailsDto
 
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.repositories.EventRepository
+import com.ticketera.repositories.TicketTypeRepository
 import com.ticketera.repositories.VenueRepository
 import io.mockk.every
 import io.mockk.mockk
@@ -19,10 +20,12 @@ class EventServiceTest {
 
     private val eventRepository: EventRepository = mockk()
     private val venueRepository: VenueRepository = mockk()
+    private val ticketTypeRepository: TicketTypeRepository = mockk()
 
     private val eventService = EventService(
         eventRepository,
-        venueRepository
+        venueRepository,
+        ticketTypeRepository
     )
 
     @Test
@@ -104,20 +107,21 @@ class EventServiceTest {
 
     @Test
     fun shouldFetchAnEventDetails() {
-        every { eventRepository.findById(EventData.event.id) } returns Optional.of(EventData.event)
+        every { ticketTypeRepository.findTicketTypesWithSectorsAndSeatsByEventId(EventData.event.id) } returns
+                listOf(TicketTypeData.ticketType)
 
         assertThat(eventService.eventDetails(EventData.event.id))
             .isEqualTo(
                 EventData.eventDetailsDto.copy(
                     mainBanner = "",
                     venueDto = VenueData.venueDto,
-                    ticketTypes = emptyList(),
+                    ticketTypes = listOf(TicketTypeData.ticketTypeDto),
                     sectors = emptyList(),
                     seats = emptyList()
                 )
             )
 
-        verify { eventRepository.findById(EventData.event.id) }
+        verify { ticketTypeRepository.findTicketTypesWithSectorsAndSeatsByEventId(EventData.event.id) }
 
     }
 }

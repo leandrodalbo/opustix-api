@@ -32,8 +32,8 @@ data class EventDetailsDto(
             venue: Venue,
             mainBannerUrl: String,
             ticketType: List<TicketType>,
-            sector: List<EventSector>,
-            seat: List<EventSeat>
+            sector: Set<EventSector>,
+            seat: Set<EventSeat>
         ): EventDetailsDto {
             return EventDetailsDto(
                 id = event.id,

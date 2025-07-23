@@ -33,6 +33,19 @@ final class TicketTypeRepositoryTest : TestContainerConf() {
             .isEqualTo(listOf(TicketTypeData.ticketType.id))
     }
 
+    @Test
+    fun shouldFindTicketTypesWithSectorsAndSeatsByEventId() {
+        val ticketTypes = ticketTypeRepository.findTicketTypesWithSectorsAndSeatsByEventId(
+            TicketTypeData.ticketType.event.id
+        )
+        assertThat(ticketTypes).isNotEmpty
+        assertThat(ticketTypes[0].event).isEqualTo(TicketTypeData.ticketType.event)
+        assertThat(ticketTypes[0].event.venue).isEqualTo(TicketTypeData.ticketType.event.venue)
+        assertThat(ticketTypes[0].event.banners).isNotEmpty
+        assertThat(ticketTypes[0].sectors).isNotEmpty
+        assertThat(ticketTypes[0].sectors.first().seats).isNotEmpty
+    }
+
 
     companion object {
         @JvmStatic

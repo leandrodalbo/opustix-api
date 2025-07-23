@@ -19,8 +19,8 @@ class EventDetailsDtoTest {
             venue = VenueData.venue,
             BannerData.bannerImageUrl,
             ticketType = listOf(TicketTypeData.ticketType),
-            sector = listOf(EventSectorData.eventSector),
-            seat = listOf(EventSeatData.eventSeat)
+            sector = setOf(EventSectorData.eventSector),
+            seat = setOf(EventSeatData.eventSeat)
         )
         assertThat(dto).isEqualTo(EventData.eventDetailsDto)
     }

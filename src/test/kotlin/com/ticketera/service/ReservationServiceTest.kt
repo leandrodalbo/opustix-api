@@ -43,8 +43,10 @@ class ReservationServiceTest {
         every { reservationRepository.saveAll(any<List<Reservation>>()) } returns listOf(PurchaseReservationData.reservation)
         every { eventRepository.findById(any()) } returns Optional.of(EventData.event)
         every { ticketTypeRepository.findById(any()) } returns Optional.of(TicketTypeData.ticketType)
+        every { reservationRepository.countActiveReservationsByTicketTypeId(any()) } returns 0
 
-        val saved = reservationService.newReservations(listOf(PurchaseReservationData.newReservationDto), "user@mail.com")
+        val saved =
+            reservationService.newReservations(listOf(PurchaseReservationData.newReservationDto), "user@mail.com")
 
         assertThat(saved.id).isNotNull
         assertThat(saved.reservations).isNotEmpty
@@ -53,7 +55,7 @@ class ReservationServiceTest {
         verify { ticketTypeRepository.findById(any()) }
         verify { purchaseRepository.save(any()) }
         verify { reservationRepository.saveAll(any<List<Reservation>>()) }
-
+        verify { reservationRepository.countActiveReservationsByTicketTypeId(any()) }
     }
 
     @Test

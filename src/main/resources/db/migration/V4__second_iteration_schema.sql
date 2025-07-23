@@ -31,3 +31,9 @@ DROP COLUMN seat_row_info;
 ALTER TABLE event_seat
 DROP COLUMN price_addition;
 
+
+DROP INDEX IF EXISTS uq_reservation_event_seat;
+
+CREATE UNIQUE INDEX uq_reservation_event_sector_seat
+ON reservation (event_id, sector_id, seat_id)
+WHERE seat_id IS NOT NULL AND status IN (0, 1);

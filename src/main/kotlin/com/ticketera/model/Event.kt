@@ -1,6 +1,5 @@
 package com.ticketera.model
 
-
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -42,10 +41,10 @@ class Event(
     val createdAt: Long,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val banners: List<Banner> = emptyList(),
+    val banners: Set<Banner> = emptySet(),
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val ticketTypes: List<TicketType> = emptyList()
+    val ticketTypes: Set<TicketType> = emptySet()
 ) {
 
     fun hasFinished() = Instant.now().minus(1, ChronoUnit.DAYS).toEpochMilli() > endTime
@@ -76,6 +75,6 @@ class Event(
         "",
         Venue(),
         0L,
-        emptyList()
+        emptySet()
     )
 }

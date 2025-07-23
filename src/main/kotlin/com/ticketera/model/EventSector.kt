@@ -30,7 +30,7 @@ class EventSector(
     val ticketType: TicketType,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sector", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val seats: List<EventSeat> = emptyList()
+    val seats: Set<EventSeat> = emptySet()
 ) {
 
 

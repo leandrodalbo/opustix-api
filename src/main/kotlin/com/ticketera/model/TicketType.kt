@@ -14,7 +14,7 @@ import java.util.UUID
 
 @Entity
 @Table(name = "ticket_type")
- class TicketType(
+class TicketType(
     @Id
     val id: UUID,
     val name: String,
@@ -38,7 +38,7 @@ import java.util.UUID
     val event: Event,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "ticketType", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val sectors: List<EventSector> = emptyList()
+    val sectors: Set<EventSector> = emptySet()
 ) {
 
     override fun hashCode(): Int {

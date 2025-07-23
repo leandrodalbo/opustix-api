@@ -37,6 +37,22 @@ final class ReservationRepositoryTest : TestContainerConf() {
         assertThat(result.seat).isEqualTo(EventSeatData.eventSeat)
     }
 
+    @Test
+    fun shouldCountActiveReservationsByTicketType() {
+        val result = reservationRepository.countActiveReservationsByTicketTypeId(TicketTypeData.ticketType.id)
+        assertThat(result).isEqualTo(1)
+    }
+
+
+    @Test
+    fun shouldCountActiveReservationsBySectorAndSeat() {
+        val result = reservationRepository.countActiveReservationsBySectorAndSeat(
+            EventSectorData.eventSector.id,
+            EventSeatData.eventSeat.id
+        )
+
+        assertThat(result).isEqualTo(1)
+    }
 
     companion object {
         @JvmStatic
