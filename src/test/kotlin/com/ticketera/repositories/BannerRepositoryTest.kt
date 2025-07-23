@@ -1,7 +1,7 @@
 package com.ticketera.repositories
 
-import com.ticketera.TestContainerConf
-import com.ticketera.TestData
+import com.ticketera.conf.TestContainerConf
+import com.ticketera.data.BannerData
 import com.ticketera.model.Banner
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -22,14 +22,14 @@ final class BannerRepositoryTest : TestContainerConf() {
 
     @Test
     fun shouldFindById() {
-        assertThat(bannerRepository.findById(TestData.banner.id).get())
+        assertThat(bannerRepository.findById(BannerData.banner.id).get())
             .isInstanceOfAny(Banner::class.java)
     }
 
     @Test
     fun shouldFindByAll() {
         assertThat(bannerRepository.findAll().map { it.id })
-            .isEqualTo(listOf(TestData.banner.id))
+            .isEqualTo(listOf(BannerData.banner.id))
     }
 
 

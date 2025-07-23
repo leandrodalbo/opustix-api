@@ -1,6 +1,8 @@
 package com.ticketera.service
 
-import com.ticketera.TestData
+import com.ticketera.data.PurchaseReservationData
+import com.ticketera.data.EventData
+import com.ticketera.data.TicketTypeData
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.Reservation
 import com.ticketera.repositories.EventRepository
@@ -37,12 +39,14 @@ class ReservationServiceTest {
 
     @Test
     fun shouldSavePurchaseAndReservations() {
-        every { purchaseRepository.save(any()) } returns TestData.purchase
-        every { reservationRepository.saveAll(any<List<Reservation>>()) } returns listOf(TestData.reservation)
-        every { eventRepository.findById(any()) } returns Optional.of(TestData.event)
-        every { ticketTypeRepository.findById(any()) } returns Optional.of(TestData.ticketType)
+        every { purchaseRepository.save(any()) } returns PurchaseReservationData.purchase
+        every { reservationRepository.saveAll(any<List<Reservation>>()) } returns listOf(PurchaseReservationData.reservation)
+        every { eventRepository.findById(any()) } returns Optional.of(EventData.event)
+        every { ticketTypeRepository.findById(any()) } returns Optional.of(TicketTypeData.ticketType)
+        every { reservationRepository.countActiveReservationsByTicketTypeId(any()) } returns 0
 
-        val saved = reservationService.newReservations(listOf(TestData.newReservationDto), "user@mail.com")
+        val saved =
+            reservationService.newReservations(listOf(PurchaseReservationData.newReservationDto), "user@mail.com")
 
         assertThat(saved.id).isNotNull
         assertThat(saved.reservations).isNotEmpty
@@ -51,7 +55,7 @@ class ReservationServiceTest {
         verify { ticketTypeRepository.findById(any()) }
         verify { purchaseRepository.save(any()) }
         verify { reservationRepository.saveAll(any<List<Reservation>>()) }
-
+        verify { reservationRepository.countActiveReservationsByTicketTypeId(any()) }
     }
 
     @Test
@@ -60,7 +64,7 @@ class ReservationServiceTest {
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                reservationService.newReservations(listOf(TestData.newReservationDto), "user@mail.com")
+                reservationService.newReservations(listOf(PurchaseReservationData.newReservationDto), "user@mail.com")
             }
 
         verify { eventRepository.findById(any()) }
@@ -68,12 +72,12 @@ class ReservationServiceTest {
 
     @Test
     fun shouldNotSaveItWithoutAValidTicketType() {
-        every { eventRepository.findById(any()) } returns Optional.of(TestData.event)
+        every { eventRepository.findById(any()) } returns Optional.of(EventData.event)
         every { ticketTypeRepository.findById(any()) } returns Optional.empty()
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                reservationService.newReservations(listOf(TestData.newReservationDto), "user@mail.com")
+                reservationService.newReservations(listOf(PurchaseReservationData.newReservationDto), "user@mail.com")
             }
 
         verify { eventRepository.findById(any()) }

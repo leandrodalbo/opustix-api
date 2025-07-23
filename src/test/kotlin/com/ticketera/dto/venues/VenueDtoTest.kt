@@ -1,6 +1,6 @@
 package com.ticketera.dto.venues
 
-import com.ticketera.TestData
+import com.ticketera.data.VenueData
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
 
@@ -9,9 +9,9 @@ class VenueDtoTest {
     @Test
     fun shouldCreateADtoFromEntity() {
         val dto = VenueDto.fromEntity(
-            TestData.venue
+            VenueData.venue
         )
-        assertThat(dto).isEqualTo(TestData.venueDto)
+        assertThat(dto).isEqualTo(VenueData.venueDto)
 
     }
 }

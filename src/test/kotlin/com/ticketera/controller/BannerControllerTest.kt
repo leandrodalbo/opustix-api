@@ -1,7 +1,9 @@
 package com.ticketera.controller
 
 import com.ninjasquad.springmockk.MockkBean
-import com.ticketera.TestData
+import com.ticketera.data.BannerData
+import com.ticketera.data.EventData
+import com.ticketera.data.UserData
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.BannerService
 import io.mockk.every
@@ -35,20 +37,20 @@ class BannerControllerTest {
 
     @Test
     fun shouldUploadABanner() {
-        every { bannerService.uploadBanner(any(), TestData.event.id, true, false, false) } returns TestData.banner
+        every { bannerService.uploadBanner(any(), EventData.event.id, true, false, false) } returns BannerData.banner
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             multipart("/ticketera/banners/upload")
-                .file(TestData.multipartFile)
-                .param("eventId", TestData.event.id.toString())
+                .file(BannerData.multipartFile)
+                .param("eventId", EventData.event.id.toString())
                 .param("isMain", "true")
-                .headers(TestData.httpHeaders)
+                .headers(UserData.httpHeaders)
         ).andReturn().response
 
         assertThat(response.status).isEqualTo(HttpStatus.CREATED.value())
 
-        verify { bannerService.uploadBanner(any(), TestData.event.id, true, false, false) }
+        verify { bannerService.uploadBanner(any(), EventData.event.id, true, false, false) }
         verify { userAuthHeadersService.isAdminOrOrganizer(any()) }
     }
 
@@ -58,8 +60,8 @@ class BannerControllerTest {
         every { bannerService.deleteBanner(any()) } just runs
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
         val response = mvc.perform(
-            delete("/ticketera/banners/delete/${TestData.banner.id}")
-                .headers(TestData.httpHeaders)
+            delete("/ticketera/banners/delete/${BannerData.banner.id}")
+                .headers(UserData.httpHeaders)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 

@@ -2,13 +2,13 @@ package com.ticketera.controller
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.ticketera.TestData
+import com.ticketera.data.EventData
+import com.ticketera.data.UserData
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.EventService
 import io.mockk.every
 import io.mockk.verify
-import io.mockk.just
-import io.mockk.runs
+
 import org.assertj.core.api.Assertions.assertThat
 
 import org.springframework.http.HttpStatus
@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 
 import org.junit.jupiter.api.Test
 
@@ -40,7 +39,7 @@ class EventsControllerTest {
 
     @Test
     fun shouldFetchAllEvents() {
-        every { eventService.allEvents() } returns listOf(TestData.eventDto)
+        every { eventService.allEvents() } returns listOf(EventData.eventDto)
 
         val response = mvc.perform(
             get("/ticketera/events/all")
@@ -54,27 +53,29 @@ class EventsControllerTest {
 
     @Test
     fun shouldFetchAnEventDetails() {
-        every { eventService.eventDetails(any()) } returns TestData.eventDetailsDto
+        every { eventService.eventDetails(any()) } returns EventData.eventDetailsDto
+        every { userAuthHeadersService.isAUser(any()) } returns true
 
         val response = mvc.perform(
-            get("/ticketera/events/${TestData.event.id}/details")
+            get("/ticketera/events/${EventData.event.id}/details")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
         assertThat(response.status).isEqualTo(HttpStatus.OK.value())
 
         verify { eventService.eventDetails(any()) }
+        verify { userAuthHeadersService.isAUser(any()) }
     }
 
     @Test
     fun shouldUpdateEvents() {
-        every { eventService.updateEvent(any()) } returns TestData.event
+        every { eventService.updateEvent(any()) } returns EventData.event
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             put("/ticketera/events/update")
-                .headers(TestData.httpHeaders)
-                .content(objectMapper.writeValueAsString(TestData.updateEventDto))
+                .headers(UserData.httpHeaders)
+                .content(objectMapper.writeValueAsString(EventData.updateEventDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -86,13 +87,13 @@ class EventsControllerTest {
 
     @Test
     fun shouldCreateEvents() {
-        every { eventService.addEvent(any()) } returns TestData.event
+        every { eventService.addEvent(any()) } returns EventData.event
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             post("/ticketera/events/new")
-                .headers(TestData.httpHeaders)
-                .content(objectMapper.writeValueAsString(TestData.newEventDto))
+                .headers(UserData.httpHeaders)
+                .content(objectMapper.writeValueAsString(EventData.newEventDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -102,19 +103,4 @@ class EventsControllerTest {
         verify { userAuthHeadersService.isAdminOrOrganizer(any()) }
     }
 
-    @Test
-    fun shouldDeleteEvents() {
-        every { eventService.deleteEvent(any()) } just runs
-        every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
-        val response = mvc.perform(
-            delete("/ticketera/events/delete/${TestData.event.id}")
-                .headers(TestData.httpHeaders)
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andReturn().response
-
-        assertThat(response.status).isEqualTo(HttpStatus.OK.value())
-
-        verify { eventService.deleteEvent(any()) }
-        verify { userAuthHeadersService.isAdminOrOrganizer(any()) }
-    }
 }

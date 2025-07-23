@@ -1,7 +1,7 @@
 package com.ticketera.repositories
 
-import com.ticketera.TestContainerConf
-import com.ticketera.TestData
+import com.ticketera.conf.TestContainerConf
+import com.ticketera.data.PurchaseReservationData
 import com.ticketera.model.Purchase
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -23,10 +23,10 @@ final class PurchaseRepositoryTest : TestContainerConf() {
 
     @Test
     fun shouldFindByIdWithReservations() {
-        val result = purchaseRepository.findById(TestData.purchase.id).get()
+        val result = purchaseRepository.findById(PurchaseReservationData.purchase.id).get()
 
         assertThat(result).isInstanceOfAny(Purchase::class.java)
-        assertThat(result.reservations.toList()).isEqualTo(listOf(TestData.reservation))
+        assertThat(result.reservations.toList()).isEqualTo(listOf(PurchaseReservationData.reservation))
     }
 
     companion object {

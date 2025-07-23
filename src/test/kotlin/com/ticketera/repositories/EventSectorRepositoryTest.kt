@@ -1,7 +1,7 @@
 package com.ticketera.repositories
 
-import com.ticketera.TestContainerConf
-import com.ticketera.TestData
+import com.ticketera.conf.TestContainerConf
+import com.ticketera.data.EventSectorData
 import com.ticketera.model.EventSector
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -22,28 +22,16 @@ final class EventSectorRepositoryTest : TestContainerConf() {
 
     @Test
     fun shouldFindById() {
-        assertThat(eventSectorRepository.findById(TestData.eventSector.id).get())
+        assertThat(eventSectorRepository.findById(EventSectorData.eventSector.id).get())
             .isInstanceOfAny(EventSector::class.java)
     }
 
     @Test
     fun shouldFindByAll() {
         assertThat(eventSectorRepository.findAll().map { it.id })
-            .isEqualTo(listOf(TestData.eventSector.id))
+            .isEqualTo(listOf(EventSectorData.eventSector.id))
     }
 
-    @Test
-    fun shouldDeleteByEventId() {
-        eventSectorRepository.deleteByEventId(TestData.event.id)
-        assertThat(eventSectorRepository.findById(TestData.eventSector.id))
-            .isEmpty
-    }
-
-    @Test
-    fun shouldFindByEventId() {
-        assertThat(eventSectorRepository.findAllByEventId(TestData.event.id))
-            .isEqualTo(listOf(TestData.eventSector))
-    }
 
     companion object {
         @JvmStatic

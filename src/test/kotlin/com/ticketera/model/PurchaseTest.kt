@@ -1,6 +1,6 @@
 package com.ticketera.model
 
-import com.ticketera.TestData
+import com.ticketera.data.PurchaseReservationData
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -8,23 +8,23 @@ class PurchaseTest {
 
     @Test
     fun shouldOverrideEquals() {
-        assertThat(TestData.purchase).isNotEqualTo(Purchase())
+        assertThat(PurchaseReservationData.purchase).isNotEqualTo(Purchase())
     }
 
     @Test
     fun shouldOverrideToString() {
-        assertThat(TestData.purchase.toString()).isEqualTo(
-            "Purchase(id=${TestData.purchase.id}, userInfo=${TestData.purchase.userInfo}, totalPrice=${TestData.purchase.totalPrice}, paymentStatus=${TestData.purchase.paymentStatus}, expiresAt=${TestData.purchase.expiresAt}, createdAt=${TestData.purchase.createdAt})"
+        assertThat(PurchaseReservationData.purchase.toString()).isEqualTo(
+            "Purchase(id=${PurchaseReservationData.purchase.id}, userInfo=${PurchaseReservationData.purchase.userInfo}, totalPrice=${PurchaseReservationData.purchase.totalPrice}, paymentStatus=${PurchaseReservationData.purchase.paymentStatus}, expiresAt=${PurchaseReservationData.purchase.expiresAt}, createdAt=${PurchaseReservationData.purchase.createdAt})"
         )
     }
 
     @Test
     fun shouldOverrideHashcode() {
-        assertThat(TestData.purchase.hashCode()).isEqualTo(TestData.purchase.id.hashCode())
+        assertThat(PurchaseReservationData.purchase.hashCode()).isEqualTo(PurchaseReservationData.purchase.id.hashCode())
     }
 
     @Test
     fun shouldCheckItIsNotExpired() {
-        assertThat(TestData.purchase.isExpired()).isFalse
+        assertThat(PurchaseReservationData.purchase.isExpired()).isFalse
     }
 }

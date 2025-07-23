@@ -1,7 +1,7 @@
 package com.ticketera.repositories
 
-import com.ticketera.TestContainerConf
-import com.ticketera.TestData
+import com.ticketera.conf.TestContainerConf
+import com.ticketera.data.TicketTypeData
 import com.ticketera.model.TicketType
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -23,28 +23,29 @@ final class TicketTypeRepositoryTest : TestContainerConf() {
 
     @Test
     fun shouldFindById() {
-        assertThat(ticketTypeRepository.findById(TestData.ticketType.id).get())
+        assertThat(ticketTypeRepository.findById(TicketTypeData.ticketType.id).get())
             .isInstanceOfAny(TicketType::class.java)
     }
 
     @Test
     fun shouldFindByAll() {
         assertThat(ticketTypeRepository.findAll().map { it.id })
-            .isEqualTo(listOf(TestData.ticketType.id))
+            .isEqualTo(listOf(TicketTypeData.ticketType.id))
     }
 
     @Test
-    fun shouldDeleteByEventId() {
-        ticketTypeRepository.deleteByEventId(TestData.event.id)
-        assertThat(ticketTypeRepository.findById(TestData.ticketType.id))
-            .isEmpty
+    fun shouldFindTicketTypesWithSectorsAndSeatsByEventId() {
+        val ticketTypes = ticketTypeRepository.findTicketTypesWithSectorsAndSeatsByEventId(
+            TicketTypeData.ticketType.event.id
+        )
+        assertThat(ticketTypes).isNotEmpty
+        assertThat(ticketTypes[0].event).isEqualTo(TicketTypeData.ticketType.event)
+        assertThat(ticketTypes[0].event.venue).isEqualTo(TicketTypeData.ticketType.event.venue)
+        assertThat(ticketTypes[0].event.banners).isNotEmpty
+        assertThat(ticketTypes[0].sectors).isNotEmpty
+        assertThat(ticketTypes[0].sectors.first().seats).isNotEmpty
     }
 
-    @Test
-    fun shouldFindByEventId() {
-        assertThat(ticketTypeRepository.findAllByEventId(TestData.event.id))
-            .isEqualTo(listOf(TestData.ticketType))
-    }
 
     companion object {
         @JvmStatic

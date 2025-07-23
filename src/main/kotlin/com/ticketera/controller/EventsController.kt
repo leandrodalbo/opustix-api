@@ -10,7 +10,6 @@ import com.ticketera.model.Event
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.EventService
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -30,9 +29,13 @@ class EventsController(private val headersService: AuthHeadersService, private v
     fun findEvents(): List<EventDto> = eventsService.allEvents()
 
     @GetMapping("/{eventId}/details")
-    fun findEvents(@PathVariable eventId: String): EventDetailsDto =
-        eventsService.eventDetails(UUID.fromString(eventId))
-
+    fun findEvents(
+        @RequestHeader
+        headers: Map<String, String>, @PathVariable eventId: String
+    ): EventDetailsDto {
+        if (!headersService.isAUser(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
+        return eventsService.eventDetails(UUID.fromString(eventId))
+    }
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
@@ -58,15 +61,4 @@ class EventsController(private val headersService: AuthHeadersService, private v
         return eventsService.addEvent(newEventDto)
     }
 
-
-    @DeleteMapping("/delete/{id}")
-    fun deleteEvent(
-        @RequestHeader
-        headers: Map<String, String>,
-        @PathVariable("id")
-        id: UUID
-    ) {
-        if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
-        eventsService.deleteEvent(id)
-    }
 }

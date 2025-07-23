@@ -11,7 +11,6 @@ import com.ticketera.repositories.EventRepository
 import com.ticketera.repositories.TicketTypeRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
 
 @Service
 class TicketTypeService(
@@ -19,6 +18,7 @@ class TicketTypeService(
     private val eventRepository: EventRepository
 ) {
 
+    @Transactional
     fun addTicketType(newTicketTypeDto: NewTicketTypeDto): TicketType {
         val event = eventRepository.findById(newTicketTypeDto.eventId).orElseThrow {
             TicketeraException(ErrorMessage.EVENT_NOT_FOUND)
@@ -29,6 +29,7 @@ class TicketTypeService(
         )
     }
 
+    @Transactional
     fun updateTicketType(updateTicketTypeDto: UpdateTicketTypeDto): TicketType {
 
         val event: Event? = updateTicketTypeDto.eventId?.let {
@@ -54,8 +55,4 @@ class TicketTypeService(
 
     }
 
-    @Transactional
-    fun deleteByEventId(uuid: UUID) = ticketTypeRepository.deleteByEventId(uuid)
-
-    fun findByEventId(uuid: UUID) = ticketTypeRepository.findAllByEventId(uuid)
 }

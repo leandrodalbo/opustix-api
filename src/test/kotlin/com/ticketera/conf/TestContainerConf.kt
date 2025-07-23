@@ -1,5 +1,12 @@
-package com.ticketera
+package com.ticketera.conf
 
+import com.ticketera.data.BannerData
+import com.ticketera.data.EventData
+import com.ticketera.data.EventSeatData
+import com.ticketera.data.EventSectorData
+import com.ticketera.data.PurchaseReservationData
+import com.ticketera.data.TicketTypeData
+import com.ticketera.data.VenueData
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,6 +37,8 @@ abstract class TestContainerConf {
             registry.add("spring.flyway.url", postgres::getJdbcUrl)
             registry.add("spring.flyway.user", postgres::getUsername)
             registry.add("spring.flyway.password", postgres::getPassword)
+            registry.add("spring.flyway.baseline-on-migrate", { true })
+
         }
     }
 
@@ -39,14 +48,15 @@ abstract class TestContainerConf {
 
     @BeforeEach
     fun setup() {
-        entityManager.persist(TestData.venue)
-        entityManager.persist(TestData.event)
-        entityManager.persist(TestData.banner)
-        entityManager.persist(TestData.eventSector)
-        entityManager.persist(TestData.eventSeat)
-        entityManager.persist(TestData.ticketType)
-        entityManager.persist(TestData.purchase)
-        entityManager.persist(TestData.reservation)
+
+        entityManager.persist(VenueData.venue)
+        entityManager.persist(EventData.event)
+        entityManager.persist(BannerData.banner)
+        entityManager.persist(TicketTypeData.ticketType)
+        entityManager.persist(EventSectorData.eventSector)
+        entityManager.persist(EventSeatData.eventSeat)
+        entityManager.persist(PurchaseReservationData.purchase)
+        entityManager.persist(PurchaseReservationData.reservation)
         entityManager.flush()
         entityManager.clear()
     }

@@ -16,25 +16,15 @@ class EventSeat(
     val id: UUID,
     val label: String,
 
-    @Column(name = "seat_row_info")
-    val seatRowInfo: String? = null,
-
     @Column(name = "seat_number")
     val seatNumber: String? = null,
-
-    @Column(name = "price_addition")
-    val priceAddition: Double? = null,
 
     @Column(name = "created_at", nullable = false)
     val createdAt: Long,
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "event_id", nullable = false)
-    val event: Event,
-
-    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sector_id", nullable = false)
-    val sector: EventSector?
+    val sector: EventSector
 ) {
 
 
@@ -58,10 +48,7 @@ class EventSeat(
         UUID.randomUUID(),
         "",
         null,
-        null,
-        null,
         0L,
-        Event(),
-        null
+        EventSector()
     )
 }

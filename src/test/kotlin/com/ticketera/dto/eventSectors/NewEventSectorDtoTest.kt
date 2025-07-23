@@ -1,6 +1,7 @@
 package com.ticketera.dto.eventSectors
 
-import com.ticketera.TestData
+import com.ticketera.data.EventSectorData
+import com.ticketera.data.TicketTypeData
 import com.ticketera.model.EventSector
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
@@ -9,11 +10,11 @@ class NewEventSectorDtoTest {
 
     @Test
     fun shouldCreateAnEventSectorFromDto() {
-        val ticketType = NewEventSectorDto.newEventSector(TestData.newEventSectorDto, TestData.event)
+        val sector = NewEventSectorDto.newEventSector(EventSectorData.newEventSectorDto, TicketTypeData.ticketType)
 
-        assertThat(ticketType).isInstanceOf(EventSector::class.java)
-        assertThat(ticketType.id).isNotNull
-        assertThat(ticketType.createdAt).isNotNull
+        assertThat(sector).isInstanceOf(EventSector::class.java)
+        assertThat(sector.id).isNotNull
+        assertThat(sector.createdAt).isNotNull
     }
 
 }

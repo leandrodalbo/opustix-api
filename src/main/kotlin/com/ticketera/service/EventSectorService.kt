@@ -4,36 +4,37 @@ import com.ticketera.dto.eventSectors.NewEventSectorDto
 import com.ticketera.dto.eventSectors.UpdateEventSectorDto
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
-import com.ticketera.model.Event
 import com.ticketera.model.EventSector
-import com.ticketera.repositories.EventRepository
+import com.ticketera.model.TicketType
 import com.ticketera.repositories.EventSectorRepository
+import com.ticketera.repositories.TicketTypeRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
 
 @Service
 class EventSectorService(
     private val eventSectorRepository: EventSectorRepository,
-    private val eventRepository: EventRepository
+    private val ticketTypeRepository: TicketTypeRepository
 ) {
 
+    @Transactional
     fun addEventSector(newEventSectorDto: NewEventSectorDto): EventSector {
-        val event = eventRepository.findById(newEventSectorDto.eventId).orElseThrow {
-            TicketeraException(ErrorMessage.EVENT_NOT_FOUND)
+        val ticketType = ticketTypeRepository.findById(newEventSectorDto.ticketTypeId).orElseThrow {
+            TicketeraException(ErrorMessage.TICKET_TYPE_NOT_FOUND)
         }
 
         return eventSectorRepository.save(
-            NewEventSectorDto.newEventSector(newEventSectorDto, event)
+            NewEventSectorDto.newEventSector(newEventSectorDto, ticketType)
         )
     }
 
+    @Transactional
     fun updateEventSector(updateEventSectorDto: UpdateEventSectorDto): EventSector {
 
-        val event: Event? = updateEventSectorDto.eventId?.let {
-            eventRepository.findById(updateEventSectorDto.eventId)
+        val ticketType: TicketType? = updateEventSectorDto.ticketTypeId?.let {
+            ticketTypeRepository.findById(updateEventSectorDto.ticketTypeId)
                 .orElseThrow {
-                    TicketeraException(ErrorMessage.EVENT_NOT_FOUND)
+                    TicketeraException(ErrorMessage.TICKET_TYPE_NOT_FOUND)
                 }
 
         }
@@ -43,18 +44,12 @@ class EventSectorService(
                 TicketeraException(ErrorMessage.EVENT_SECTOR_NOT_FOUND)
             }
 
-        return event?.let {
+        return ticketType?.let {
             eventSectorRepository.save(
                 UpdateEventSectorDto.updatedEventSector(updateEventSectorDto, eventSector, it)
             )
         } ?: eventSectorRepository.save(
-            UpdateEventSectorDto.updatedEventSector(updateEventSectorDto, eventSector, eventSector.event)
+            UpdateEventSectorDto.updatedEventSector(updateEventSectorDto, eventSector, eventSector.ticketType)
         )
-
     }
-
-    @Transactional
-    fun deleteByEventId(uuid: UUID) = eventSectorRepository.deleteByEventId(uuid)
-
-    fun findByEventId(uuid: UUID) = eventSectorRepository.findAllByEventId(uuid)
 }

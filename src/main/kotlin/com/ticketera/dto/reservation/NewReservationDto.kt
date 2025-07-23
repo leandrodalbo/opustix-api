@@ -1,6 +1,6 @@
 package com.ticketera.dto.reservation
 
-import com.ticketera.auxmodel.PendingReservation
+import com.ticketera.aux.PendingReservation
 import com.ticketera.model.Purchase
 import com.ticketera.model.Reservation
 import com.ticketera.model.ReservationStatus

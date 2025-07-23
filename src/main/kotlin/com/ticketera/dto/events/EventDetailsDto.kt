@@ -19,6 +19,7 @@ data class EventDetailsDto(
     val startTime: Long,
     val endTime: Long,
     val capacity: Int,
+    val mainBanner: String,
     val venueDto: VenueDto,
     val ticketTypes: List<TicketTypeDto>,
     val sectors: List<EventSectorDto>,
@@ -29,9 +30,10 @@ data class EventDetailsDto(
         fun fromEntities(
             event: Event,
             venue: Venue,
+            mainBannerUrl: String,
             ticketType: List<TicketType>,
-            sector: List<EventSector>,
-            seat: List<EventSeat>
+            sector: Set<EventSector>,
+            seat: Set<EventSeat>
         ): EventDetailsDto {
             return EventDetailsDto(
                 id = event.id,
@@ -40,13 +42,12 @@ data class EventDetailsDto(
                 startTime = event.startTime,
                 endTime = event.endTime,
                 capacity = event.capacity,
+                mainBanner = mainBannerUrl,
                 venueDto = VenueDto.fromEntity(venue),
                 ticketTypes = ticketType.map { TicketTypeDto.fromEntity(it) },
                 sectors = sector.map { EventSectorDto.fromEntity(it) },
                 seats = seat.map { EventSeatDto.fromEntity(it) }
             )
-
         }
-
     }
 }
