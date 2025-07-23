@@ -1,6 +1,10 @@
 package com.ticketera.dto.reservation
 
-import com.ticketera.TestData
+import com.ticketera.data.PurchaseReservationData
+import com.ticketera.data.EventData
+import com.ticketera.data.TicketTypeData
+import com.ticketera.data.EventSectorData
+import com.ticketera.data.EventSeatData
 import com.ticketera.aux.PendingReservation
 import com.ticketera.model.Reservation
 import com.ticketera.model.ReservationStatus
@@ -12,12 +16,12 @@ class NewReservationDtoTest {
     @Test
     fun shouldCreateAReservationFromDto() {
         val reservation = NewReservationDto.newReservation(
-            TestData.purchase,
+            PurchaseReservationData.purchase,
             PendingReservation(
-                TestData.event,
-                TestData.ticketType,
-                TestData.eventSector,
-                TestData.eventSeat,
+                EventData.event,
+                TicketTypeData.ticketType,
+                EventSectorData.eventSector,
+                EventSeatData.eventSeat,
                 142.44
             )
         )

@@ -1,6 +1,6 @@
 package com.ticketera.service
 
-import com.ticketera.TestData
+import com.ticketera.data.VenueData
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.repositories.VenueRepository
 import io.mockk.every
@@ -24,11 +24,11 @@ class VenueServiceTest {
 
     @Test
     fun shouldSaveAnewVenue() {
-        every { venueRepository.save(any()) } returns TestData.venue
+        every { venueRepository.save(any()) } returns VenueData.venue
 
-        val saved = venueService.addVenue(TestData.newVenueDto)
+        val saved = venueService.addVenue(VenueData.newVenueDto)
 
-        assertThat(saved).isEqualTo(TestData.venue)
+        assertThat(saved).isEqualTo(VenueData.venue)
 
         verify { venueRepository.save(any()) }
     }
@@ -36,12 +36,12 @@ class VenueServiceTest {
 
     @Test
     fun shouldUpdateAVenue() {
-        every { venueRepository.findById(any()) } returns Optional.of(TestData.venue)
-        every { venueRepository.save(any()) } returns TestData.venue
+        every { venueRepository.findById(any()) } returns Optional.of(VenueData.venue)
+        every { venueRepository.save(any()) } returns VenueData.venue
 
-        val saved = venueService.updateVenue(TestData.updateVenueDto)
+        val saved = venueService.updateVenue(VenueData.updateVenueDto)
 
-        assertThat(saved).isEqualTo(TestData.venue)
+        assertThat(saved).isEqualTo(VenueData.venue)
 
         verify { venueRepository.save(any()) }
         verify { venueRepository.findById(any()) }
@@ -53,7 +53,7 @@ class VenueServiceTest {
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                venueService.updateVenue(TestData.updateVenueDto)
+                venueService.updateVenue(VenueData.updateVenueDto)
             }
 
         verify { venueRepository.findById(any()) }
@@ -64,17 +64,17 @@ class VenueServiceTest {
     fun shouldDeleteAVenue() {
         every { venueRepository.deleteById(any()) } just runs
 
-        venueService.deleteVenue(TestData.venue.id)
+        venueService.deleteVenue(VenueData.venue.id)
 
         verify { venueRepository.deleteById(any()) }
     }
 
     @Test
     fun shouldFetchAllEvents() {
-        every { venueRepository.findAll() } returns listOf(TestData.venue)
+        every { venueRepository.findAll() } returns listOf(VenueData.venue)
 
         assertThat(venueService.allVenues())
-            .isEqualTo(listOf(TestData.venueDto))
+            .isEqualTo(listOf(VenueData.venueDto))
 
         verify { venueRepository.findAll() }
     }

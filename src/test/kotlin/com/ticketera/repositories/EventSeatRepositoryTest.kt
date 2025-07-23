@@ -1,7 +1,7 @@
 package com.ticketera.repositories
 
-import com.ticketera.TestContainerConf
-import com.ticketera.TestData
+import com.ticketera.conf.TestContainerConf
+import com.ticketera.data.EventSeatData
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -22,7 +22,7 @@ final class EventSeatRepositoryTest : TestContainerConf() {
     @Test
     fun shouldFindByAll() {
         assertThat(eventSeatRepository.findAll().map { it.id })
-            .isEqualTo(listOf(TestData.eventSeat.id))
+            .isEqualTo(listOf(EventSeatData.eventSeat.id))
     }
 
     companion object {

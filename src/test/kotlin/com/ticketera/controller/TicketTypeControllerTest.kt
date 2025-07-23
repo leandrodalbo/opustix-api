@@ -2,7 +2,8 @@ package com.ticketera.controller
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.ticketera.TestData
+import com.ticketera.data.TicketTypeData
+import com.ticketera.data.UserData
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.TicketTypeService
 import io.mockk.every
@@ -39,13 +40,13 @@ class TicketTypeControllerTest {
 
     @Test
     fun shouldUpdateATicketType() {
-        every { ticketTypeService.updateTicketType(any()) } returns TestData.ticketType
+        every { ticketTypeService.updateTicketType(any()) } returns TicketTypeData.ticketType
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             put("/ticketera/tickets/types/update")
-                .headers(TestData.httpHeaders)
-                .content(objectMapper.writeValueAsString(TestData.updateTicketTypeDto))
+                .headers(UserData.httpHeaders)
+                .content(objectMapper.writeValueAsString(TicketTypeData.updateTicketTypeDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 
@@ -57,13 +58,13 @@ class TicketTypeControllerTest {
 
     @Test
     fun shouldCreateATicketType() {
-        every { ticketTypeService.addTicketType(any()) } returns TestData.ticketType
+        every { ticketTypeService.addTicketType(any()) } returns TicketTypeData.ticketType
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             post("/ticketera/tickets/types/new")
-                .headers(TestData.httpHeaders)
-                .content(objectMapper.writeValueAsString(TestData.newTicketTypeDto))
+                .headers(UserData.httpHeaders)
+                .content(objectMapper.writeValueAsString(TicketTypeData.newTicketTypeDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 

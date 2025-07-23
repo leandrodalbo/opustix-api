@@ -1,6 +1,7 @@
 package com.ticketera.dto.events
 
-import com.ticketera.TestData
+import com.ticketera.data.EventData
+import com.ticketera.data.VenueData
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
 
@@ -9,10 +10,10 @@ class UpdateEventDtoTest {
     @Test
     fun shouldGetAnUpdatedEventFromDto() {
         val updatedEvent = UpdateEventDto.updatedEvent(
-            TestData.updateEventDto, TestData.venue, TestData.event
+            EventData.updateEventDto, VenueData.venue, EventData.event
         )
-        assertThat(updatedEvent.id).isEqualTo(TestData.updateEventDto.id)
-        assertThat(updatedEvent.title).isEqualTo(TestData.updateEventDto.title)
-        assertThat(updatedEvent.venue.id).isEqualTo(TestData.updateEventDto.venueId)
+        assertThat(updatedEvent.id).isEqualTo(EventData.updateEventDto.id)
+        assertThat(updatedEvent.title).isEqualTo(EventData.updateEventDto.title)
+        assertThat(updatedEvent.venue.id).isEqualTo(EventData.updateEventDto.venueId)
     }
 }

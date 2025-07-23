@@ -1,6 +1,6 @@
 package com.ticketera.model
 
-import com.ticketera.TestData
+import com.ticketera.data.PurchaseReservationData
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -8,18 +8,18 @@ class ReservationTest {
 
     @Test
     fun shouldOverrideEquals() {
-        assertThat(TestData.reservation).isNotEqualTo(Reservation())
+        assertThat(PurchaseReservationData.reservation).isNotEqualTo(Reservation())
     }
 
     @Test
     fun shouldOverrideToString() {
-        assertThat(TestData.reservation.toString()).isEqualTo(
-            "Reservation(id=${TestData.reservation.id}, status=${TestData.reservation.status}, createdAt=${TestData.reservation.createdAt})"
+        assertThat(PurchaseReservationData.reservation.toString()).isEqualTo(
+            "Reservation(id=${PurchaseReservationData.reservation.id}, status=${PurchaseReservationData.reservation.status}, createdAt=${PurchaseReservationData.reservation.createdAt})"
         )
     }
 
     @Test
     fun shouldOverrideHashcode() {
-        assertThat(TestData.reservation.hashCode()).isEqualTo(TestData.reservation.id.hashCode())
+        assertThat(PurchaseReservationData.reservation.hashCode()).isEqualTo(PurchaseReservationData.reservation.id.hashCode())
     }
 }

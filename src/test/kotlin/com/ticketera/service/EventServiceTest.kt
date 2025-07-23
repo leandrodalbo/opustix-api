@@ -1,6 +1,7 @@
 package com.ticketera.service
 
-import com.ticketera.TestData
+import com.ticketera.data.EventData
+import com.ticketera.data.VenueData
 import com.ticketera.dto.events.EventDetailsDto
 
 import com.ticketera.exceptions.TicketeraException
@@ -26,12 +27,12 @@ class EventServiceTest {
 
     @Test
     fun shouldSaveAnewEvent() {
-        every { venueRepository.findById(any()) } returns Optional.of(TestData.venue)
-        every { eventRepository.save(any()) } returns TestData.event
+        every { venueRepository.findById(any()) } returns Optional.of(VenueData.venue)
+        every { eventRepository.save(any()) } returns EventData.event
 
-        val saved = eventService.addEvent(TestData.newEventDto)
+        val saved = eventService.addEvent(EventData.newEventDto)
 
-        assertThat(saved).isEqualTo(TestData.event)
+        assertThat(saved).isEqualTo(EventData.event)
 
         verify { eventRepository.save(any()) }
         verify { venueRepository.findById(any()) }
@@ -43,7 +44,7 @@ class EventServiceTest {
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                eventService.addEvent(TestData.newEventDto)
+                eventService.addEvent(EventData.newEventDto)
             }
 
         verify { venueRepository.findById(any()) }
@@ -51,13 +52,13 @@ class EventServiceTest {
 
     @Test
     fun shouldUpdateAnEvent() {
-        every { eventRepository.findById(any()) } returns Optional.of(TestData.event)
-        every { venueRepository.findById(any()) } returns Optional.of(TestData.venue)
-        every { eventRepository.save(any()) } returns TestData.event
+        every { eventRepository.findById(any()) } returns Optional.of(EventData.event)
+        every { venueRepository.findById(any()) } returns Optional.of(VenueData.venue)
+        every { eventRepository.save(any()) } returns EventData.event
 
-        val saved = eventService.updateEvent(TestData.updateEventDto)
+        val saved = eventService.updateEvent(EventData.updateEventDto)
 
-        assertThat(saved).isEqualTo(TestData.event)
+        assertThat(saved).isEqualTo(EventData.event)
 
         verify { eventRepository.save(any()) }
         verify { venueRepository.findById(any()) }
@@ -70,7 +71,7 @@ class EventServiceTest {
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                eventService.updateEvent(TestData.updateEventDto)
+                eventService.updateEvent(EventData.updateEventDto)
             }
 
         verify { eventRepository.findById(any()) }
@@ -78,12 +79,12 @@ class EventServiceTest {
 
     @Test
     fun shouldNotUpdateEventsWithoutAVenue() {
-        every { eventRepository.findById(any()) } returns Optional.of(TestData.event)
+        every { eventRepository.findById(any()) } returns Optional.of(EventData.event)
         every { venueRepository.findById(any()) } returns Optional.empty()
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                eventService.updateEvent(TestData.updateEventDto)
+                eventService.updateEvent(EventData.updateEventDto)
             }
 
         verify { eventRepository.findById(any()) }
@@ -93,22 +94,30 @@ class EventServiceTest {
 
     @Test
     fun shouldFetchAllEvents() {
-        every { eventRepository.findAll() } returns listOf(TestData.event)
+        every { eventRepository.findAll() } returns listOf(EventData.event)
 
         assertThat(eventService.allEvents())
-            .isEqualTo(listOf(TestData.eventDto))
+            .isEqualTo(listOf(EventData.eventDto))
 
         verify { eventRepository.findAll() }
     }
 
     @Test
     fun shouldFetchAnEventDetails() {
-        every { eventRepository.findById(TestData.event.id) } returns Optional.of(TestData.event)
+        every { eventRepository.findById(EventData.event.id) } returns Optional.of(EventData.event)
 
-        assertThat(eventService.eventDetails(TestData.event.id))
-            .isInstanceOfAny(EventDetailsDto::class.java)
+        assertThat(eventService.eventDetails(EventData.event.id))
+            .isEqualTo(
+                EventData.eventDetailsDto.copy(
+                    mainBanner = "",
+                    venueDto = VenueData.venueDto,
+                    ticketTypes = emptyList(),
+                    sectors = emptyList(),
+                    seats = emptyList()
+                )
+            )
 
-        verify { eventRepository.findById(TestData.event.id) }
+        verify { eventRepository.findById(EventData.event.id) }
 
     }
 }

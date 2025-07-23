@@ -1,6 +1,7 @@
 package com.ticketera.service
 
-import com.ticketera.TestData
+import com.ticketera.data.EventSectorData
+import com.ticketera.data.TicketTypeData
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.repositories.EventSectorRepository
 import com.ticketera.repositories.TicketTypeRepository
@@ -25,12 +26,12 @@ class EventSectorServiceTest {
 
     @Test
     fun shouldSaveAnewEventSector() {
-        every { eventSectorRepository.save(any()) } returns TestData.eventSector
-        every { ticketTypeRepository.findById(any()) } returns Optional.of(TestData.ticketType)
+        every { eventSectorRepository.save(any()) } returns EventSectorData.eventSector
+        every { ticketTypeRepository.findById(any()) } returns Optional.of(TicketTypeData.ticketType)
 
-        val saved = ticketTypeService.addEventSector(TestData.newEventSectorDto)
+        val saved = ticketTypeService.addEventSector(EventSectorData.newEventSectorDto)
 
-        assertThat(saved).isEqualTo(TestData.eventSector)
+        assertThat(saved).isEqualTo(EventSectorData.eventSector)
 
         verify { ticketTypeRepository.findById(any()) }
         verify { eventSectorRepository.save(any()) }
@@ -42,7 +43,7 @@ class EventSectorServiceTest {
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                ticketTypeService.addEventSector(TestData.newEventSectorDto)
+                ticketTypeService.addEventSector(EventSectorData.newEventSectorDto)
             }
 
         verify { ticketTypeRepository.findById(any()) }
@@ -50,13 +51,13 @@ class EventSectorServiceTest {
 
     @Test
     fun shouldUpdateAnEventSector() {
-        every { ticketTypeRepository.findById(any()) } returns Optional.of(TestData.ticketType)
-        every { eventSectorRepository.findById(any()) } returns Optional.of(TestData.eventSector)
-        every { eventSectorRepository.save(any()) } returns TestData.eventSector
+        every { ticketTypeRepository.findById(any()) } returns Optional.of(TicketTypeData.ticketType)
+        every { eventSectorRepository.findById(any()) } returns Optional.of(EventSectorData.eventSector)
+        every { eventSectorRepository.save(any()) } returns EventSectorData.eventSector
 
-        val saved = ticketTypeService.updateEventSector(TestData.updateEventSectorDto)
+        val saved = ticketTypeService.updateEventSector(EventSectorData.updateEventSectorDto)
 
-        assertThat(saved).isEqualTo(TestData.eventSector)
+        assertThat(saved).isEqualTo(EventSectorData.eventSector)
 
         verify { eventSectorRepository.save(any()) }
         verify { eventSectorRepository.findById(any()) }
@@ -65,12 +66,12 @@ class EventSectorServiceTest {
 
     @Test
     fun shouldUpdateItWithoutTicketType() {
-        every { eventSectorRepository.findById(any()) } returns Optional.of(TestData.eventSector)
-        every { eventSectorRepository.save(any()) } returns TestData.eventSector
+        every { eventSectorRepository.findById(any()) } returns Optional.of(EventSectorData.eventSector)
+        every { eventSectorRepository.save(any()) } returns EventSectorData.eventSector
 
-        val saved = ticketTypeService.updateEventSector(TestData.updateEventSectorDto.copy(ticketTypeId = null))
+        val saved = ticketTypeService.updateEventSector(EventSectorData.updateEventSectorDto.copy(ticketTypeId = null))
 
-        assertThat(saved).isEqualTo(TestData.eventSector)
+        assertThat(saved).isEqualTo(EventSectorData.eventSector)
 
         verify { eventSectorRepository.save(any()) }
         verify { eventSectorRepository.findById(any()) }
@@ -79,12 +80,12 @@ class EventSectorServiceTest {
 
     @Test
     fun shouldNotUpdateItIfTicketTypeNotFound() {
-        every { ticketTypeRepository.findById(any()) } returns Optional.of(TestData.ticketType)
+        every { ticketTypeRepository.findById(any()) } returns Optional.of(TicketTypeData.ticketType)
         every { eventSectorRepository.findById(any()) } returns Optional.empty()
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                ticketTypeService.updateEventSector(TestData.updateEventSectorDto)
+                ticketTypeService.updateEventSector(EventSectorData.updateEventSectorDto)
             }
 
         verify { ticketTypeRepository.findById(any()) }

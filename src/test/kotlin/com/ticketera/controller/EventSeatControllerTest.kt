@@ -2,7 +2,8 @@ package com.ticketera.controller
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.ticketera.TestData
+import com.ticketera.data.EventSeatData
+import com.ticketera.data.UserData
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.EventSeatService
 import io.mockk.every
@@ -35,13 +36,13 @@ class EventSeatControllerTest {
 
     @Test
     fun shouldCreateEventSeats() {
-        every { eventSeatService.generateEventSeats(any()) } returns listOf(TestData.eventSeat)
+        every { eventSeatService.generateEventSeats(any()) } returns listOf(EventSeatData.eventSeat)
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
             post("/ticketera/events/seats/new")
-                .headers(TestData.httpHeaders)
-                .content(objectMapper.writeValueAsString(TestData.newEventSeatsDto))
+                .headers(UserData.httpHeaders)
+                .content(objectMapper.writeValueAsString(EventSeatData.newEventSeatsDto))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 

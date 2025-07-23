@@ -2,7 +2,8 @@ package com.ticketera.controller
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import com.ticketera.TestData
+import com.ticketera.data.PurchaseReservationData
+import com.ticketera.data.UserData
 import com.ticketera.dto.reservation.NewReservationDto
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.ReservationService
@@ -36,14 +37,14 @@ class ReservationControllerTest {
 
     @Test
     fun shouldCreateReservations() {
-        every { reservationService.newReservations(any<List<NewReservationDto>>(), any()) } returns TestData.purchaseDto
+        every { reservationService.newReservations(any<List<NewReservationDto>>(), any()) } returns PurchaseReservationData.purchaseDto
         every { userAuthHeadersService.isAUser(any()) } returns true
-        every { userAuthHeadersService.getUser(any()) } returns TestData.user
+        every { userAuthHeadersService.getUser(any()) } returns UserData.user
 
         val response = mvc.perform(
             post("/ticketera/reservations/new")
-                .headers(TestData.httpHeaders)
-                .content(objectMapper.writeValueAsString(listOf(TestData.newReservationDto)))
+                .headers(UserData.httpHeaders)
+                .content(objectMapper.writeValueAsString(listOf(PurchaseReservationData.newReservationDto)))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andReturn().response
 

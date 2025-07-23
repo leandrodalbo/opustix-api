@@ -1,6 +1,7 @@
 package com.ticketera.service
 
-import com.ticketera.TestData
+import com.ticketera.data.EventSectorData
+import com.ticketera.data.EventSeatData
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.EventSeat
 import com.ticketera.repositories.EventSeatRepository
@@ -26,12 +27,12 @@ class EventSeatServiceTest {
 
     @Test
     fun shouldGenerateTheSeatsAnSaveThem() {
-        every { eventSeatRepository.saveAll(any<List<EventSeat>>()) } returns listOf(TestData.eventSeat)
-        every { eventSectorRepository.findById(any()) } returns Optional.of(TestData.eventSector)
+        every { eventSeatRepository.saveAll(any<List<EventSeat>>()) } returns listOf(EventSeatData.eventSeat)
+        every { eventSectorRepository.findById(any()) } returns Optional.of(EventSectorData.eventSector)
 
-        val saved = eventSeatService.generateEventSeats(TestData.newEventSeatsDto)
+        val saved = eventSeatService.generateEventSeats(EventSeatData.newEventSeatsDto)
 
-        assertThat(saved).isEqualTo(listOf(TestData.eventSeat))
+        assertThat(saved).isEqualTo(listOf(EventSeatData.eventSeat))
 
         verify { eventSectorRepository.findById(any()) }
         verify { eventSeatRepository.saveAll(any<List<EventSeat>>()) }
@@ -44,7 +45,7 @@ class EventSeatServiceTest {
 
         assertThatExceptionOfType(TicketeraException::class.java)
             .isThrownBy {
-                eventSeatService.generateEventSeats(TestData.newEventSeatsDto)
+                eventSeatService.generateEventSeats(EventSeatData.newEventSeatsDto)
             }
         verify {
             eventSectorRepository.findById(any())

@@ -1,6 +1,7 @@
 package com.ticketera.dto.eventSectors
 
-import com.ticketera.TestData
+import com.ticketera.data.EventSectorData
+import com.ticketera.data.TicketTypeData
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
 
@@ -9,11 +10,11 @@ class UpdateEventSectorDtoTest {
     @Test
     fun shouldGetAnUpdatedEventSectorFromDto() {
         val updated = UpdateEventSectorDto.updatedEventSector(
-            TestData.updateEventSectorDto, TestData.eventSector, TestData.ticketType
+            EventSectorData.updateEventSectorDto, EventSectorData.eventSector, TicketTypeData.ticketType
         )
 
-        assertThat(updated.name).isEqualTo(TestData.updateEventSectorDto.name)
-        assertThat(updated.description).isEqualTo(TestData.updateEventSectorDto.description)
+        assertThat(updated.name).isEqualTo(EventSectorData.updateEventSectorDto.name)
+        assertThat(updated.description).isEqualTo(EventSectorData.updateEventSectorDto.description)
     }
 
 }

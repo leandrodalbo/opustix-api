@@ -1,7 +1,9 @@
 package com.ticketera.repositories
 
-import com.ticketera.TestContainerConf
-import com.ticketera.TestData
+import com.ticketera.conf.TestContainerConf
+import com.ticketera.data.EventData
+import com.ticketera.data.BannerData
+import com.ticketera.data.VenueData
 import com.ticketera.model.Event
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -22,26 +24,26 @@ final class EventRepositoryTest : TestContainerConf() {
 
     @Test
     fun shouldFindById() {
-        assertThat(eventRepository.findById(TestData.event.id).get())
+        assertThat(eventRepository.findById(EventData.event.id).get())
             .isInstanceOfAny(Event::class.java)
     }
 
     @Test
     fun shouldFindByAll() {
         assertThat(eventRepository.findAll().map { it.id })
-            .isEqualTo(listOf(TestData.event.id))
+            .isEqualTo(listOf(EventData.event.id))
     }
 
     @Test
     fun shouldLoadBanners() {
-        assertThat(eventRepository.findById(TestData.event.id).get().banners.toList())
-            .isEqualTo(listOf(TestData.banner))
+        assertThat(eventRepository.findById(EventData.event.id).get().banners.toList())
+            .isEqualTo(listOf(BannerData.banner))
     }
 
     @Test
     fun shouldDeleteById() {
-        eventRepository.deleteById(TestData.event.id)
-        assertThat(eventRepository.findById(TestData.venue.id))
+        eventRepository.deleteById(EventData.event.id)
+        assertThat(eventRepository.findById(VenueData.venue.id))
             .isEmpty
     }
 
