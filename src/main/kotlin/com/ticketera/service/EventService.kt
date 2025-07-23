@@ -54,7 +54,7 @@ class EventService(
     }
 
     @Transactional(readOnly = true)
-    fun allEvents() = eventRepository.findAll().filter { !it.hasFinished() }
+    fun allEvents() = eventRepository.findAllWithBanners().filter { !it.hasFinished() }
         .map { EventDto.fromEntity(it) }
 
     @Transactional(readOnly = true)

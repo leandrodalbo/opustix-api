@@ -97,12 +97,12 @@ class EventServiceTest {
 
     @Test
     fun shouldFetchAllEvents() {
-        every { eventRepository.findAll() } returns listOf(EventData.event)
+        every { eventRepository.findAllWithBanners() } returns listOf(EventData.event)
 
         assertThat(eventService.allEvents())
             .isEqualTo(listOf(EventData.eventDto))
 
-        verify { eventRepository.findAll() }
+        verify { eventRepository.findAllWithBanners() }
     }
 
     @Test

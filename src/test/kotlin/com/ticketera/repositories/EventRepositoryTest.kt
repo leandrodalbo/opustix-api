@@ -35,8 +35,8 @@ final class EventRepositoryTest : TestContainerConf() {
     }
 
     @Test
-    fun shouldLoadBanners() {
-        assertThat(eventRepository.findById(EventData.event.id).get().banners.toList())
+    fun shouldFindAllWithBanners() {
+        assertThat(eventRepository.findAllWithBanners()[0].banners.toList())
             .isEqualTo(listOf(BannerData.banner))
     }
 
