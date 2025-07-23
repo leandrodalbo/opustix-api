@@ -12,6 +12,5 @@ class EventDtoTest {
             TestData.event
         )
         assertThat(dto).isEqualTo(TestData.eventDto)
-
     }
 }

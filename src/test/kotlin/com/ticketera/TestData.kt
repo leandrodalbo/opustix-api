@@ -81,6 +81,7 @@ abstract class TestData {
             venue,
 
             Instant.now().toEpochMilli()
+
         )
 
         val banner = Banner(
@@ -110,19 +111,15 @@ abstract class TestData {
             UUID.randomUUID(),
             "Testing Event Sector",
             "Testing Event Sector",
-            10.0,
             Instant.now().toEpochMilli(),
-            event
+            ticketType
         )
 
         val eventSeat = EventSeat(
             UUID.randomUUID(),
             "Testing Seat",
-            "Seat on Row X",
             "10",
-            0.0,
             Instant.now().toEpochMilli(),
-            event,
             eventSector
         )
 
@@ -188,7 +185,14 @@ abstract class TestData {
         val eventSectorDto = EventSectorDto.fromEntity(eventSector)
         val eventSeatDto = EventSeatDto.fromEntity(eventSeat)
         val eventDetailsDto =
-            EventDetailsDto.fromEntities(event, venue, listOf(ticketType), listOf(eventSector), listOf(eventSeat))
+            EventDetailsDto.fromEntities(
+                event,
+                venue,
+                "http://banner.x.y.z",
+                listOf(ticketType),
+                listOf(eventSector),
+                listOf(eventSeat)
+            )
 
         val updateEventDto = UpdateEventDto(
             id = event.id,
@@ -227,7 +231,6 @@ abstract class TestData {
         val newEventSectorDto = NewEventSectorDto(
             "sector-1",
             "test-sector",
-            11.11,
             event.id
         )
 
@@ -243,9 +246,6 @@ abstract class TestData {
             1,
             5,
             "row-0",
-            "row-0",
-            0.0,
-            event.id,
             eventSector.id
         )
 
@@ -269,7 +269,6 @@ abstract class TestData {
             reservation.sector?.name,
             reservation.seat?.id,
             reservation.seat?.label,
-            reservation.seat?.seatRowInfo
         )
 
         val purchaseDto = PurchaseDto(

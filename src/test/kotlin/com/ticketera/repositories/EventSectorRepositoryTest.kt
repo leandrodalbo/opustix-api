@@ -32,18 +32,6 @@ final class EventSectorRepositoryTest : TestContainerConf() {
             .isEqualTo(listOf(TestData.eventSector.id))
     }
 
-    @Test
-    fun shouldDeleteByEventId() {
-        eventSectorRepository.deleteByEventId(TestData.event.id)
-        assertThat(eventSectorRepository.findById(TestData.eventSector.id))
-            .isEmpty
-    }
-
-    @Test
-    fun shouldFindByEventId() {
-        assertThat(eventSectorRepository.findAllByEventId(TestData.event.id))
-            .isEqualTo(listOf(TestData.eventSector))
-    }
 
     companion object {
         @JvmStatic

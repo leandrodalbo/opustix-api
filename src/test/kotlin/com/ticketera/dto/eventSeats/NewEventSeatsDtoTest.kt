@@ -8,7 +8,7 @@ class NewEventSeatsDtoTest {
 
     @Test
     fun shouldCreateAListOfEventSeats() {
-        val seats = NewEventSeatsDto.newEventSeats(TestData.newEventSeatsDto, TestData.event, TestData.eventSector)
+        val seats = NewEventSeatsDto.newEventSeats(TestData.newEventSeatsDto, TestData.eventSector)
 
         assertThat(seats).isInstanceOf(List::class.java)
         assertThat(seats[0].seatNumber).isEqualTo("1")

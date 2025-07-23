@@ -12,6 +12,5 @@ class BannerDtoTest {
             TestData.banner
         )
         assertThat(dto).isEqualTo(TestData.bannerDto)
-
     }
 }

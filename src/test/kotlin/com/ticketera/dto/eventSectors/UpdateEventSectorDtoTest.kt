@@ -9,7 +9,7 @@ class UpdateEventSectorDtoTest {
     @Test
     fun shouldGetAnUpdatedEventSectorFromDto() {
         val updated = UpdateEventSectorDto.updatedEventSector(
-            TestData.updateEventSectorDto, TestData.eventSector, TestData.event
+            TestData.updateEventSectorDto, TestData.eventSector, TestData.ticketType
         )
 
         assertThat(updated.name).isEqualTo(TestData.updateEventSectorDto.name)

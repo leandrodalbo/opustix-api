@@ -33,18 +33,6 @@ final class TicketTypeRepositoryTest : TestContainerConf() {
             .isEqualTo(listOf(TestData.ticketType.id))
     }
 
-    @Test
-    fun shouldDeleteByEventId() {
-        ticketTypeRepository.deleteByEventId(TestData.event.id)
-        assertThat(ticketTypeRepository.findById(TestData.ticketType.id))
-            .isEmpty
-    }
-
-    @Test
-    fun shouldFindByEventId() {
-        assertThat(ticketTypeRepository.findAllByEventId(TestData.event.id))
-            .isEqualTo(listOf(TestData.ticketType))
-    }
 
     companion object {
         @JvmStatic

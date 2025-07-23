@@ -30,6 +30,8 @@ abstract class TestContainerConf {
             registry.add("spring.flyway.url", postgres::getJdbcUrl)
             registry.add("spring.flyway.user", postgres::getUsername)
             registry.add("spring.flyway.password", postgres::getPassword)
+            registry.add("spring.flyway.baseline-on-migrate", { true })
+
         }
     }
 
@@ -39,12 +41,13 @@ abstract class TestContainerConf {
 
     @BeforeEach
     fun setup() {
+
         entityManager.persist(TestData.venue)
         entityManager.persist(TestData.event)
         entityManager.persist(TestData.banner)
+        entityManager.persist(TestData.ticketType)
         entityManager.persist(TestData.eventSector)
         entityManager.persist(TestData.eventSeat)
-        entityManager.persist(TestData.ticketType)
         entityManager.persist(TestData.purchase)
         entityManager.persist(TestData.reservation)
         entityManager.flush()

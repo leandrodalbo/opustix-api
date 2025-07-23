@@ -7,8 +7,7 @@ import com.ticketera.repositories.TicketTypeRepository
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import io.mockk.just
-import io.mockk.runs
+
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
@@ -92,23 +91,4 @@ class TicketTypeServiceTest {
         verify { ticketTypeRepository.findById(any()) }
     }
 
-    @Test
-    fun shouldDeleteByEventId() {
-        every { ticketTypeRepository.deleteByEventId(any()) } just runs
-
-        ticketTypeService.deleteByEventId(TestData.event.id)
-
-        verify { ticketTypeRepository.deleteByEventId(any()) }
-    }
-
-    @Test
-    fun shouldFetchAllByEventId() {
-        every { ticketTypeRepository.findAllByEventId(any()) } returns listOf(TestData.ticketType)
-
-        assertThat(ticketTypeService.findByEventId(TestData.event.id))
-            .isEqualTo(listOf(TestData.ticketType))
-
-
-        verify { ticketTypeRepository.findAllByEventId(any()) }
-    }
 }

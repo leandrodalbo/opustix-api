@@ -7,8 +7,7 @@ import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.EventService
 import io.mockk.every
 import io.mockk.verify
-import io.mockk.just
-import io.mockk.runs
+
 import org.assertj.core.api.Assertions.assertThat
 
 import org.springframework.http.HttpStatus
@@ -20,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 
 import org.junit.jupiter.api.Test
 
@@ -55,6 +53,7 @@ class EventsControllerTest {
     @Test
     fun shouldFetchAnEventDetails() {
         every { eventService.eventDetails(any()) } returns TestData.eventDetailsDto
+        every { userAuthHeadersService.isAUser(any()) } returns true
 
         val response = mvc.perform(
             get("/ticketera/events/${TestData.event.id}/details")
@@ -64,6 +63,7 @@ class EventsControllerTest {
         assertThat(response.status).isEqualTo(HttpStatus.OK.value())
 
         verify { eventService.eventDetails(any()) }
+        verify { userAuthHeadersService.isAUser(any()) }
     }
 
     @Test
@@ -102,19 +102,5 @@ class EventsControllerTest {
         verify { userAuthHeadersService.isAdminOrOrganizer(any()) }
     }
 
-    @Test
-    fun shouldDeleteEvents() {
-        every { eventService.deleteEvent(any()) } just runs
-        every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
-        val response = mvc.perform(
-            delete("/ticketera/events/delete/${TestData.event.id}")
-                .headers(TestData.httpHeaders)
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andReturn().response
 
-        assertThat(response.status).isEqualTo(HttpStatus.OK.value())
-
-        verify { eventService.deleteEvent(any()) }
-        verify { userAuthHeadersService.isAdminOrOrganizer(any()) }
-    }
 }
