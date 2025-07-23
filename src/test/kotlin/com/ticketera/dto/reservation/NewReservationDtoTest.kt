@@ -1,7 +1,7 @@
 package com.ticketera.dto.reservation
 
 import com.ticketera.TestData
-import com.ticketera.auxmodel.PendingReservation
+import com.ticketera.aux.PendingReservation
 import com.ticketera.model.Reservation
 import com.ticketera.model.ReservationStatus
 import kotlin.test.Test

@@ -1,26 +1,24 @@
 package com.ticketera.dto.eventSectors
 
-import com.ticketera.model.Event
 import com.ticketera.model.EventSector
+import com.ticketera.model.TicketType
 import java.time.Instant
 import java.util.UUID
 
 data class NewEventSectorDto(
     val name: String,
     val description: String? = null,
-    val priceAddition: Double? = null,
-    val eventId: UUID
+    val ticketTypeId: UUID
 ) {
     companion object {
 
-        fun newEventSector(newEventSectorDto: NewEventSectorDto, event: Event): EventSector {
+        fun newEventSector(newEventSectorDto: NewEventSectorDto, ticketType: TicketType): EventSector {
             return EventSector(
                 id = UUID.randomUUID(),
                 newEventSectorDto.name,
                 newEventSectorDto.description,
-                newEventSectorDto.priceAddition,
                 Instant.now().toEpochMilli(),
-                event
+                ticketType
             )
         }
     }

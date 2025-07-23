@@ -1,4 +1,4 @@
-package com.ticketera.auxmodel
+package com.ticketera.aux
 
 import com.ticketera.model.Event
 import com.ticketera.model.EventSeat

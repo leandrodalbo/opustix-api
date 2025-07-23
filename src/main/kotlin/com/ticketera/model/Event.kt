@@ -41,8 +41,11 @@ class Event(
     @Column(name = "created_at", nullable = false)
     val createdAt: Long,
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val banners: List<Banner> = emptyList()
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val banners: List<Banner> = emptyList(),
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val ticketTypes: List<TicketType> = emptyList()
 ) {
 
     fun hasFinished() = Instant.now().minus(1, ChronoUnit.DAYS).toEpochMilli() > endTime

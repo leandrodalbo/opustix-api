@@ -6,7 +6,4 @@ import org.springframework.stereotype.Repository
 import java.util.UUID
 
 @Repository
-interface EventSectorRepository : CrudRepository<EventSector, UUID> {
-    fun deleteByEventId(eventId: UUID)
-    fun findAllByEventId(eventId: UUID): List<EventSector>
-}
+interface EventSectorRepository : CrudRepository<EventSector, UUID>

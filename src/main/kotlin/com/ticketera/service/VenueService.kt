@@ -8,6 +8,7 @@ import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.Venue
 import com.ticketera.repositories.VenueRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
 @Service
@@ -15,12 +16,14 @@ class VenueService(
     private val venueRepository: VenueRepository
 ) {
 
+    @Transactional
     fun addVenue(newVenueDto: NewVenueDto): Venue {
         return venueRepository.save(
             NewVenueDto.newVenue(newVenueDto)
         )
     }
 
+    @Transactional
     fun updateVenue(updateVenueDto: UpdateVenueDto): Venue {
 
         val venue = venueRepository.findById(updateVenueDto.id).orElseThrow {
@@ -32,6 +35,7 @@ class VenueService(
         )
     }
 
+    @Transactional
     fun deleteVenue(uuid: UUID) = venueRepository.deleteById(uuid)
 
     fun allVenues() = venueRepository.findAll().map { VenueDto.fromEntity(it) }

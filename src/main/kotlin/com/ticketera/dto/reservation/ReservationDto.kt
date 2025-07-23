@@ -17,7 +17,6 @@ data class ReservationDto(
     val sectorName: String? = null,
     val seatId: UUID? = null,
     val seatLabel: String? = null,
-    val seatRowInfo: String? = null,
 ) {
     companion object {
         fun fromEntity(reservation: Reservation): ReservationDto =
@@ -33,8 +32,7 @@ data class ReservationDto(
                 reservation.sector?.id,
                 reservation.sector?.name,
                 reservation.seat?.id,
-                reservation.seat?.label,
-                reservation.seat?.seatRowInfo
+                reservation.seat?.label
             )
     }
 }

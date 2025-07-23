@@ -1,5 +1,6 @@
 package com.ticketera.model
 
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
@@ -7,6 +8,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.FetchType
+import jakarta.persistence.OneToMany
 import java.util.UUID
 
 @Entity
@@ -19,15 +21,16 @@ class EventSector(
 
     val description: String? = null,
 
-    @Column(name = "price_addition")
-    val priceAddition: Double? = null,
 
     @Column(name = "created_at", nullable = false)
     val createdAt: Long,
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "event_id", nullable = false)
-    val event: Event
+    @JoinColumn(name = "ticket_type_id", nullable = false)
+    val ticketType: TicketType,
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sector", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val seats: List<EventSeat> = emptyList()
 ) {
 
 
@@ -51,9 +54,8 @@ class EventSector(
         UUID.randomUUID(),
         "",
         null,
-        null,
         0L,
-        Event()
+        TicketType()
     )
 
 }

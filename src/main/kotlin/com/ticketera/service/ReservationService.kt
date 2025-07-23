@@ -1,6 +1,6 @@
 package com.ticketera.service
 
-import com.ticketera.auxmodel.PendingReservation
+import com.ticketera.aux.PendingReservation
 import com.ticketera.dto.purchase.PurchaseDto
 import com.ticketera.dto.reservation.NewReservationDto
 import com.ticketera.exceptions.ErrorMessage
@@ -18,6 +18,7 @@ import com.ticketera.repositories.PurchaseRepository
 import com.ticketera.repositories.ReservationRepository
 import com.ticketera.repositories.TicketTypeRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.UUID
@@ -33,6 +34,7 @@ class ReservationService(
 
 ) {
 
+    @Transactional
     fun newReservations(reservationsDto: List<NewReservationDto>, userMail: String): PurchaseDto {
         val toBeSaved = pendingReservations(reservationsDto)
 
@@ -86,7 +88,7 @@ class ReservationService(
                 ticketType,
                 sector,
                 seat,
-                (ticketType.price + (sector?.priceAddition ?: 0.0) + (seat?.priceAddition ?: 0.0))
+                ticketType.price
             )
         }
 }

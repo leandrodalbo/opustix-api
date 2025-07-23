@@ -8,22 +8,18 @@ import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.Event
 import com.ticketera.repositories.EventRepository
-import com.ticketera.repositories.EventSeatRepository
-import com.ticketera.repositories.EventSectorRepository
-import com.ticketera.repositories.TicketTypeRepository
 import com.ticketera.repositories.VenueRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
 @Service
 class EventService(
     private val eventRepository: EventRepository,
-    private val venueRepository: VenueRepository,
-    private val ticketTypeRepository: TicketTypeRepository,
-    private val eventSectorRepository: EventSectorRepository,
-    private val eventSeatRepository: EventSeatRepository
+    private val venueRepository: VenueRepository
 ) {
 
+    @Transactional
     fun addEvent(newEventDto: NewEventDto): Event {
         val venue = venueRepository.findById(newEventDto.venueId).orElseThrow {
             TicketeraException(ErrorMessage.VENUE_NOT_FOUND)
@@ -34,6 +30,7 @@ class EventService(
         )
     }
 
+    @Transactional
     fun updateEvent(updateEventDto: UpdateEventDto): Event {
         val event = eventRepository.findById(updateEventDto.id)
             .orElseThrow {
@@ -54,23 +51,32 @@ class EventService(
         )
     }
 
-    fun deleteEvent(uuid: UUID) = eventRepository.deleteById(uuid)
 
+    @Transactional(readOnly = true)
     fun allEvents() = eventRepository.findAll().filter { !it.hasFinished() }
         .map { EventDto.fromEntity(it) }
 
-
+    @Transactional(readOnly = true)
     fun eventDetails(eventId: UUID): EventDetailsDto {
         val event = eventRepository.findById(eventId)
             .orElseThrow { TicketeraException(ErrorMessage.EVENT_NOT_FOUND) }
 
-        val venue = venueRepository.findByEventId(eventId)
-        val ticketTypes = ticketTypeRepository.findAllByEventId(eventId)
-        val sectors = eventSectorRepository.findAllByEventId(eventId)
-        val seats = eventSeatRepository.findAllByEventId(eventId)
+        val venue = event.venue
+
+        val ticketTypes = event.ticketTypes
+        val mainBannerUrl = event.banners.firstOrNull { it.isMain }?.imageUrl
+
+        val sectors = event.ticketTypes
+            .flatMap { it.sectors }
+            .distinctBy { it.id }
+
+        val seats = event.ticketTypes
+            .flatMap { it.sectors }
+            .flatMap { it.seats }
+            .distinctBy { it.id }
 
         return EventDetailsDto.fromEntities(
-            event, venue, ticketTypes,
+            event, venue, mainBannerUrl ?: "", ticketTypes,
             sectors, seats
         )
     }

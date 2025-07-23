@@ -1,6 +1,7 @@
 package com.ticketera.model
 
 
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
@@ -8,6 +9,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.FetchType
+import jakarta.persistence.OneToMany
 import java.util.UUID
 
 @Entity
@@ -33,7 +35,10 @@ import java.util.UUID
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "event_id", nullable = false)
-    val event: Event
+    val event: Event,
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "ticketType", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val sectors: List<EventSector> = emptyList()
 ) {
 
     override fun hashCode(): Int {
