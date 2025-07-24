@@ -8,7 +8,7 @@ class EventSectorDtoTest {
 
     @Test
     fun shouldCreateDtoFromEntity() {
-        val dto = EventSectorDto.fromEntity(EventSectorData.eventSector)
+        val dto = EventSectorDto.fromEntities(EventSectorData.eventSector, EventSectorData.eventSector.ticketType)
         assertThat(dto).isEqualTo(EventSectorData.eventSectorDto)
     }
 }

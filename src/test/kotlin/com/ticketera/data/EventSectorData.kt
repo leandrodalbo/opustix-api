@@ -17,7 +17,7 @@ class EventSectorData {
             TicketTypeData.ticketType
         )
 
-        val eventSectorDto = EventSectorDto.Companion.fromEntity(eventSector)
+        val eventSectorDto = EventSectorDto.Companion.fromEntities(eventSector, TicketTypeData.ticketType)
 
         val newEventSectorDto = NewEventSectorDto(
             "sector-1",
