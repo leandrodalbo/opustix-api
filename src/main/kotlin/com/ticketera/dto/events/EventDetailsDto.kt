@@ -45,7 +45,7 @@ data class EventDetailsDto(
                 mainBanner = mainBannerUrl,
                 venueDto = VenueDto.fromEntity(venue),
                 ticketTypes = ticketType.map { TicketTypeDto.fromEntity(it) },
-                sectors = sector.map { EventSectorDto.fromEntity(it) },
+                sectors = sector.map { EventSectorDto.fromEntities(it, it.ticketType) },
                 seats = seat.map { EventSeatDto.fromEntity(it) }
             )
         }
