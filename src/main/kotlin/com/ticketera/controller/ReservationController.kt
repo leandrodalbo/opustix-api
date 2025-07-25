@@ -7,6 +7,7 @@ import com.ticketera.exceptions.TicketeraException
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.ReservationService
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
@@ -34,5 +35,18 @@ class ReservationController(
         val user = headersService.getUser(headers)
 
         return reservationService.newReservations(reservations, user.email)
+    }
+
+    @GetMapping("/user/purchases")
+    @ResponseStatus(HttpStatus.OK)
+    fun getUserPurchases(
+        @RequestHeader
+        headers: Map<String, String>
+    ): List<PurchaseDto> {
+        if (!headersService.isAUser(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
+
+        val user = headersService.getUser(headers)
+
+        return reservationService.findPurchasesByUser(user.email)
     }
 }

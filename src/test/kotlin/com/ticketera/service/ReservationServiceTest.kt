@@ -3,6 +3,7 @@ package com.ticketera.service
 import com.ticketera.data.PurchaseReservationData
 import com.ticketera.data.EventData
 import com.ticketera.data.TicketTypeData
+import com.ticketera.data.UserData
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.Reservation
 import com.ticketera.repositories.EventRepository
@@ -17,6 +18,7 @@ import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentMatchers.anyString
 import java.util.Optional
 
 class ReservationServiceTest {
@@ -83,6 +85,15 @@ class ReservationServiceTest {
         verify { eventRepository.findById(any()) }
         verify { ticketTypeRepository.findById(any()) }
 
+    }
+
+    @Test
+    fun shouldFetchAllPurchasesByUser() {
+        every { purchaseRepository.findPurchasesByUserInfo(anyString()) } returns listOf(PurchaseReservationData.purchase)
+
+        assertThat(reservationService.findPurchasesByUser(UserData.user.email)).isNotEmpty
+
+        verify { purchaseRepository.findPurchasesByUserInfo(anyString()) }
     }
 
 }

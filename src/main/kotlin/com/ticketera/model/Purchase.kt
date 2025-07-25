@@ -36,7 +36,7 @@ class Purchase(
     @Column(name = "created_at")
     val createdAt: Long,
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchase", cascade = [CascadeType.ALL], orphanRemoval = true)
     val reservations: List<Reservation> = emptyList()
 
 ) {
