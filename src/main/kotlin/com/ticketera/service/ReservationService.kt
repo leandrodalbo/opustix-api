@@ -120,4 +120,11 @@ class ReservationService(
             throw TicketeraException(ErrorMessage.ALREADY_RESERVED)
         }
     }
+
+    fun findPurchasesByUser(email: String) : List<PurchaseDto> {
+        return purchaseRepository.findPurchasesByUserInfo(email)
+            .map{ purchase -> PurchaseDto.fromEntities(purchase, purchase.reservations) }
+    }
+
+
 }

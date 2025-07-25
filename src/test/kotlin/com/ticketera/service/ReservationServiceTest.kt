@@ -3,6 +3,7 @@ package com.ticketera.service
 import com.ticketera.data.PurchaseReservationData
 import com.ticketera.data.EventData
 import com.ticketera.data.TicketTypeData
+import com.ticketera.data.UserData
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.Reservation
 import com.ticketera.repositories.EventRepository
@@ -83,6 +84,15 @@ class ReservationServiceTest {
         verify { eventRepository.findById(any()) }
         verify { ticketTypeRepository.findById(any()) }
 
+    }
+
+    @Test
+    fun shouldFetchAllPurchasesByUser() {
+        every { purchaseRepository.findPurchasesByUserInfo(UserData.user.email) } returns listOf(PurchaseReservationData.purchase)
+
+        assertThat(reservationService.findPurchasesByUser(UserData.user.email)).isNotEmpty
+
+        verify { purchaseRepository.findPurchasesByUserInfo(UserData.user.email) }
     }
 
 }

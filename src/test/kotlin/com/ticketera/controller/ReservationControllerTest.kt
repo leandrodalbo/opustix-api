@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 
 import org.junit.jupiter.api.Test
 
@@ -54,4 +55,23 @@ class ReservationControllerTest {
         verify { userAuthHeadersService.isAUser(any()) }
         verify { userAuthHeadersService.getUser(any()) }
     }
+
+    @Test
+    fun shouldFetchUserPurchases() {
+        every { reservationService.findPurchasesByUser(UserData.user.email) } returns listOf(PurchaseReservationData.purchaseDto)
+        every { userAuthHeadersService.isAUser(any()) } returns true
+        every { userAuthHeadersService.getUser(any()) } returns UserData.user
+
+        val response = mvc.perform(
+            get("/ticketera/reservations/user/purchases")
+                .headers(UserData.httpHeaders)
+        ).andReturn().response
+
+        assertThat(response.status).isEqualTo(HttpStatus.OK.value())
+
+        verify { reservationService.findPurchasesByUser(UserData.user.email) }
+        verify { userAuthHeadersService.isAUser(any()) }
+        verify { userAuthHeadersService.getUser(any()) }
+    }
+
 }

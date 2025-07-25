@@ -48,7 +48,6 @@ abstract class TestContainerConf {
 
     @BeforeEach
     fun setup() {
-
         entityManager.persist(VenueData.venue)
         entityManager.persist(EventData.event)
         entityManager.persist(BannerData.banner)
