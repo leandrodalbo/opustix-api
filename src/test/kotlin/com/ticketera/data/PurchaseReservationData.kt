@@ -16,7 +16,7 @@ class PurchaseReservationData {
 
         val purchase = Purchase(
             UUID.randomUUID(),
-            "user data",
+            UserData.user.email,
             100.0,
             PaymentStatus.INITIATED,
             Instant.now().plus(10, ChronoUnit.MINUTES).toEpochMilli(),

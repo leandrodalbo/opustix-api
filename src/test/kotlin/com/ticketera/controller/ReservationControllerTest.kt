@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyString
 
 @WebMvcTest(ReservationController::class)
 class ReservationControllerTest {
@@ -59,7 +58,7 @@ class ReservationControllerTest {
 
     @Test
     fun shouldFetchUserPurchases() {
-        every { reservationService.findPurchasesByUser(anyString()) } returns listOf(PurchaseReservationData.purchaseDto)
+        every { reservationService.findPurchasesByUser(UserData.user.email) } returns listOf(PurchaseReservationData.purchaseDto)
         every { userAuthHeadersService.isAUser(any()) } returns true
         every { userAuthHeadersService.getUser(any()) } returns UserData.user
 
@@ -70,7 +69,7 @@ class ReservationControllerTest {
 
         assertThat(response.status).isEqualTo(HttpStatus.OK.value())
 
-        verify { reservationService.findPurchasesByUser(anyString()) }
+        verify { reservationService.findPurchasesByUser(UserData.user.email) }
         verify { userAuthHeadersService.isAUser(any()) }
         verify { userAuthHeadersService.getUser(any()) }
     }

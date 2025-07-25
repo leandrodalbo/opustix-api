@@ -18,7 +18,6 @@ import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.anyString
 import java.util.Optional
 
 class ReservationServiceTest {
@@ -89,11 +88,11 @@ class ReservationServiceTest {
 
     @Test
     fun shouldFetchAllPurchasesByUser() {
-        every { purchaseRepository.findPurchasesByUserInfo(anyString()) } returns listOf(PurchaseReservationData.purchase)
+        every { purchaseRepository.findPurchasesByUserInfo(UserData.user.email) } returns listOf(PurchaseReservationData.purchase)
 
         assertThat(reservationService.findPurchasesByUser(UserData.user.email)).isNotEmpty
 
-        verify { purchaseRepository.findPurchasesByUserInfo(anyString()) }
+        verify { purchaseRepository.findPurchasesByUserInfo(UserData.user.email) }
     }
 
 }
