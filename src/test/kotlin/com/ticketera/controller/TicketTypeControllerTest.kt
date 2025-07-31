@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.ticketera.data.TicketTypeData
 import com.ticketera.data.UserData
+import com.ticketera.dto.generic.Completed
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.TicketTypeService
 import io.mockk.every
@@ -37,10 +38,12 @@ class TicketTypeControllerTest {
     val objectMapper = jacksonObjectMapper()
 
 
-
     @Test
     fun shouldUpdateATicketType() {
-        every { ticketTypeService.updateTicketType(any()) } returns TicketTypeData.ticketType
+        every { ticketTypeService.updateTicketType(any()) } returns Completed(
+            TicketTypeData.ticketType.id
+        )
+
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
@@ -58,7 +61,7 @@ class TicketTypeControllerTest {
 
     @Test
     fun shouldCreateATicketType() {
-        every { ticketTypeService.addTicketType(any()) } returns TicketTypeData.ticketType
+        every { ticketTypeService.addTicketType(any()) } returns Completed(TicketTypeData.ticketType.id)
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(

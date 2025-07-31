@@ -8,21 +8,31 @@ import java.time.Instant
 import java.util.UUID
 
 class EventSectorData {
-    companion object {
-        val eventSector = EventSector(
-            UUID.randomUUID(),
-            "Testing Event Sector",
-            "Testing Event Sector",
-            Instant.now().toEpochMilli(),
-            TicketTypeData.ticketType
-        )
 
-        val eventSectorDto = EventSectorDto.Companion.fromEntities(eventSector, TicketTypeData.ticketType)
+    companion object {
+
+        val eventSector: EventSector by lazy {
+            EventSector(
+                UUID.randomUUID(),
+                "Testing Event Sector",
+                "Testing Event Sector",
+                Instant.now().toEpochMilli(),
+                TicketTypeData.ticketType,
+                emptySet()
+            )
+        }
+
+        val eventSectorDto = EventSectorDto(
+            eventSector.id,
+            eventSector.name,
+            eventSector.description,
+            eventSector.ticketType.id
+        )
 
         val newEventSectorDto = NewEventSectorDto(
             "sector-1",
             "test-sector",
-            TicketTypeData.ticketType.id
+            eventSector.ticketType.id
         )
 
         val updateEventSectorDto = UpdateEventSectorDto(
@@ -30,7 +40,7 @@ class EventSectorData {
             "sector-1-new-name",
             "updated-testing-sector",
             11.11,
-            TicketTypeData.ticketType.id
+            eventSector.ticketType.id
         )
     }
 }

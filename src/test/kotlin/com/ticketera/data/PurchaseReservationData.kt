@@ -7,6 +7,7 @@ import com.ticketera.model.PaymentStatus
 import com.ticketera.model.Purchase
 import com.ticketera.model.Reservation
 import com.ticketera.model.ReservationStatus
+
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.UUID
@@ -23,6 +24,7 @@ class PurchaseReservationData {
             Instant.now().toEpochMilli(),
         )
 
+
         val reservation = Reservation(
             UUID.randomUUID(),
             purchase,
@@ -34,7 +36,6 @@ class PurchaseReservationData {
             ReservationStatus.PENDING,
             Instant.now().toEpochMilli()
         )
-
 
         val newReservationDto = NewReservationDto(
             EventData.event.id,

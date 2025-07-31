@@ -4,9 +4,9 @@ import com.ticketera.dto.events.EventDetailsDto
 import com.ticketera.dto.events.EventDto
 import com.ticketera.dto.events.NewEventDto
 import com.ticketera.dto.events.UpdateEventDto
+import com.ticketera.dto.generic.Completed
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
-import com.ticketera.model.Event
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.EventService
 import org.springframework.http.HttpStatus
@@ -44,7 +44,7 @@ class EventsController(private val headersService: AuthHeadersService, private v
         headers: Map<String, String>,
         @RequestBody
         updateEventDto: UpdateEventDto
-    ): Event {
+    ): Completed {
         if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
         return eventsService.updateEvent(updateEventDto)
     }
@@ -56,7 +56,7 @@ class EventsController(private val headersService: AuthHeadersService, private v
         headers: Map<String, String>,
         @RequestBody
         newEventDto: NewEventDto
-    ): Event {
+    ): Completed {
         if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
         return eventsService.addEvent(newEventDto)
     }

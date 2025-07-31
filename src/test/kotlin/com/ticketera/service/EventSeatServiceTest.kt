@@ -2,6 +2,7 @@ package com.ticketera.service
 
 import com.ticketera.data.EventSectorData
 import com.ticketera.data.EventSeatData
+import com.ticketera.dto.generic.Completed
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.EventSeat
 import com.ticketera.repositories.EventSeatRepository
@@ -27,12 +28,20 @@ class EventSeatServiceTest {
 
     @Test
     fun shouldGenerateTheSeatsAnSaveThem() {
-        every { eventSeatRepository.saveAll(any<List<EventSeat>>()) } returns listOf(EventSeatData.eventSeat)
+        val seats = listOf(EventSeatData.eventSeat)
+
+        every { eventSeatRepository.saveAll(any<List<EventSeat>>()) } returns seats
         every { eventSectorRepository.findById(any()) } returns Optional.of(EventSectorData.eventSector)
 
         val saved = eventSeatService.generateEventSeats(EventSeatData.newEventSeatsDto)
 
-        assertThat(saved).isEqualTo(listOf(EventSeatData.eventSeat))
+        assertThat(saved).isEqualTo(
+            listOf(
+                Completed(
+                    EventSeatData.eventSeat.id
+                )
+            )
+        )
 
         verify { eventSectorRepository.findById(any()) }
         verify { eventSeatRepository.saveAll(any<List<EventSeat>>()) }

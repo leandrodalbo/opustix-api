@@ -1,5 +1,6 @@
 package com.ticketera.service
 
+import com.ticketera.dto.generic.Completed
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.Banner
@@ -31,7 +32,7 @@ class BannerService(
         isMain: Boolean,
         isSecond: Boolean,
         isAdditional: Boolean
-    ): Banner {
+    ): Completed {
         val event = eventRepository.findById(eventId).orElseThrow { TicketeraException(ErrorMessage.EVENT_NOT_FOUND) }
 
         val bannerId = UUID.randomUUID()
@@ -58,7 +59,7 @@ class BannerService(
             event = event
         )
 
-        return bannerRepository.save(banner)
+        return Completed(bannerRepository.save(banner).id)
     }
 
 

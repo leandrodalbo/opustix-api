@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.ticketera.data.VenueData
 import com.ticketera.data.UserData
+import com.ticketera.dto.generic.Completed
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.VenueService
 import io.mockk.every
@@ -56,7 +57,9 @@ class VenuesControllerTest {
 
     @Test
     fun shouldUpdateVenues() {
-        every { venueService.updateVenue(any()) } returns VenueData.venue
+        every { venueService.updateVenue(any()) } returns Completed(
+            VenueData.venue.id
+        )
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
@@ -74,7 +77,9 @@ class VenuesControllerTest {
 
     @Test
     fun shouldCreateVenues() {
-        every { venueService.addVenue(any()) } returns VenueData.venue
+        every { venueService.addVenue(any()) } returns Completed(
+            VenueData.venue.id
+        )
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(

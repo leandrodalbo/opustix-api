@@ -2,6 +2,7 @@ package com.ticketera.service
 
 import com.ticketera.dto.eventSectors.NewEventSectorDto
 import com.ticketera.dto.eventSectors.UpdateEventSectorDto
+import com.ticketera.dto.generic.Completed
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.model.EventSector
@@ -18,18 +19,18 @@ class EventSectorService(
 ) {
 
     @Transactional
-    fun addEventSector(newEventSectorDto: NewEventSectorDto): EventSector {
+    fun addEventSector(newEventSectorDto: NewEventSectorDto): Completed {
         val ticketType = ticketTypeRepository.findById(newEventSectorDto.ticketTypeId).orElseThrow {
             TicketeraException(ErrorMessage.TICKET_TYPE_NOT_FOUND)
         }
 
         return eventSectorRepository.save(
             NewEventSectorDto.newEventSector(newEventSectorDto, ticketType)
-        )
+        ).let { toCompleted(it) }
     }
 
     @Transactional
-    fun updateEventSector(updateEventSectorDto: UpdateEventSectorDto): EventSector {
+    fun updateEventSector(updateEventSectorDto: UpdateEventSectorDto): Completed {
 
         val ticketType: TicketType? = updateEventSectorDto.ticketTypeId?.let {
             ticketTypeRepository.findById(updateEventSectorDto.ticketTypeId)
@@ -47,9 +48,11 @@ class EventSectorService(
         return ticketType?.let {
             eventSectorRepository.save(
                 UpdateEventSectorDto.updatedEventSector(updateEventSectorDto, eventSector, it)
-            )
+            ).let { tt -> toCompleted(tt) }
         } ?: eventSectorRepository.save(
             UpdateEventSectorDto.updatedEventSector(updateEventSectorDto, eventSector, eventSector.ticketType)
-        )
+        ).let { tt -> toCompleted(tt) }
     }
+
+    private fun toCompleted(eventSector: EventSector) = Completed(eventSector.id)
 }

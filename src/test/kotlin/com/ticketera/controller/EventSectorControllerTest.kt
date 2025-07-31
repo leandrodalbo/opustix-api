@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.ticketera.data.UserData
 import com.ticketera.data.EventSectorData
+import com.ticketera.dto.generic.Completed
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.EventSectorService
 import io.mockk.every
@@ -22,7 +23,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.junit.jupiter.api.Test
 
 @WebMvcTest(EventSectorController::class)
-class EventSectorControllerTest  {
+class EventSectorControllerTest {
 
     @Autowired
     private lateinit var mvc: MockMvc
@@ -38,7 +39,9 @@ class EventSectorControllerTest  {
 
     @Test
     fun shouldUpdateAnEventSectors() {
-        every { eventSectorService.updateEventSector(any()) } returns EventSectorData.eventSector
+        every { eventSectorService.updateEventSector(any()) } returns Completed(
+            EventSectorData.eventSector.id
+        )
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(
@@ -56,7 +59,9 @@ class EventSectorControllerTest  {
 
     @Test
     fun shouldCreateAnEventSectors() {
-        every { eventSectorService.addEventSector(any()) } returns EventSectorData.eventSector
+        every { eventSectorService.addEventSector(any()) } returns Completed(
+            EventSectorData.eventSector.id
+        )
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(

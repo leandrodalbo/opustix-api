@@ -35,6 +35,12 @@ class VenueData {
             "Argentina",
         )
 
-        val venueDto = VenueDto.Companion.fromEntity(venue)
+        val venueDto = VenueDto(
+            venue.id,
+            venue.name,
+            venue.address,
+            venue.city,
+            venue.country
+        )
     }
 }
