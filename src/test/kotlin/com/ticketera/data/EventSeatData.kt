@@ -8,6 +8,7 @@ import java.util.UUID
 
 class EventSeatData {
     companion object {
+
         val eventSeat = EventSeat(
             UUID.randomUUID(),
             "Testing Seat",
@@ -16,7 +17,12 @@ class EventSeatData {
             EventSectorData.eventSector
         )
 
-        val eventSeatDto = EventSeatDto.Companion.fromEntity(eventSeat)
+        val eventSeatDto = EventSeatDto(
+            eventSeat.id,
+            eventSeat.label,
+            eventSeat.seatNumber,
+            eventSeat.sector.id
+        )
 
         val newEventSeatsDto = NewEventSeatsDto(
             1,

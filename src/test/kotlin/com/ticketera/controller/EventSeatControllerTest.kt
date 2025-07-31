@@ -4,6 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import com.ticketera.data.EventSeatData
 import com.ticketera.data.UserData
+import com.ticketera.dto.generic.Completed
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.EventSeatService
 import io.mockk.every
@@ -36,7 +37,9 @@ class EventSeatControllerTest {
 
     @Test
     fun shouldCreateEventSeats() {
-        every { eventSeatService.generateEventSeats(any()) } returns listOf(EventSeatData.eventSeat)
+        every { eventSeatService.generateEventSeats(any()) } returns listOf(  Completed(
+            EventSeatData.eventSeat.id
+        ))
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(

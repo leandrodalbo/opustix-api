@@ -1,8 +1,8 @@
 package com.ticketera.controller
 
+import com.ticketera.dto.generic.Completed
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
-import com.ticketera.model.Banner
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.BannerService
 import org.springframework.http.HttpStatus
@@ -34,7 +34,7 @@ class BannerController(
         @RequestParam(required = false, defaultValue = "false") isMain: Boolean,
         @RequestParam(required = false, defaultValue = "false") isSecond: Boolean,
         @RequestParam(required = false, defaultValue = "false") isAdditional: Boolean
-    ): Banner {
+    ): Completed {
         if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
 
         return bannerService.uploadBanner(file, eventId, isMain, isSecond, isAdditional)

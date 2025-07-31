@@ -1,9 +1,9 @@
 package com.ticketera.service
 
 import com.ticketera.dto.eventSeats.NewEventSeatsDto
+import com.ticketera.dto.generic.Completed
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
-import com.ticketera.model.EventSeat
 import com.ticketera.repositories.EventSeatRepository
 import com.ticketera.repositories.EventSectorRepository
 import org.springframework.stereotype.Service
@@ -15,7 +15,7 @@ class EventSeatService(
     private val eventSectorRepository: EventSectorRepository,
 ) {
     @Transactional
-    fun generateEventSeats(dto: NewEventSeatsDto): List<EventSeat> {
+    fun generateEventSeats(dto: NewEventSeatsDto): List<Completed> {
         val eventSector = eventSectorRepository.findById(dto.sectorId).orElseThrow {
             TicketeraException(ErrorMessage.EVENT_SECTOR_NOT_FOUND)
         }
@@ -23,6 +23,6 @@ class EventSeatService(
         return eventSeatRepository.saveAll(
             NewEventSeatsDto
                 .newEventSeats(dto, eventSector)
-        ).toList()
+        ).map { Completed(it.id) }
     }
 }

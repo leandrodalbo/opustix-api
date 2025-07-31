@@ -4,6 +4,7 @@ import com.ninjasquad.springmockk.MockkBean
 import com.ticketera.data.BannerData
 import com.ticketera.data.EventData
 import com.ticketera.data.UserData
+import com.ticketera.dto.generic.Completed
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.BannerService
 import io.mockk.every
@@ -37,7 +38,7 @@ class BannerControllerTest {
 
     @Test
     fun shouldUploadABanner() {
-        every { bannerService.uploadBanner(any(), EventData.event.id, true, false, false) } returns BannerData.banner
+        every { bannerService.uploadBanner(any(), EventData.event.id, true, false, false) } returns Completed(BannerData.banner.id)
         every { userAuthHeadersService.isAdminOrOrganizer(any()) } returns true
 
         val response = mvc.perform(

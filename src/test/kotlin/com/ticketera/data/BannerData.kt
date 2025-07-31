@@ -25,6 +25,12 @@ class BannerData {
             EventData.event
         )
 
-        val bannerDto = BannerDto.Companion.fromEntity(banner)
+        val bannerDto = BannerDto(
+            banner.id,
+            banner.imageUrl,
+            banner.isMain,
+            banner.isSecond,
+            banner.isAdditional
+        )
     }
 }

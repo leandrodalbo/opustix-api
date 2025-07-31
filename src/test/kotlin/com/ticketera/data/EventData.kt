@@ -4,12 +4,14 @@ import com.ticketera.dto.events.EventDetailsDto
 import com.ticketera.dto.events.EventDto
 import com.ticketera.dto.events.NewEventDto
 import com.ticketera.dto.events.UpdateEventDto
+import com.ticketera.dto.venues.VenueDto
 import com.ticketera.model.Event
 import java.time.Instant
 import java.util.UUID
 
 class EventData {
     companion object {
+
         val event = Event(
             UUID.randomUUID(),
             "event-x",
@@ -20,7 +22,6 @@ class EventData {
             "concert",
             VenueData.venue,
             Instant.now().toEpochMilli()
-
         )
 
         val newEventDto = NewEventDto(
@@ -34,17 +35,32 @@ class EventData {
         )
 
 
-        val eventDto = EventDto.Companion.fromEntity(event)
+        val eventDto = EventDto(
+            event.id,
+            event.title,
+            event.description,
+            event.startTime,
+            event.endTime,
+            event.capacity,
+            event.category,
+            VenueDto.fromEntity(event.venue),
+            emptyList()
+        )
 
 
         val eventDetailsDto =
-            EventDetailsDto.Companion.fromEntities(
-                event,
-                VenueData.venue,
+            EventDetailsDto(
+                event.id,
+                event.title,
+                event.description,
+                event.startTime,
+                event.endTime,
+                event.capacity,
                 BannerData.bannerImageUrl,
-                listOf(TicketTypeData.ticketType),
-                setOf(EventSectorData.eventSector),
-                setOf(EventSeatData.eventSeat)
+                VenueData.venueDto,
+                listOf(TicketTypeData.ticketTypeDto),
+                listOf(EventSectorData.eventSectorDto),
+                listOf(EventSeatData.eventSeatDto)
             )
 
         val updateEventDto = UpdateEventDto(
@@ -55,8 +71,7 @@ class EventData {
             Instant.now().toEpochMilli(),
             1000,
             "concert",
-            VenueData.venue.id
+            event.venue.id
         )
-
     }
 }

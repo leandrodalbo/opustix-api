@@ -1,6 +1,7 @@
 package com.ticketera.service
 
 import com.ticketera.data.VenueData
+import com.ticketera.dto.generic.Completed
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.repositories.VenueRepository
 import io.mockk.every
@@ -28,7 +29,7 @@ class VenueServiceTest {
 
         val saved = venueService.addVenue(VenueData.newVenueDto)
 
-        assertThat(saved).isEqualTo(VenueData.venue)
+        assertThat(saved).isEqualTo(Completed(VenueData.venue.id))
 
         verify { venueRepository.save(any()) }
     }
@@ -41,8 +42,7 @@ class VenueServiceTest {
 
         val saved = venueService.updateVenue(VenueData.updateVenueDto)
 
-        assertThat(saved).isEqualTo(VenueData.venue)
-
+        assertThat(saved).isEqualTo(Completed(VenueData.venue.id))
         verify { venueRepository.save(any()) }
         verify { venueRepository.findById(any()) }
     }

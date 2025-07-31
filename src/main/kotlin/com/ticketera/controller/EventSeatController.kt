@@ -1,9 +1,9 @@
 package com.ticketera.controller
 
 import com.ticketera.dto.eventSeats.NewEventSeatsDto
+import com.ticketera.dto.generic.Completed
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
-import com.ticketera.model.EventSeat
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.EventSeatService
 import org.springframework.http.HttpStatus
@@ -28,7 +28,7 @@ class EventSeatController(
         headers: Map<String, String>,
         @RequestBody
         newEventSeatsDto: NewEventSeatsDto
-    ): List<EventSeat> {
+    ): List<Completed> {
         if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
         return eventSeatService.generateEventSeats(newEventSeatsDto)
     }

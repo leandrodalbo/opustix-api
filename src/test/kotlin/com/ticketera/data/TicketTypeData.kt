@@ -9,19 +9,22 @@ import java.util.UUID
 
 class TicketTypeData {
     companion object {
-        val ticketType = TicketType(
-            UUID.randomUUID(),
-            "GOLDEN",
-            132.44,
-            "ARS",
-            Instant.now().toEpochMilli(),
-            Instant.now().toEpochMilli(),
-            500,
-            "Golden Ticket",
-            Instant.now().toEpochMilli(),
-            EventData.event
-        )
 
+        val ticketType : TicketType by lazy {
+            TicketType(
+                UUID.randomUUID(),
+                "GOLDEN",
+                132.44,
+                "ARS",
+                Instant.now().toEpochMilli(),
+                Instant.now().toEpochMilli(),
+                500,
+                "Golden Ticket",
+                Instant.now().toEpochMilli(),
+                EventData.event,
+                emptySet()
+            )
+        }
 
         val ticketTypeDto = TicketTypeDto(
             ticketType.id,

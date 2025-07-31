@@ -4,9 +4,9 @@ import com.ticketera.dto.events.EventDetailsDto
 import com.ticketera.dto.events.EventDto
 import com.ticketera.dto.events.NewEventDto
 import com.ticketera.dto.events.UpdateEventDto
+import com.ticketera.dto.generic.Completed
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
-import com.ticketera.model.Event
 import com.ticketera.repositories.EventRepository
 import com.ticketera.repositories.TicketTypeRepository
 import com.ticketera.repositories.VenueRepository
@@ -22,18 +22,18 @@ class EventService(
 ) {
 
     @Transactional
-    fun addEvent(newEventDto: NewEventDto): Event {
+    fun addEvent(newEventDto: NewEventDto): Completed {
         val venue = venueRepository.findById(newEventDto.venueId).orElseThrow {
             TicketeraException(ErrorMessage.VENUE_NOT_FOUND)
         }
 
         return eventRepository.save(
             NewEventDto.newEvent(newEventDto, venue)
-        )
+        ).let { Completed(it.id) }
     }
 
     @Transactional
-    fun updateEvent(updateEventDto: UpdateEventDto): Event {
+    fun updateEvent(updateEventDto: UpdateEventDto): Completed {
         val event = eventRepository.findById(updateEventDto.id)
             .orElseThrow {
                 TicketeraException(ErrorMessage.EVENT_NOT_FOUND)
@@ -50,7 +50,7 @@ class EventService(
                 updateEventDto,
                 venue, event
             )
-        )
+        ).let { Completed(it.id) }
     }
 
     @Transactional(readOnly = true)

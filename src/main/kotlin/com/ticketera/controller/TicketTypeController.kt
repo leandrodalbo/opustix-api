@@ -1,10 +1,10 @@
 package com.ticketera.controller
 
+import com.ticketera.dto.generic.Completed
 import com.ticketera.dto.ticketTypes.NewTicketTypeDto
 import com.ticketera.dto.ticketTypes.UpdateTicketTypeDto
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
-import com.ticketera.model.TicketType
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.TicketTypeService
 import org.springframework.http.HttpStatus
@@ -31,7 +31,7 @@ class TicketTypeController(
         headers: Map<String, String>,
         @RequestBody
         updateTicketTypeDto: UpdateTicketTypeDto
-    ): TicketType {
+    ): Completed {
         if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
         return ticketTypeService.updateTicketType(updateTicketTypeDto)
     }
@@ -43,7 +43,7 @@ class TicketTypeController(
         headers: Map<String, String>,
         @RequestBody
         newTicketTypeDto: NewTicketTypeDto
-    ): TicketType {
+    ): Completed {
         if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
         return ticketTypeService.addTicketType(newTicketTypeDto)
     }

@@ -2,9 +2,9 @@ package com.ticketera.controller
 
 import com.ticketera.dto.eventSectors.NewEventSectorDto
 import com.ticketera.dto.eventSectors.UpdateEventSectorDto
+import com.ticketera.dto.generic.Completed
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
-import com.ticketera.model.EventSector
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.EventSectorService
 import org.springframework.http.HttpStatus
@@ -30,7 +30,7 @@ class EventSectorController(
         headers: Map<String, String>,
         @RequestBody
         updateEventSectorDto: UpdateEventSectorDto
-    ): EventSector {
+    ): Completed {
         if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
         return eventSectorService.updateEventSector(updateEventSectorDto)
     }
@@ -42,7 +42,7 @@ class EventSectorController(
         headers: Map<String, String>,
         @RequestBody
         newEventSectorDto: NewEventSectorDto
-    ): EventSector {
+    ): Completed {
         if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
         return eventSectorService.addEventSector(newEventSectorDto)
     }

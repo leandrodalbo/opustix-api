@@ -2,6 +2,7 @@ package com.ticketera.service
 
 import com.ticketera.data.EventSectorData
 import com.ticketera.data.TicketTypeData
+import com.ticketera.dto.generic.Completed
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.repositories.EventSectorRepository
 import com.ticketera.repositories.TicketTypeRepository
@@ -31,7 +32,7 @@ class EventSectorServiceTest {
 
         val saved = ticketTypeService.addEventSector(EventSectorData.newEventSectorDto)
 
-        assertThat(saved).isEqualTo(EventSectorData.eventSector)
+        assertThat(saved).isEqualTo(Completed(EventSectorData.eventSector.id))
 
         verify { ticketTypeRepository.findById(any()) }
         verify { eventSectorRepository.save(any()) }
@@ -57,7 +58,7 @@ class EventSectorServiceTest {
 
         val saved = ticketTypeService.updateEventSector(EventSectorData.updateEventSectorDto)
 
-        assertThat(saved).isEqualTo(EventSectorData.eventSector)
+        assertThat(saved).isEqualTo(Completed(EventSectorData.eventSector.id))
 
         verify { eventSectorRepository.save(any()) }
         verify { eventSectorRepository.findById(any()) }
@@ -71,7 +72,7 @@ class EventSectorServiceTest {
 
         val saved = ticketTypeService.updateEventSector(EventSectorData.updateEventSectorDto.copy(ticketTypeId = null))
 
-        assertThat(saved).isEqualTo(EventSectorData.eventSector)
+        assertThat(saved).isEqualTo(Completed(EventSectorData.eventSector.id))
 
         verify { eventSectorRepository.save(any()) }
         verify { eventSectorRepository.findById(any()) }

@@ -1,11 +1,11 @@
 package com.ticketera.controller
 
+import com.ticketera.dto.generic.Completed
 import com.ticketera.dto.venues.NewVenueDto
 import com.ticketera.dto.venues.UpdateVenueDto
 import com.ticketera.dto.venues.VenueDto
 import com.ticketera.exceptions.ErrorMessage
 import com.ticketera.exceptions.TicketeraException
-import com.ticketera.model.Venue
 import com.ticketera.service.AuthHeadersService
 import com.ticketera.service.VenueService
 import org.springframework.http.HttpStatus
@@ -35,7 +35,7 @@ class VenuesController(private val headersService: AuthHeadersService, private v
         headers: Map<String, String>,
         @RequestBody
         updateVenueDto: UpdateVenueDto
-    ): Venue {
+    ): Completed {
         if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
         return venueService.updateVenue(updateVenueDto)
     }
@@ -48,7 +48,7 @@ class VenuesController(private val headersService: AuthHeadersService, private v
         headers: Map<String, String>,
         @RequestBody
         newVenueDto: NewVenueDto
-    ): Venue {
+    ): Completed {
         if (!headersService.isAdminOrOrganizer(headers)) throw TicketeraException(ErrorMessage.INVALID_REQUEST)
         return venueService.addVenue(newVenueDto)
     }

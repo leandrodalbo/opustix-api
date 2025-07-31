@@ -2,6 +2,7 @@ package com.ticketera.service
 
 import com.ticketera.data.BannerData
 import com.ticketera.data.EventData
+import com.ticketera.dto.generic.Completed
 import com.ticketera.exceptions.TicketeraException
 import com.ticketera.repositories.BannerRepository
 import com.ticketera.repositories.EventRepository
@@ -45,7 +46,7 @@ class BannerServiceTest {
 
         val saved = bannerService.uploadBanner(BannerData.multipartFile, EventData.event.id, true, false, false)
 
-        assertThat(saved).isEqualTo(BannerData.banner)
+        assertThat(saved).isEqualTo(Completed(BannerData.banner.id))
 
         verify { eventRepository.findById(any()) }
         verify { bannerRepository.save(any()) }
